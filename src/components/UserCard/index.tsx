@@ -1,21 +1,18 @@
 import React from 'react'
+import { UserImage } from '../UserImage'
 import {
   Container,
-  ImageContainer,
-  UserImage,
   InfoAndInviteWrapper,
   UserName,
   UserUsername,
   EnviteButton,
   EnviteButtonText
 } from './styles'
-
+const avatarUrl = 'http://github.com/felipegcastro.png'
 export const UserCard: React.FC = () => {
   return (
     <Container>
-      <ImageContainer>
-        <UserImage source={{ uri: 'https://github.com/felipegcastro.png' }} />
-      </ImageContainer>
+      <UserImage avatarUrl={avatarUrl} />
       <InfoAndInviteWrapper>
         <UserName>Lucas Moura Castro</UserName>
         <UserUsername>@lucas.silva</UserUsername>

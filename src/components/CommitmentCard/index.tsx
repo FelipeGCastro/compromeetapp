@@ -13,6 +13,7 @@ import {
   MoreIcon,
   Header,
   CommitmentText,
+  BoldText,
   ContentWrapper,
   Footer,
   FriendContainer,
@@ -39,7 +40,9 @@ const CommitmentCard: React.FC = () => {
       </Header>
       <ContentWrapper>
         <CommitmentText>
+          <BoldText>"</BoldText>
           Arrume Tempo para seu amigo que não fala a muito tempo.
+          <BoldText>"</BoldText>
         </CommitmentText>
       </ContentWrapper>
       <Footer>

@@ -12,10 +12,12 @@ export default {
     title: '#393939',
     text: '#5B5B5B',
 
-    shape: 'rgba(255, 255, 255, 0.6)'
+    shape: 'rgba(255, 255, 255, 0.4)',
+    textLight: '#FFFFFF'
   },
 
   fonts: {
+    lightItalico: 'Roboto_300Light_Italic',
     regular: 'Roboto_400Regular',
     medium: 'Roboto_500Medium',
     bold: 'Roboto_700Bold'

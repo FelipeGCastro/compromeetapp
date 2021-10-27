@@ -20,7 +20,7 @@ export const HeaderInfoContainer = styled.View`
   justify-content: flex-start;
 `
 export const Label = styled.Text`
-  font-size: 18px;
+  font-size: 20px;
   font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.title};
   margin-right: 10px;
@@ -46,10 +46,16 @@ export const ContentWrapper = styled.View`
   border-radius: 6px;
 `
 export const CommitmentText = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
   color: ${({ theme }) => theme.colors.title};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.lightItalico};
 `
+export const BoldText = styled.Text`
+  font-size: 24px;
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.bold};
+`
+
 export const Footer = styled.View`
   flex-direction: row;
   justify-content: flex-end;

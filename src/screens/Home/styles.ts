@@ -4,7 +4,7 @@ import { FlatList } from 'react-native'
 export const Container = styled.View`
   flex: 1;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0 7px;
   background-color: ${({ theme }) => theme.colors.background};
 `

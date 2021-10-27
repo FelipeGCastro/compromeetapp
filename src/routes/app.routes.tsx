@@ -3,26 +3,11 @@ import { Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons'
-import BackgroundGradient from '../components/BackgroundGradient'
+
 import { Home } from '../screens/Home'
 import { Explore } from '../screens/Explore'
-
-function ProfileScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <BackgroundGradient />
-      <Text>Profile!</Text>
-    </View>
-  )
-}
-function NotificationScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <BackgroundGradient />
-      <Text>Notifications!</Text>
-    </View>
-  )
-}
+import { Notifications } from '../screens/Notifications'
+import { Profile } from '../screens/Profile'
 
 const Tab = createBottomTabNavigator()
 
@@ -30,6 +15,7 @@ export function AppRoutes() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        initialRouteName="profile"
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           headerShown: false,
@@ -54,8 +40,8 @@ export function AppRoutes() {
       >
         <Tab.Screen name="home" component={Home} />
         <Tab.Screen name="explore" component={Explore} />
-        <Tab.Screen name="notifications" component={NotificationScreen} />
-        <Tab.Screen name="profile" component={ProfileScreen} />
+        <Tab.Screen name="notifications" component={Notifications} />
+        <Tab.Screen name="profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
   )

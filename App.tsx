@@ -7,6 +7,7 @@ import { AppRoutes } from './src/routes/app.routes'
 
 import {
   useFonts,
+  Roboto_300Light_Italic,
   Roboto_400Regular,
   Roboto_500Medium,
   Roboto_700Bold
@@ -15,6 +16,7 @@ import AppLoading from 'expo-app-loading'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
+    Roboto_300Light_Italic,
     Roboto_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
