@@ -4,7 +4,7 @@ import { Feather, AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 export const Container = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8
 })`
-  background: rgba(255, 255, 255, 0.6);
+  background: ${({ theme }) => theme.colors.shape};
   padding: 3px 10px;
   border-radius: 6px;
   margin-bottom: 10px;
@@ -43,6 +43,7 @@ export const MoreIcon = styled(Feather).attrs({
 `
 export const ContentWrapper = styled.View`
   padding: 20px 5px;
+  border-radius: 6px;
 `
 export const CommitmentText = styled.Text`
   font-size: 16px;

@@ -10,7 +10,9 @@ export default {
     link: '#687DE8',
 
     title: '#393939',
-    text: '#5B5B5B'
+    text: '#5B5B5B',
+
+    shape: 'rgba(255, 255, 255, 0.6)'
   },
 
   fonts: {

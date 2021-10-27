@@ -46,3 +46,17 @@ export const ArrowDown = styled(AntDesign).attrs({
 `
 
 export const CommitmentList = styled.FlatList`` as unknown as typeof FlatList
+
+export const ListItems = styled.FlatList`` as unknown as typeof FlatList
+export const ListItem = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })`
+  background: ${({ theme }) => theme.colors.shape};
+  align-self: stretch;
+  padding: 10px 20px;
+  height: 40px;
+  margin: 2px 0;
+  border-radius: 4px;
+`
+export const ListItemText = styled.Text`
+  font-size: 16px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+`

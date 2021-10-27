@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import BackgroundGradient from '../components/BackgroundGradient'
 import { Home } from '../screens/Home'
+import { Explore } from '../screens/Explore'
 
 function ProfileScreen() {
   return (
@@ -19,14 +20,6 @@ function NotificationScreen() {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <BackgroundGradient />
       <Text>Notifications!</Text>
-    </View>
-  )
-}
-function ExploreScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <BackgroundGradient />
-      <Text>Explore!</Text>
     </View>
   )
 }
@@ -60,7 +53,7 @@ export function AppRoutes() {
         })}
       >
         <Tab.Screen name="home" component={Home} />
-        <Tab.Screen name="explore" component={ExploreScreen} />
+        <Tab.Screen name="explore" component={Explore} />
         <Tab.Screen name="notifications" component={NotificationScreen} />
         <Tab.Screen name="profile" component={ProfileScreen} />
       </Tab.Navigator>

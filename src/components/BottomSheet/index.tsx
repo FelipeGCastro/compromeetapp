@@ -9,6 +9,8 @@ import {
   View,
   TouchableWithoutFeedback
 } from 'react-native'
+import theme from '../../global/styles/theme'
+import BackgroundGradient from '../BackgroundGradient'
 
 interface BottomSheetProps {
   onDismiss: () => void
@@ -85,6 +87,7 @@ export default (props: BottomSheetProps) => {
             }}
             {...panResponders.panHandlers}
           >
+            <BackgroundGradient />
             <View style={styles.sliderIndicatorRow}>
               <View style={styles.sliderIndicator} />
             </View>
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   container: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.background,
     paddingTop: 12,
     paddingHorizontal: 12,
     borderTopRightRadius: 12,
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   sliderIndicator: {
-    backgroundColor: '#CECECE',
+    backgroundColor: '#fff',
     height: 4,
     width: 45
   }

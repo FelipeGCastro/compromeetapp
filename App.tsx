@@ -27,7 +27,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <AppRoutes />
-      <StatusBar style="auto" />
+      <StatusBar style="auto" backgroundColor="#93F26D" />
     </ThemeProvider>
   )
 }
