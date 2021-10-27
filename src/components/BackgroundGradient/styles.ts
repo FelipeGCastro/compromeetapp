@@ -8,5 +8,5 @@ export const Container = styled(LinearGradient).attrs({
   left: 0;
   right: 0;
   top: 0;
-  height: 80%;
+  height: 20%;
 `

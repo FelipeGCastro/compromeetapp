@@ -12,7 +12,7 @@ export default {
     title: '#393939',
     text: '#5B5B5B',
 
-    shape: 'rgba(255, 255, 255, 0.4)',
+    shape: 'rgba(255, 255, 255, 0.7)',
     textLight: '#FFFFFF'
   },
 

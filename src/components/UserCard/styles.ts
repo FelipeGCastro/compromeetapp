@@ -33,7 +33,7 @@ export const EnviteButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.success};
 `
 export const EnviteButtonText = styled.Text`
-  font-size: 14px;
-  font-family: ${({ theme }) => theme.fonts.regular};
-  color: ${({ theme }) => theme.colors.title};
+  font-size: 15px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.textLight};
 `
