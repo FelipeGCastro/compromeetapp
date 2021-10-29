@@ -1,29 +1,23 @@
-import styled from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
+import styled from 'styled-components/native'
 
-export const Container = styled.View`
-  flex: 1;
-  align-items: stretch;
-  justify-content: flex-start;
-  padding: 0 7px;
-  background-color: ${({ theme }) => theme.colors.background};
-  padding-top: 15px;
-`
 export const SearchInputContainer = styled.View`
-  background-color: ${({ theme }) => theme.colors.shape};
+  background-color: ${({ theme }) => theme.colors.textLight};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   height: 40px;
   border-radius: 20px;
-  margin-top: 15px;
   padding: 0 10px 0 20px;
   margin-bottom: 20px;
+  elevation: 1;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
 `
-export const SearchInput = styled.TextInput`
+export const Input = styled.TextInput`
   flex: 1;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `
 
 export const SearchButton = styled.TouchableOpacity.attrs({

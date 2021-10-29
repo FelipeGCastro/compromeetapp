@@ -1,9 +1,16 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { Container, PeopleIcon, PeopleText } from './styles'
 
-const AddPeople: React.FC = () => {
+const AddPeople = () => {
+  const navigation = useNavigation()
+
+  function handleAddPeoplePress() {
+    navigation.navigate('peopleSelector' as never)
+  }
+
   return (
-    <Container>
+    <Container onPress={handleAddPeoplePress}>
       <PeopleIcon />
       <PeopleText>Adicionar Pessoas</PeopleText>
     </Container>

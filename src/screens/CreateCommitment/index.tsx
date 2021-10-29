@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView, TextInput } from 'react-native'
 
@@ -8,18 +7,10 @@ import BackgroundGradient from '../../components/BackgroundGradient'
 import { DateAndHour } from '../../components/ScheduleComponents/DateAndHour'
 import { OptionsButtons } from '../../components/OptionsButtons'
 
-import {
-  Container,
-  HeaderContainer,
-  BackButton,
-  BackIcon,
-  CommitmentScreenTitle,
-  CreateButton,
-  CreateButtonText,
-  CommitmentInput
-} from './styles'
+import { Container, CommitmentInput } from './styles'
 
 import Frequency from '../../components/ScheduleComponents/Frequency'
+import { HeaderScreens } from '../../components/HeaderScreens'
 
 type Privacy = 'private' | 'public'
 type ToSchedule = 'noSchedule' | 'schedule'
@@ -34,15 +25,10 @@ export const CreateCommitment = () => {
   const [frequency, setFrequency] = useState<IFrequency | undefined>()
 
   const inputRef = useRef<TextInput>(null)
-  const navigation = useNavigation()
 
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
-
-  function handleBackPress() {
-    navigation.goBack()
-  }
 
   function handleOnChangePrivacy(value: string) {
     setPrivacy(value as Privacy)
@@ -58,15 +44,7 @@ export const CreateCommitment = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
-        <HeaderContainer>
-          <BackButton onPress={handleBackPress}>
-            <BackIcon />
-          </BackButton>
-          <CommitmentScreenTitle>Compromisso</CommitmentScreenTitle>
-          <CreateButton>
-            <CreateButtonText>Criar</CreateButtonText>
-          </CreateButton>
-        </HeaderContainer>
+        <HeaderScreens title="Compromissos" buttonLabel="Criar" />
         <ScrollView>
           <CommitmentInput
             ref={inputRef}

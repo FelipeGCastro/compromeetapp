@@ -6,14 +6,16 @@ import { Login } from '../screens/Login'
 import { useAuth } from '../hooks/auth'
 import { MenuRoutes } from './menu.routes'
 import { CreateCommitment } from '../screens/CreateCommitment'
+import { PeopleSelector } from '../screens/PeopleSelector'
 
 const { Navigator, Screen } = createStackNavigator()
 
 export function PrivateRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="createCommitment" component={CreateCommitment}></Screen>
       <Screen name="menu" component={MenuRoutes}></Screen>
+      <Screen name="createCommitment" component={CreateCommitment}></Screen>
+      <Screen name="peopleSelector" component={PeopleSelector}></Screen>
     </Navigator>
   )
 }
