@@ -2,8 +2,11 @@ import React from 'react'
 
 import { Container } from './styles'
 
-const BackgroundGradient: React.FC = () => {
-  return <Container />
+interface IBackgroundGradientProps {
+  percentage?: number
+}
+const BackgroundGradient = ({ percentage = 20 }: IBackgroundGradientProps) => {
+  return <Container percentage={percentage} />
 }
 
 export default BackgroundGradient

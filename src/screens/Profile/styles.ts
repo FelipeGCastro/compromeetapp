@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { FlatList } from 'react-native'
 
 export const Container = styled.View`
   flex: 1;
@@ -92,3 +93,12 @@ export const SettingsIcon = styled(MaterialIcons).attrs({
 })`
   color: ${({ theme }) => theme.colors.title};
 `
+export const CommitmentTitle = styled.Text`
+  font-size: 16px;
+  font-family: ${({ theme }) => theme.fonts.bold};
+  color: ${({ theme }) => theme.colors.title};
+  text-align: center;
+  margin: 10px 0;
+`
+
+export const CommitmentList = styled.FlatList`` as unknown as typeof FlatList

@@ -4,18 +4,24 @@ import { AntDesign } from '@expo/vector-icons'
 
 export const Container = styled.View`
   flex: 1;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-evenly;
   background-color: ${({ theme }) => theme.colors.background};
 `
 
 export const Logo = styled.Image.attrs({
   source: LogoImage
-})``
+})`
+  align-self: center;
+`
+export const ButtonsContainer = styled.View`
+  align-items: center;
+`
 export const SigninButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7
 })`
   flex-direction: row;
+  margin-bottom: 15px;
   elevation: 2;
   align-items: center;
   justify-content: center;
@@ -28,6 +34,13 @@ export const SigninButton = styled.TouchableOpacity.attrs({
 `
 export const SigninIcon = styled(AntDesign).attrs({
   name: 'google',
+  size: 24
+})`
+  margin-right: 15px;
+  color: ${({ theme }) => theme.colors.title};
+`
+export const SigninIconApple = styled(AntDesign).attrs({
+  name: 'apple1',
   size: 24
 })`
   margin-right: 15px;

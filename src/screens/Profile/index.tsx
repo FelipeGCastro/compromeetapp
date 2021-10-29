@@ -1,6 +1,8 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
+import CommitmentCard from '../../components/CommitmentCard'
+import { useAuth } from '../../hooks/auth'
 
 import {
   Container,
@@ -19,21 +21,26 @@ import {
   CommitmentNumber,
   UserImg,
   SettingsButton,
-  SettingsIcon
+  SettingsIcon,
+  CommitmentTitle,
+  CommitmentList
 } from './styles'
+const arr: string[] = ['1', '2', '3', '4', '5', '6', '7']
 
 export const Profile: React.FC = () => {
+  const { user, signOut } = useAuth()
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
         <ProfileCard>
           <ImageContainer>
-            <UserImg source={{ uri: 'http://github.com/felipegcastro.png' }} />
+            <UserImg source={{ uri: user.avatar_url }} />
           </ImageContainer>
           <ProfileInfoContainer>
             <ProfileNameAndUsername>
-              <ProfileName>Luiz Felipe Castro</ProfileName>
+              <ProfileName>{user.name}</ProfileName>
               <ProfileUserName>@luizfelipecastro</ProfileUserName>
             </ProfileNameAndUsername>
             <OptionsContainer>
@@ -47,10 +54,17 @@ export const Profile: React.FC = () => {
               </CommitmentContainer>
             </OptionsContainer>
           </ProfileInfoContainer>
-          <SettingsButton>
+          <SettingsButton onPress={signOut}>
             <SettingsIcon />
           </SettingsButton>
         </ProfileCard>
+        <CommitmentTitle>Seus Compromissos</CommitmentTitle>
+        <CommitmentList
+          showsVerticalScrollIndicator={false}
+          data={arr}
+          keyExtractor={item => item}
+          renderItem={item => <CommitmentCard />}
+        />
       </Container>
     </SafeAreaView>
   )

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { Alert } from 'react-native'
 
@@ -23,12 +24,17 @@ import {
   CloseIcon
 } from './styles'
 
-const CommitmentCard: React.FC = () => {
+const CommitmentCard = () => {
+  const navigation = useNavigation()
   function handlePress() {
     Alert.alert('Tem certeza?')
   }
+
+  function handleCardPress() {
+    navigation.navigate('createCommitment' as never)
+  }
   return (
-    <Container>
+    <Container onPress={handleCardPress}>
       <Header>
         <HeaderInfoContainer>
           <Label>#1</Label>

@@ -49,6 +49,7 @@ export const CommitmentText = styled.Text`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};
+  text-align: center;
 `
 export const BoldText = styled.Text`
   font-size: 24px;

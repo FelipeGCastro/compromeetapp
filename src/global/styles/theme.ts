@@ -11,6 +11,7 @@ export default {
 
     title: '#393939',
     text: '#5B5B5B',
+    textFading: '#919191',
 
     shape: 'rgba(255, 255, 255, 0.7)',
     textLight: '#FFFFFF'

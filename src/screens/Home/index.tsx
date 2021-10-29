@@ -32,14 +32,14 @@ const periods: IPeriod[] = [
   { label: 'Mês', value: 'month' }
 ]
 export const Home: React.FC = () => {
-  const [openModal, setopenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const [period, setPeriod] = useState<IPeriod>({
     label: 'Semana',
     value: 'week'
   })
 
   function handleSelectItem(item: IPeriod) {
-    setopenModal(false)
+    setOpenModal(false)
     setPeriod(item)
   }
 
@@ -49,7 +49,7 @@ export const Home: React.FC = () => {
         <BackgroundGradient />
         <OptionsContainer>
           <View style={{ width: 20 }} />
-          <PeriodContainer onPress={() => setopenModal(true)}>
+          <PeriodContainer onPress={() => setOpenModal(true)}>
             <PeriodText>{period.label}</PeriodText>
             <ArrowDown />
           </PeriodContainer>
@@ -63,7 +63,7 @@ export const Home: React.FC = () => {
           keyExtractor={item => item}
           renderItem={item => <CommitmentCard />}
         />
-        <BottomSheet visible={openModal} onDismiss={() => setopenModal(false)}>
+        <BottomSheet visible={openModal} onDismiss={() => setOpenModal(false)}>
           <ListItems
             data={periods}
             showsVerticalScrollIndicator={false}
