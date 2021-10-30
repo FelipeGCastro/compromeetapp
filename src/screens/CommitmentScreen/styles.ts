@@ -8,6 +8,20 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `
 
+export const CommitmentContainer = styled.View`
+  background-color: ${({ theme }) => theme.colors.shape};
+  height: 130px;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+`
+export const CommitmentText = styled.Text`
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.lightItalico};
+  font-size: 20px;
+  text-align: center;
+`
 export const CommitmentInput = styled.TextInput`
   background-color: ${({ theme }) => theme.colors.shape};
   color: ${({ theme }) => theme.colors.title};

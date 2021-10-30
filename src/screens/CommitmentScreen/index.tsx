@@ -1,0 +1,182 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { ScrollView, TextInput, View } from 'react-native'
+
+import { SafeAreaView } from 'react-native-safe-area-context'
+import AddPeople from '../../components/ScheduleComponents/AddPeople'
+import BackgroundGradient from '../../components/BackgroundGradient'
+import { DateAndHour } from '../../components/ScheduleComponents/DateAndHour'
+import { OptionsButtons } from '../../components/OptionsButtons'
+
+import {
+  Container,
+  CommitmentInput,
+  CommitmentContainer,
+  CommitmentText
+} from './styles'
+
+import Frequency from '../../components/ScheduleComponents/Frequency'
+import { HeaderScreens } from '../../components/HeaderScreens'
+import { StackScreenProps } from '@react-navigation/stack'
+import { BoldText } from '../../components/CommitmentCard/styles'
+
+interface IUser {
+  id: string
+  name: string
+  avatar_url: string
+  username: string
+}
+type CommitmentStackParamList = {
+  CommitmentScreen: {
+    commitment?: {
+      id: string
+      user_id: string
+      user: {
+        user_id: string
+        avatar_url: string
+        name: string
+      }
+      commitment: {
+        id: string
+        text: string
+        user_id: string
+        user: {
+          user_id: string
+          avatar_url: string
+          name: string
+        }
+      }
+      isPublic: boolean
+      schedule: boolean
+      date?: number | string
+      frequency?: number
+      index: number
+    }
+    people: IUser[]
+  }
+}
+type Props = StackScreenProps<CommitmentStackParamList, 'CommitmentScreen'>
+export const CommitmentScreen = ({ route, navigation }: Props) => {
+  const [commitmentFixed, setCommitmentFixed] = useState<string | undefined>()
+  const [commitment, setCommitment] = useState('')
+  const [isPublic, setIsPublic] = useState(false)
+  const [schedule, setSchedule] = useState(false)
+  const [date, setDate] = useState(new Date())
+  const [people, setPeople] = useState<IUser[]>([])
+  const [frequency, setFrequency] = useState<number | undefined>()
+  const [disableButton, setDisableButton] = useState(true)
+
+  const inputRef = useRef<TextInput>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
+  useEffect(() => {
+    if (route.params?.people) {
+      setPeople(route.params?.people)
+    }
+  }, [route.params?.people])
+
+  useEffect(() => {
+    if (/\S/.test(commitment)) setDisableButton(false)
+    else setDisableButton(true)
+  }, [
+    commitment
+    //  date, privacy, isToSchedule, frequenc
+  ])
+
+  useEffect(() => {
+    if (!route.params) return
+    const { commitment } = route.params
+    if (commitment) {
+      setCommitmentFixed(commitment.commitment.text)
+      setIsPublic(commitment.isPublic)
+      setSchedule(commitment.schedule)
+      if (commitment.date) setDate(new Date(commitment.date))
+      setFrequency(commitment.frequency)
+    }
+    setDisableButton(false)
+  }, [])
+
+  function handleOnChangePrivacy(value: boolean) {
+    setIsPublic(value)
+  }
+
+  function handleOnChangeToSchedule(value: boolean) {
+    setSchedule(value)
+  }
+  function handleOnChangeFrequency(value?: number) {
+    setFrequency(value)
+  }
+
+  async function handleOnPressSave() {
+    const { commitment } = route.params
+    if (
+      isPublic === commitment?.isPublic &&
+      schedule === commitment.schedule &&
+      commitment.date &&
+      date === new Date(commitment.date) &&
+      frequency === commitment.frequency
+    ) {
+      navigation.goBack()
+    }
+    console.log(isPublic, schedule, date, frequency)
+  }
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Container>
+        <BackgroundGradient />
+        <HeaderScreens
+          disableButton={disableButton}
+          onPress={handleOnPressSave}
+          title="Compromisso"
+          buttonLabel={commitmentFixed ? 'Guardar' : 'Criar'}
+        />
+        <ScrollView>
+          {commitmentFixed ? (
+            <CommitmentContainer>
+              <CommitmentText>
+                <BoldText>"</BoldText>
+                {commitmentFixed}
+                <BoldText>"</BoldText>
+              </CommitmentText>
+            </CommitmentContainer>
+          ) : (
+            <CommitmentInput
+              ref={inputRef}
+              onChangeText={setCommitment}
+              placeholder="Escreva aqui seu compromisso."
+              multiline
+              textAlignVertical="center"
+              textAlign="center"
+            />
+          )}
+
+          <OptionsButtons
+            onChange={handleOnChangePrivacy}
+            data={{
+              selected: isPublic,
+              firstOption: { value: false, label: 'Privado' },
+              secondOption: { value: true, label: 'Público' }
+            }}
+          />
+          <OptionsButtons
+            onChange={handleOnChangeToSchedule}
+            data={{
+              selected: schedule,
+              firstOption: { value: false, label: 'Não agendar' },
+              secondOption: { value: true, label: 'Agendar' }
+            }}
+          />
+          {schedule && (
+            <>
+              <DateAndHour value={date} onChangeDate={setDate} />
+              <AddPeople people={people} />
+              <Frequency onChange={handleOnChangeFrequency} item={frequency} />
+            </>
+          )}
+        </ScrollView>
+      </Container>
+    </SafeAreaView>
+  )
+}

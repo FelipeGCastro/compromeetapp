@@ -9,11 +9,11 @@ import {
 
 type Options = {
   firstOption: {
-    value: string | number
+    value: boolean
     label: string
   }
   secondOption: {
-    value: string | number
+    value: boolean
     label: string
   }
   selected: any
@@ -28,17 +28,17 @@ export const OptionsButtons = ({ onChange, data }: OptionsButtonsProps) => {
     <OptionsButtonContainer>
       <OptionButtonLeft
         onPress={() => onChange(data.firstOption.value)}
-        active={data.selected === data.firstOption.value}
+        active={!data.selected}
       >
-        <OptionText active={data.selected === data.firstOption.value}>
+        <OptionText active={!data.selected}>
           {data.firstOption.label}
         </OptionText>
       </OptionButtonLeft>
       <OptionButtonRight
         onPress={() => onChange(data.secondOption.value)}
-        active={data.selected === data.secondOption.value}
+        active={data.selected}
       >
-        <OptionText active={data.selected === data.secondOption.value}>
+        <OptionText active={data.selected}>
           {data.secondOption.label}
         </OptionText>
       </OptionButtonRight>

@@ -1,9 +1,7 @@
 import styled from 'styled-components/native'
 import { Feather, AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 
-export const Container = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8
-})`
+export const Container = styled.View`
   background: ${({ theme }) => theme.colors.shape};
   padding: 3px 10px;
   border-radius: 6px;
@@ -23,13 +21,33 @@ export const Label = styled.Text`
   font-size: 20px;
   font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.title};
-  margin-right: 10px;
+  margin-right: 7px;
 `
 export const CompletedIcon = styled(FontAwesome).attrs({
   name: 'check-circle',
   size: 20
 })`
   color: ${({ theme }) => theme.colors.success};
+  margin-right: 7px;
+`
+export const UserContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`
+export const UserImage = styled.Image`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 7px;
+`
+export const UserName = styled.Text`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.medium};
+  margin-right: 7px;
 `
 
 export const MoreButton = styled.TouchableOpacity.attrs({
@@ -41,7 +59,9 @@ export const MoreIcon = styled(Feather).attrs({
 })`
   color: ${({ theme }) => theme.colors.title};
 `
-export const ContentWrapper = styled.View`
+export const ContentWrapper = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
   padding: 20px 5px;
   border-radius: 6px;
 `
@@ -59,8 +79,30 @@ export const BoldText = styled.Text`
 
 export const Footer = styled.View`
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+`
+export const FavoriteButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
+  margin-right: 15px;
+  margin-left: 5px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`
+type IconProps = { active: boolean }
+export const FavoriteIcon = styled(AntDesign).attrs({
+  size: 17
+})<IconProps>`
+  color: ${({ theme, active }) =>
+    active ? theme.colors.attention : theme.colors.title};
+`
+export const FavoriteNumber = styled.Text`
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: 12px;
+  margin-left: 2px;
 `
 export const FriendContainer = styled.View`
   flex-direction: row;

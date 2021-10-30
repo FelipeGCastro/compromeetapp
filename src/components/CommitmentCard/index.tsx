@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
-import React from 'react'
+import { StackNavigationProp } from '@react-navigation/stack'
+import React, { useState } from 'react'
 import { Alert } from 'react-native'
 
 import {
@@ -7,6 +8,9 @@ import {
   HeaderInfoContainer,
   Label,
   CompletedIcon,
+  UserContainer,
+  UserImage,
+  UserName,
   DateAndTimeContainer,
   ClockIcon,
   DateAndTimeText,
@@ -17,49 +21,105 @@ import {
   BoldText,
   ContentWrapper,
   Footer,
+  FavoriteButton,
+  FavoriteIcon,
+  FavoriteNumber,
   FriendContainer,
   FriendIcon,
   FriendText,
   CloseButton,
   CloseIcon
 } from './styles'
+interface CommitmentCardProps {
+  noLabel?: boolean
+  noUser?: boolean
+  data: {
+    id: string
+    user_id: string
+    user: {
+      user_id: string
+      avatar_url: string
+      name: string
+    }
+    commitment: {
+      id: string
+      text: string
+      user_id: string
+      user: {
+        user_id: string
+        avatar_url: string
+        name: string
+      }
+    }
+    isPublic: boolean
+    schedule: boolean
+    date?: number | string
+    frequency?: number
+    index: number
+  }
+}
+const dateFormat = new Intl.DateTimeFormat('pt-BR', {
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit'
+})
 
-const CommitmentCard = () => {
-  const navigation = useNavigation()
+const CommitmentCard = ({ data, noLabel, noUser }: CommitmentCardProps) => {
+  const [isFavorite, setIsFavorite] = useState(true)
+  const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
   function handlePress() {
     Alert.alert('Tem certeza?')
   }
 
   function handleCardPress() {
-    navigation.navigate('createCommitment' as never)
+    navigation.navigate('CommitmentScreen' as 'route', { commitment: data })
   }
   return (
-    <Container onPress={handleCardPress}>
+    <Container>
       <Header>
         <HeaderInfoContainer>
-          <Label>#1</Label>
-          <CompletedIcon />
+          {!noLabel && <Label>#{data.index + 1}</Label>}
+          {!noUser && (
+            <UserContainer>
+              <UserImage source={{ uri: data.user.avatar_url }} />
+              <UserName>{data.user.name}</UserName>
+            </UserContainer>
+          )}
         </HeaderInfoContainer>
         <MoreButton onPress={handlePress}>
           <MoreIcon />
         </MoreButton>
       </Header>
-      <ContentWrapper>
+      <ContentWrapper onPress={handleCardPress}>
         <CommitmentText>
           <BoldText>"</BoldText>
-          Arrume Tempo para seu amigo que não fala a muito tempo.
+          {data.commitment.text}
           <BoldText>"</BoldText>
         </CommitmentText>
       </ContentWrapper>
       <Footer>
+        <FavoriteButton onPress={() => setIsFavorite(prev => !prev)}>
+          <FavoriteIcon
+            active={isFavorite}
+            name={isFavorite ? 'heart' : 'hearto'}
+          />
+          <FavoriteNumber>1k</FavoriteNumber>
+        </FavoriteButton>
+        <CompletedIcon />
         <FriendContainer>
           <FriendIcon />
-          <FriendText>@lucas.silva.pereira ...</FriendText>
+          <FriendText>@lucas.silva.pereira...</FriendText>
         </FriendContainer>
-        <DateAndTimeContainer>
-          <ClockIcon />
-          <DateAndTimeText>09/10 14:30</DateAndTimeText>
-        </DateAndTimeContainer>
+        {data.schedule && (
+          <DateAndTimeContainer>
+            <ClockIcon />
+            <DateAndTimeText>
+              {dateFormat.format(Number(data.date))}
+            </DateAndTimeText>
+          </DateAndTimeContainer>
+        )}
+
         <CloseButton onPress={handlePress}>
           <CloseIcon />
         </CloseButton>

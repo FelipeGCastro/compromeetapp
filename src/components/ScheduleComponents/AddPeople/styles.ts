@@ -3,6 +3,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })`
   margin-top: 10px;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.textLight};

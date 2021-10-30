@@ -24,15 +24,19 @@ export const UserUsername = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.attention};
 `
-export const EnviteButton = styled.TouchableOpacity`
+type Props = {
+  remove: boolean
+}
+export const ActionButton = styled.TouchableOpacity<Props>`
   align-self: flex-end;
   padding: 5px 20px;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.success};
+  background-color: ${({ theme, remove }) =>
+    remove ? theme.colors.attention : theme.colors.success};
 `
-export const EnviteButtonText = styled.Text`
+export const ActionButtonText = styled.Text`
   font-size: 15px;
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.textLight};

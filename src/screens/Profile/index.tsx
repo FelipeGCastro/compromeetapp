@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import CommitmentCard from '../../components/CommitmentCard'
 import { useAuth } from '../../hooks/auth'
+import { commitmentsData } from '../Home/temp'
 
 import {
   Container,
@@ -25,7 +26,6 @@ import {
   CommitmentTitle,
   CommitmentList
 } from './styles'
-const arr: string[] = ['1', '2', '3', '4', '5', '6', '7']
 
 export const Profile: React.FC = () => {
   const { user, signOut } = useAuth()
@@ -61,9 +61,11 @@ export const Profile: React.FC = () => {
         <CommitmentTitle>Seus Compromissos</CommitmentTitle>
         <CommitmentList
           showsVerticalScrollIndicator={false}
-          data={arr}
-          keyExtractor={item => item}
-          renderItem={item => <CommitmentCard />}
+          data={commitmentsData}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => (
+            <CommitmentCard noUser data={{ ...item, index }} />
+          )}
         />
       </Container>
     </SafeAreaView>

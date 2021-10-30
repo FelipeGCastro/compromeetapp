@@ -10,48 +10,42 @@ import {
   CloseIcon
 } from './styles'
 
-interface FrequencyArg {
-  value: string
-  label: string
-}
 interface FrequencyProps {
-  onChange: (value?: FrequencyArg) => void
-  item?: {
-    value: string
-    label: string
-  }
+  onChange: (value?: number) => void
+  item?: number
 }
-const frequencies = [
-  { value: '1d', label: 'Diária' },
-  { value: '3d', label: '3 Dias' },
-  { value: '1w', label: 'Semanalmente' },
-  { value: '15d', label: '15 dias' },
-  { value: '1m', label: 'Mensalmente' }
-]
+type Frequencies = { [key: string]: string }
+const frequencies: Frequencies = {
+  1: 'Diária',
+  3: '3 Dias',
+  7: 'Semanalmente',
+  15: '15 dias',
+  30: 'Mensalmente'
+}
 const Frequency = ({ onChange, item }: FrequencyProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
-  function handleChangeFrequency(item: FrequencyArg) {
+  function handleChangeFrequency(item: number) {
     setOpenModal(false)
     onChange(item)
   }
   return (
     <>
       <FrequencyButton onPress={() => setOpenModal(true)}>
-        <FrequencyText>Frequencia: {item?.label}</FrequencyText>
-        {item?.label && (
+        <FrequencyText>Frequencia: {item && frequencies[item]}</FrequencyText>
+        {item && (
           <CloseButton onPress={() => onChange(undefined)}>
             <CloseIcon />
           </CloseButton>
         )}
       </FrequencyButton>
       <BottomSheet visible={openModal} onDismiss={() => setOpenModal(false)}>
-        {frequencies.map(item => (
+        {Object.keys(frequencies).map(itemIndex => (
           <OptionButton
-            key={item.value}
-            onPress={() => handleChangeFrequency(item)}
+            key={itemIndex}
+            onPress={() => handleChangeFrequency(Number(itemIndex))}
           >
-            <OptionButtonText>{item.label}</OptionButtonText>
+            <OptionButtonText>{frequencies[itemIndex]}</OptionButtonText>
           </OptionButton>
         ))}
       </BottomSheet>

@@ -14,12 +14,14 @@ interface IHeaderProps {
   title: string
   buttonLabel: string
   onPress?: () => Promise<void>
+  disableButton?: boolean
 }
 
 export const HeaderScreens = ({
   title,
   buttonLabel,
-  onPress
+  onPress,
+  disableButton
 }: IHeaderProps) => {
   const navigation = useNavigation()
   function handleBackPress() {
@@ -31,7 +33,7 @@ export const HeaderScreens = ({
         <BackIcon />
       </BackButton>
       <ScreenTitle>{title}</ScreenTitle>
-      <ActionButton onPress={onPress}>
+      <ActionButton disabled={disableButton} onPress={onPress}>
         <ActionButtonText>{buttonLabel}</ActionButtonText>
       </ActionButton>
     </HeaderContainer>

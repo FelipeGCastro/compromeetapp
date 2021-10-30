@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Login } from '../screens/Login'
 import { useAuth } from '../hooks/auth'
 import { MenuRoutes } from './menu.routes'
-import { CreateCommitment } from '../screens/CreateCommitment'
+import { CommitmentScreen } from '../screens/CommitmentScreen'
 import { PeopleSelector } from '../screens/PeopleSelector'
 
 const { Navigator, Screen } = createStackNavigator()
@@ -14,8 +14,8 @@ export function PrivateRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="menu" component={MenuRoutes}></Screen>
-      <Screen name="createCommitment" component={CreateCommitment}></Screen>
-      <Screen name="peopleSelector" component={PeopleSelector}></Screen>
+      <Screen name="CommitmentScreen" component={CommitmentScreen}></Screen>
+      <Screen name="PeopleSelector" component={PeopleSelector}></Screen>
     </Navigator>
   )
 }
@@ -32,8 +32,8 @@ export function AppRoutes() {
   const { user } = useAuth()
   return (
     <NavigationContainer>
-      <PrivateRoutes />
-      {/* {user.id ? <PrivateRoutes /> : <PublicRoutes />} */}
+      {/* <PrivateRoutes /> */}
+      {user.id ? <PrivateRoutes /> : <PublicRoutes />}
     </NavigationContainer>
   )
 }

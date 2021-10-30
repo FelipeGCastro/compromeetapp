@@ -48,7 +48,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
           const userLogged = JSON.parse(userStoraged) as User
           setUser(userLogged)
         }
-        setUserStorageLoading(false)
+        if (validator) setUserStorageLoading(false)
       }
     }
     loadUserStorageDate()
@@ -62,7 +62,6 @@ function AuthProvider({ children }: IAuthProviderProps) {
     try {
       const CLIENT_ID = process.env.CLIENT_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
-      console.log(CLIENT_ID, REDIRECT_URI)
       const RESPONSE_TYPE = 'token'
       const SCOPE = encodeURI('profile email')
 

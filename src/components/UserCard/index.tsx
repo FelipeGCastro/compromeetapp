@@ -5,20 +5,47 @@ import {
   InfoAndInviteWrapper,
   UserName,
   UserUsername,
-  EnviteButton,
-  EnviteButtonText
+  ActionButton,
+  ActionButtonText
 } from './styles'
-const avatarUrl = 'http://github.com/felipegcastro.png'
-export const UserCard: React.FC = () => {
+
+interface IUser {
+  id: string
+  name: string
+  username: string
+  avatar_url: string
+}
+interface IUserCard {
+  user: IUser
+  onPress?: (user: IUser) => void
+  noButton?: boolean
+  onPressButton?: (user: IUser) => void
+  textButton?: string
+  remove?: boolean
+}
+
+export const UserCard = ({
+  user,
+  noButton,
+  onPress = () => {},
+  onPressButton = () => {},
+  textButton,
+  remove
+}: IUserCard) => {
+  function handleOnPress() {
+    onPress(user)
+  }
   return (
-    <Container>
-      <UserImage avatarUrl={avatarUrl} />
+    <Container onPress={handleOnPress}>
+      <UserImage avatarUrl={user.avatar_url} />
       <InfoAndInviteWrapper>
-        <UserName>Lucas Moura Castro</UserName>
-        <UserUsername>@lucas.silva</UserUsername>
-        <EnviteButton>
-          <EnviteButtonText>Enviar Convite</EnviteButtonText>
-        </EnviteButton>
+        <UserName>{user.name}</UserName>
+        <UserUsername>@{user.username}</UserUsername>
+        {!noButton && (
+          <ActionButton remove={!!remove} onPress={() => onPressButton(user)}>
+            <ActionButtonText>{textButton}</ActionButtonText>
+          </ActionButton>
+        )}
       </InfoAndInviteWrapper>
     </Container>
   )

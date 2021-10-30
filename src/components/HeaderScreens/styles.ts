@@ -20,6 +20,7 @@ export const ActionButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.link};
   align-items: center;
   justify-content: center;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   padding: 7px 0;
   width: 80px;
   border-radius: 6px;

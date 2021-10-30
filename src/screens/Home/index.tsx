@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import CommitmentCard from '../../components/CommitmentCard'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -18,13 +18,13 @@ import {
   ListItemText
 } from './styles'
 import BottomSheet from '../../components/BottomSheet'
+import { ActionButton } from './components/ActionButton/ActionButton'
+import { commitmentsData } from './temp'
 
 interface IPeriod {
   label: string
   value: string
 }
-
-const arr: string[] = ['1', '2', '3', '4', '5', '6', '7']
 
 const periods: IPeriod[] = [
   { label: 'Hoje', value: 'today' },
@@ -59,9 +59,11 @@ export const Home: React.FC = () => {
         </OptionsContainer>
         <CommitmentList
           showsVerticalScrollIndicator={false}
-          data={arr}
-          keyExtractor={item => item}
-          renderItem={item => <CommitmentCard />}
+          data={commitmentsData}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => (
+            <CommitmentCard noUser data={{ ...item, index }} />
+          )}
         />
         <BottomSheet visible={openModal} onDismiss={() => setOpenModal(false)}>
           <ListItems
@@ -75,6 +77,7 @@ export const Home: React.FC = () => {
             )}
           />
         </BottomSheet>
+        <ActionButton />
       </Container>
     </SafeAreaView>
   )

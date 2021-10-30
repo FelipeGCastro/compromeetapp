@@ -2,17 +2,31 @@ import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { Container, PeopleIcon, PeopleText } from './styles'
 
-const AddPeople = () => {
+interface IUser {
+  id: string
+  name: string
+  avatar_url: string
+  username: string
+}
+
+interface IAddPeopleProps {
+  people: IUser[]
+}
+
+const AddPeople = ({ people }: IAddPeopleProps) => {
   const navigation = useNavigation()
 
   function handleAddPeoplePress() {
-    navigation.navigate('peopleSelector' as never)
+    navigation.navigate('PeopleSelector' as never, { people } as never)
   }
 
   return (
     <Container onPress={handleAddPeoplePress}>
       <PeopleIcon />
-      <PeopleText>Adicionar Pessoas</PeopleText>
+      <PeopleText>Adicionar Pessoas{!!people.length && ': '}</PeopleText>
+      {people.map(user => (
+        <PeopleText> - {user.name}</PeopleText>
+      ))}
     </Container>
   )
 }
