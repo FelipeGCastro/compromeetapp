@@ -25,7 +25,7 @@ const AddPeople = ({ people }: IAddPeopleProps) => {
       <PeopleIcon />
       <PeopleText>Adicionar Pessoas{!!people.length && ': '}</PeopleText>
       {people.map(user => (
-        <PeopleText> - {user.name}</PeopleText>
+        <PeopleText key={user.id}> - {user.name}</PeopleText>
       ))}
     </Container>
   )

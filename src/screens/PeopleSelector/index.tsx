@@ -78,6 +78,7 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
         {searching ? (
           <SearchingList
             data={users}
+            keyboardShouldPersistTaps="handled"
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <UserCard user={item} onPress={handleSelectUser} noButton />

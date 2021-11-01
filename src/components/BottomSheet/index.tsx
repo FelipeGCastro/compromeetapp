@@ -16,9 +16,15 @@ interface BottomSheetProps {
   onDismiss: () => void
   visible: boolean
   children: ReactNode
+  gradient?: boolean
 }
 
-export default (props: BottomSheetProps) => {
+export default ({
+  onDismiss,
+  visible,
+  children,
+  gradient = true
+}: BottomSheetProps) => {
   const screenHeight = Dimensions.get('screen').height
   const panY = useRef(new Animated.Value(screenHeight)).current
 
@@ -41,7 +47,7 @@ export default (props: BottomSheetProps) => {
 
   const handleDismiss = () => {
     closeAnim.start()
-    props.onDismiss()
+    onDismiss()
   }
 
   useEffect(() => {
@@ -74,7 +80,7 @@ export default (props: BottomSheetProps) => {
     <Modal
       animated
       animationType="fade"
-      visible={props.visible}
+      visible={visible}
       transparent
       onRequestClose={handleDismiss}
     >
@@ -87,11 +93,12 @@ export default (props: BottomSheetProps) => {
             }}
             {...panResponders.panHandlers}
           >
-            <BackgroundGradient />
+            {gradient && <BackgroundGradient />}
+
             <View style={styles.sliderIndicatorRow}>
               <View style={styles.sliderIndicator} />
             </View>
-            {props.children}
+            {children}
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>

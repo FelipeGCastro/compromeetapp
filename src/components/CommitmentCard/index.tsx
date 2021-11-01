@@ -2,15 +2,13 @@ import { useNavigation } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
+import { UserMini } from '../UserCard/UserMini'
 
 import {
   Container,
   HeaderInfoContainer,
   Label,
   CompletedIcon,
-  UserContainer,
-  UserImage,
-  UserName,
   DateAndTimeContainer,
   ClockIcon,
   DateAndTimeText,
@@ -80,12 +78,7 @@ const CommitmentCard = ({ data, noLabel, noUser }: CommitmentCardProps) => {
       <Header>
         <HeaderInfoContainer>
           {!noLabel && <Label>#{data.index + 1}</Label>}
-          {!noUser && (
-            <UserContainer>
-              <UserImage source={{ uri: data.user.avatar_url }} />
-              <UserName>{data.user.name}</UserName>
-            </UserContainer>
-          )}
+          {!noUser && <UserMini user={data.user} />}
         </HeaderInfoContainer>
         <MoreButton onPress={handlePress}>
           <MoreIcon />

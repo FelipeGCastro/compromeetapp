@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ScrollView, TextInput, View } from 'react-native'
-
+import { Keyboard, ScrollView, TextInput } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AddPeople from '../../components/ScheduleComponents/AddPeople'
 import BackgroundGradient from '../../components/BackgroundGradient'
@@ -11,13 +11,20 @@ import {
   Container,
   CommitmentInput,
   CommitmentContainer,
-  CommitmentText
+  CommitmentText,
+  PrivacyAndPhoto,
+  PhotoButton,
+  PhotoIcon,
+  PickerButton,
+  PickerButtonText
 } from './styles'
 
 import Frequency from '../../components/ScheduleComponents/Frequency'
 import { HeaderScreens } from '../../components/HeaderScreens'
 import { StackScreenProps } from '@react-navigation/stack'
 import { BoldText } from '../../components/CommitmentCard/styles'
+import { CommentsCard } from '../../components/CommentsCard'
+import BottomSheet from '../../components/BottomSheet'
 
 interface IUser {
   id: string
@@ -64,8 +71,37 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   const [people, setPeople] = useState<IUser[]>([])
   const [frequency, setFrequency] = useState<number | undefined>()
   const [disableButton, setDisableButton] = useState(true)
+  const [openModal, setOpenModal] = useState(false)
 
   const inputRef = useRef<TextInput>(null)
+
+  let openImagePickerAsync = async () => {
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!')
+      return
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync()
+    console.log(pickerResult)
+  }
+  let openCameraAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync()
+
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera is required!')
+      return
+    }
+
+    let pickerResult = await ImagePicker.launchCameraAsync()
+    console.log(pickerResult)
+  }
+
+  useEffect(() => {
+    Keyboard.dismiss()
+  }, [isPublic, schedule, date, frequency])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -132,7 +168,11 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
           title="Compromisso"
           buttonLabel={commitmentFixed ? 'Guardar' : 'Criar'}
         />
-        <ScrollView>
+        <ScrollView
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
           {commitmentFixed ? (
             <CommitmentContainer>
               <CommitmentText>
@@ -151,15 +191,19 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               textAlign="center"
             />
           )}
-
-          <OptionsButtons
-            onChange={handleOnChangePrivacy}
-            data={{
-              selected: isPublic,
-              firstOption: { value: false, label: 'Privado' },
-              secondOption: { value: true, label: 'Público' }
-            }}
-          />
+          <PrivacyAndPhoto>
+            <OptionsButtons
+              onChange={handleOnChangePrivacy}
+              data={{
+                selected: isPublic,
+                firstOption: { value: false, label: 'Privado' },
+                secondOption: { value: true, label: 'Público' }
+              }}
+            />
+            <PhotoButton onPress={() => setOpenModal(true)}>
+              <PhotoIcon />
+            </PhotoButton>
+          </PrivacyAndPhoto>
           <OptionsButtons
             onChange={handleOnChangeToSchedule}
             data={{
@@ -175,7 +219,20 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               <Frequency onChange={handleOnChangeFrequency} item={frequency} />
             </>
           )}
+          <CommentsCard />
         </ScrollView>
+        <BottomSheet
+          gradient={false}
+          visible={openModal}
+          onDismiss={() => setOpenModal(false)}
+        >
+          <PickerButton onPress={openCameraAsync}>
+            <PickerButtonText>Tirar Foto</PickerButtonText>
+          </PickerButton>
+          <PickerButton onPress={openImagePickerAsync}>
+            <PickerButtonText>Galeria</PickerButtonText>
+          </PickerButton>
+        </BottomSheet>
       </Container>
     </SafeAreaView>
   )
