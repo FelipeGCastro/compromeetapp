@@ -7,18 +7,21 @@ import {
   BackIcon,
   ScreenTitle,
   ActionButton,
-  ActionButtonText
+  ActionButtonText,
+  MockView
 } from './styles'
 
 interface IHeaderProps {
   title: string
-  buttonLabel: string
+  buttonLabel?: string
   onPress?: () => Promise<void>
   disableButton?: boolean
+  noButton?: boolean
 }
 
 export const HeaderScreens = ({
   title,
+  noButton,
   buttonLabel,
   onPress,
   disableButton
@@ -33,9 +36,13 @@ export const HeaderScreens = ({
         <BackIcon />
       </BackButton>
       <ScreenTitle>{title}</ScreenTitle>
-      <ActionButton disabled={disableButton} onPress={onPress}>
-        <ActionButtonText>{buttonLabel}</ActionButtonText>
-      </ActionButton>
+      {noButton ? (
+        <MockView />
+      ) : (
+        <ActionButton disabled={disableButton} onPress={onPress}>
+          <ActionButtonText>{buttonLabel}</ActionButtonText>
+        </ActionButton>
+      )}
     </HeaderContainer>
   )
 }

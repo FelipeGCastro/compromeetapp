@@ -7,6 +7,7 @@ import { useAuth } from '../hooks/auth'
 import { MenuRoutes } from './menu.routes'
 import { CommitmentScreen } from '../screens/CommitmentScreen'
 import { PeopleSelector } from '../screens/PeopleSelector'
+import { CommitmentSelector } from '../screens/CommitmentSelector'
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -16,6 +17,7 @@ export function PrivateRoutes() {
       <Screen name="menu" component={MenuRoutes}></Screen>
       <Screen name="CommitmentScreen" component={CommitmentScreen}></Screen>
       <Screen name="PeopleSelector" component={PeopleSelector}></Screen>
+      <Screen name="CommitmentSelector" component={CommitmentSelector}></Screen>
     </Navigator>
   )
 }

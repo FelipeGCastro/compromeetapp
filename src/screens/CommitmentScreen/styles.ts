@@ -35,26 +35,51 @@ export const PhotoIcon = styled(FontAwesome).attrs({
 
 export const CommitmentContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.shape};
-  height: 130px;
   border-radius: 6px;
+  min-height: 130px;
   justify-content: center;
   align-items: center;
-  padding: 10px;
 `
 export const CommitmentText = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};
   font-size: 20px;
+  padding: 10px;
   text-align: center;
 `
+export const AddCommitmentButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
+  align-self: flex-start;
+  flex-direction: row;
+  align-items: center;
+  padding: 7px;
+  border-top-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.link};
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
+  elevation: 1;
+`
+export const AddCommitmentText = styled.Text`
+  color: ${({ theme }) => theme.colors.textLight};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: 16px;
+  margin: 0 7px;
+`
+export const AddCommitmentIcon = styled(FontAwesome).attrs({
+  name: 'heart',
+  size: 16
+})`
+  color: ${({ theme }) => theme.colors.textLight};
+`
 export const CommitmentInput = styled.TextInput`
-  background-color: ${({ theme }) => theme.colors.shape};
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};
   font-size: 20px;
-  height: 130px;
+  flex: 1;
   border-radius: 6px;
   padding: 10px;
+  margin-bottom: 20px;
 `
 export const PickerButton = styled.TouchableOpacity`
   padding: 15px;
@@ -65,7 +90,7 @@ export const PickerButton = styled.TouchableOpacity`
   elevation: 1;
 `
 export const PickerButtonText = styled.Text`
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.textFading};
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: 16px;
 `

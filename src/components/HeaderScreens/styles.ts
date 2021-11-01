@@ -37,3 +37,6 @@ export const ScreenTitle = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   text-align: center;
 `
+export const MockView = styled.View`
+  width: 65px;
+`

@@ -9,6 +9,9 @@ import { OptionsButtons } from '../../components/OptionsButtons'
 
 import {
   Container,
+  AddCommitmentButton,
+  AddCommitmentText,
+  AddCommitmentIcon,
   CommitmentInput,
   CommitmentContainer,
   CommitmentText,
@@ -144,6 +147,9 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   function handleOnChangeFrequency(value?: number) {
     setFrequency(value)
   }
+  function handleAddCommitmentPress() {
+    navigation.navigate('CommitmentSelector' as never)
+  }
 
   async function handleOnPressSave() {
     const { commitment } = route.params
@@ -182,14 +188,20 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               </CommitmentText>
             </CommitmentContainer>
           ) : (
-            <CommitmentInput
-              ref={inputRef}
-              onChangeText={setCommitment}
-              placeholder="Escreva aqui seu compromisso."
-              multiline
-              textAlignVertical="center"
-              textAlign="center"
-            />
+            <CommitmentContainer>
+              <AddCommitmentButton onPress={handleAddCommitmentPress}>
+                <AddCommitmentIcon />
+                <AddCommitmentText>Favoritos</AddCommitmentText>
+              </AddCommitmentButton>
+              <CommitmentInput
+                ref={inputRef}
+                onChangeText={setCommitment}
+                placeholder="Escreva aqui seu compromisso."
+                multiline
+                textAlignVertical="center"
+                textAlign="center"
+              />
+            </CommitmentContainer>
           )}
           <PrivacyAndPhoto>
             <OptionsButtons
