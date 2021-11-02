@@ -31,6 +31,7 @@ import {
 interface CommitmentCardProps {
   noLabel?: boolean
   noUser?: boolean
+  noFooter?: boolean
   data: {
     id: string
     user_id: string
@@ -63,7 +64,12 @@ const dateFormat = new Intl.DateTimeFormat('pt-BR', {
   minute: '2-digit'
 })
 
-const CommitmentCard = ({ data, noLabel, noUser }: CommitmentCardProps) => {
+const CommitmentCard = ({
+  data,
+  noFooter,
+  noLabel,
+  noUser
+}: CommitmentCardProps) => {
   const [isFavorite, setIsFavorite] = useState(true)
   const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
   function handlePress() {
@@ -91,32 +97,34 @@ const CommitmentCard = ({ data, noLabel, noUser }: CommitmentCardProps) => {
           <BoldText>"</BoldText>
         </CommitmentText>
       </ContentWrapper>
-      <Footer>
-        <FavoriteButton onPress={() => setIsFavorite(prev => !prev)}>
-          <FavoriteIcon
-            active={isFavorite}
-            name={isFavorite ? 'heart' : 'hearto'}
-          />
-          <FavoriteNumber>1k</FavoriteNumber>
-        </FavoriteButton>
-        <CompletedIcon />
-        <FriendContainer>
-          <FriendIcon />
-          <FriendText>@lucas.silva.pereira...</FriendText>
-        </FriendContainer>
-        {data.schedule && (
-          <DateAndTimeContainer>
-            <ClockIcon />
-            <DateAndTimeText>
-              {dateFormat.format(Number(data.date))}
-            </DateAndTimeText>
-          </DateAndTimeContainer>
-        )}
+      {!noFooter && (
+        <Footer>
+          <FavoriteButton onPress={() => setIsFavorite(prev => !prev)}>
+            <FavoriteIcon
+              active={isFavorite}
+              name={isFavorite ? 'heart' : 'hearto'}
+            />
+            <FavoriteNumber>1k</FavoriteNumber>
+          </FavoriteButton>
+          <CompletedIcon />
+          <FriendContainer>
+            <FriendIcon />
+            <FriendText>@lucas.silva.pereira...</FriendText>
+          </FriendContainer>
+          {data.schedule && (
+            <DateAndTimeContainer>
+              <ClockIcon />
+              <DateAndTimeText>
+                {dateFormat.format(Number(data.date))}
+              </DateAndTimeText>
+            </DateAndTimeContainer>
+          )}
 
-        <CloseButton onPress={handlePress}>
-          <CloseIcon />
-        </CloseButton>
-      </Footer>
+          <CloseButton onPress={handlePress}>
+            <CloseIcon />
+          </CloseButton>
+        </Footer>
+      )}
     </Container>
   )
 }

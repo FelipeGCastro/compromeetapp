@@ -14,6 +14,7 @@ import {
   AddCommitmentIcon,
   CommitmentInput,
   CommitmentContainer,
+  CommitmentFixedContainer,
   CommitmentText,
   PrivacyAndPhoto,
   PhotoButton,
@@ -62,10 +63,15 @@ type CommitmentStackParamList = {
       index: number
     }
     people: IUser[]
+    commitmentSelected: {
+      id: string
+      text: string
+    }
   }
 }
 type Props = StackScreenProps<CommitmentStackParamList, 'CommitmentScreen'>
 export const CommitmentScreen = ({ route, navigation }: Props) => {
+  const [editing, setEditing] = useState(false)
   const [commitmentFixed, setCommitmentFixed] = useState<string | undefined>()
   const [commitment, setCommitment] = useState('')
   const [isPublic, setIsPublic] = useState(false)
@@ -117,6 +123,13 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   }, [route.params?.people])
 
   useEffect(() => {
+    if (route.params?.commitmentSelected) {
+      setCommitmentFixed(route.params?.commitmentSelected.text)
+      setDisableButton(false)
+    }
+  }, [route.params?.commitmentSelected])
+
+  useEffect(() => {
     if (/\S/.test(commitment)) setDisableButton(false)
     else setDisableButton(true)
   }, [
@@ -133,6 +146,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
       setSchedule(commitment.schedule)
       if (commitment.date) setDate(new Date(commitment.date))
       setFrequency(commitment.frequency)
+      setEditing(true)
     }
     setDisableButton(false)
   }, [])
@@ -172,27 +186,30 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
           disableButton={disableButton}
           onPress={handleOnPressSave}
           title="Compromisso"
-          buttonLabel={commitmentFixed ? 'Guardar' : 'Criar'}
+          buttonLabel={editing ? 'Guardar' : 'Criar'}
         />
         <ScrollView
           keyboardDismissMode="interactive"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {commitmentFixed ? (
-            <CommitmentContainer>
-              <CommitmentText>
-                <BoldText>"</BoldText>
-                {commitmentFixed}
-                <BoldText>"</BoldText>
-              </CommitmentText>
-            </CommitmentContainer>
-          ) : (
-            <CommitmentContainer>
+          <CommitmentContainer>
+            {!editing && (
               <AddCommitmentButton onPress={handleAddCommitmentPress}>
                 <AddCommitmentIcon />
                 <AddCommitmentText>Favoritos</AddCommitmentText>
               </AddCommitmentButton>
+            )}
+
+            {commitmentFixed ? (
+              <CommitmentFixedContainer>
+                <CommitmentText>
+                  <BoldText>"</BoldText>
+                  {commitmentFixed}
+                  <BoldText>"</BoldText>
+                </CommitmentText>
+              </CommitmentFixedContainer>
+            ) : (
               <CommitmentInput
                 ref={inputRef}
                 onChangeText={setCommitment}
@@ -201,8 +218,8 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
                 textAlignVertical="center"
                 textAlign="center"
               />
-            </CommitmentContainer>
-          )}
+            )}
+          </CommitmentContainer>
           <PrivacyAndPhoto>
             <OptionsButtons
               onChange={handleOnChangePrivacy}
