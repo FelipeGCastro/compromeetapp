@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
-import LogoImage from '../../assets/logo.png'
 import { AntDesign } from '@expo/vector-icons'
+import LogoImage from '../../assets/logo.svg'
 
 export const Container = styled.View`
   flex: 1;
@@ -9,8 +9,8 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `
 
-export const Logo = styled.Image.attrs({
-  source: LogoImage
+export const LogoImageSvg = styled(LogoImage).attrs({
+  width: '45%'
 })`
   align-self: center;
 `

@@ -8,6 +8,7 @@ import React, {
 import * as AuthSession from 'expo-auth-session'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { api } from '../services/api'
 
 interface User {
   id: string
@@ -70,19 +71,24 @@ function AuthProvider({ children }: IAuthProviderProps) {
       const { type, params } = (await AuthSession.startAsync({
         authUrl
       })) as IAuthorizationResponse
+
       if (type === 'success') {
-        const response = await fetch(
-          `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
-        )
-        const userInfo = await response.json()
-        const userLogged = {
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.name,
-          avatar_url: userInfo.picture
-        }
-        setUser(userLogged)
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
+        const result = await api.post('authenticate', {
+          token: params.access_token
+        })
+        console.log(result)
+        // const response = await fetch(
+        //   `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
+        // )
+        // const userInfo = await response.json()
+        // const userLogged = {
+        //   id: userInfo.id,
+        //   email: userInfo.email,
+        //   name: userInfo.name,
+        //   avatar_url: userInfo.picture
+        // }
+        // setUser(userLogged)
+        // await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
       }
     } catch (error) {
       throw new Error(error as string)

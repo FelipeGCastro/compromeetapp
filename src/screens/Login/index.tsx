@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import {
-  ActivityIndicator,
-  ActivityIndicatorComponent,
-  Alert
-} from 'react-native'
+import { ActivityIndicator, Alert } from 'react-native'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import theme from '../../global/styles/theme'
 import { useAuth } from '../../hooks/auth'
 
 import {
   Container,
-  Logo,
+  LogoImageSvg,
   ButtonsContainer,
   SigninButton,
   SigninIcon,
@@ -26,6 +22,7 @@ export const Login: React.FC = () => {
     try {
       setIsLoading(true)
       await signInWithGoogle()
+      setIsLoading(false)
     } catch (error) {
       console.log(error)
       Alert.alert('Não foi possivel conectar a conta Google')
@@ -46,7 +43,7 @@ export const Login: React.FC = () => {
   return (
     <Container>
       <BackgroundGradient percentage={90} />
-      <Logo />
+      <LogoImageSvg />
       <ButtonsContainer>
         <SigninButton onPress={handleSignInWithGoogle}>
           <SigninIcon />
