@@ -64,6 +64,7 @@ export const commitmentsData = [
         name: 'Luiz Felipe Castro'
       }
     },
+    image_url: 'http://github.com/josuearaujo.png',
     isPublic: false,
     schedule: false,
     date: 1635681725000,

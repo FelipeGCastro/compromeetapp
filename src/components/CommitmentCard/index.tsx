@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
 import { UserMini } from '../UserCard/UserMini'
+import { ImageCard } from './components/ImageCard'
 
 import {
   Container,
@@ -18,8 +19,7 @@ import {
   CommitmentText,
   BoldText,
   ContentWrapper,
-  CommitmentImageContainer,
-  CommitmentImage,
+  CommitmentTextContainer,
   Footer,
   FavoriteButton,
   FavoriteIcon,
@@ -73,7 +73,8 @@ const CommitmentCard = ({
   noLabel,
   noUser
 }: CommitmentCardProps) => {
-  const [isFavorite, setIsFavorite] = useState(true)
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
   function handlePress() {
     Alert.alert('Tem certeza?')
@@ -81,6 +82,9 @@ const CommitmentCard = ({
 
   function handleCardPress() {
     navigation.navigate('CommitmentScreen' as 'route', { commitment: data })
+  }
+  function handleImageButton(exp: boolean) {
+    setExpanded(exp)
   }
   return (
     <Container>
@@ -93,19 +97,20 @@ const CommitmentCard = ({
           <MoreIcon />
         </MoreButton>
       </Header>
-      <ContentWrapper onPress={handleCardPress}>
-        <CommitmentText>
-          <BoldText>"</BoldText>
-          {data.commitment.text}
-          <BoldText>"</BoldText>
-        </CommitmentText>
+      <ContentWrapper>
+        <CommitmentTextContainer onPress={handleCardPress}>
+          <CommitmentText>
+            <BoldText>"</BoldText>
+            {data.commitment.text}
+            <BoldText>"</BoldText>
+          </CommitmentText>
+        </CommitmentTextContainer>
         {data.image_url && (
-          <CommitmentImageContainer>
-            <CommitmentImage
-              resizeMode="contain"
-              source={{ uri: data.image_url }}
-            />
-          </CommitmentImageContainer>
+          <ImageCard
+            expanded={expanded}
+            setExpanded={handleImageButton}
+            image_url={data.image_url}
+          />
         )}
       </ContentWrapper>
       {!noFooter && (

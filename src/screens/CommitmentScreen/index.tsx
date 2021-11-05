@@ -60,6 +60,7 @@ type CommitmentStackParamList = {
           name: string
         }
       }
+      image_url?: string
       isPublic: boolean
       schedule: boolean
       date?: number | string
@@ -161,6 +162,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
       setIsPublic(commitment.isPublic)
       setSchedule(commitment.schedule)
       if (commitment.date) setDate(new Date(commitment.date))
+      if (commitment.image_url) setImage(commitment.image_url)
       setFrequency(commitment.frequency)
       setEditing(true)
     }

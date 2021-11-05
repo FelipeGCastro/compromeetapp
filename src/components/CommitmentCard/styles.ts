@@ -39,24 +39,16 @@ export const MoreIcon = styled(Feather).attrs({
 })`
   color: ${({ theme }) => theme.colors.title};
 `
-export const ContentWrapper = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8
-})`
-  padding: 20px 5px;
+export const ContentWrapper = styled.View`
   border-radius: 6px;
 `
-export const CommitmentImageContainer = styled.View`
-  flex: 1;
-  width: 100%;
-  aspect-ratio: 1;
-  margin-top: 20px;
-`
-export const CommitmentImage = styled.Image`
-  flex: 1;
-  height: 100%;
-  width: 100%;
-`
 
+export const CommitmentTextContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
+  font-size: 20px;
+  padding: 20px 5px;
+`
 export const CommitmentText = styled.Text`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.title};
