@@ -17,6 +17,7 @@ export const commitmentsData = [
         name: 'Luiz Felipe Castro'
       }
     },
+    image_url: 'http://github.com/felipegcastro.png',
     isPublic: false,
     schedule: true,
     date: 1635681725000,

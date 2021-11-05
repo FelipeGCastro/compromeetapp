@@ -34,8 +34,8 @@ export function AppRoutes() {
   const { user } = useAuth()
   return (
     <NavigationContainer>
-      {/* <PrivateRoutes /> */}
-      {user.id ? <PrivateRoutes /> : <PublicRoutes />}
+      <PrivateRoutes />
+      {/* {user.id ? <PrivateRoutes /> : <PublicRoutes />} */}
     </NavigationContainer>
   )
 }

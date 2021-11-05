@@ -18,6 +18,8 @@ import {
   CommitmentText,
   BoldText,
   ContentWrapper,
+  CommitmentImageContainer,
+  CommitmentImage,
   Footer,
   FavoriteButton,
   FavoriteIcon,
@@ -50,6 +52,7 @@ interface CommitmentCardProps {
         name: string
       }
     }
+    image_url?: string
     isPublic: boolean
     schedule: boolean
     date?: number | string
@@ -96,6 +99,14 @@ const CommitmentCard = ({
           {data.commitment.text}
           <BoldText>"</BoldText>
         </CommitmentText>
+        {data.image_url && (
+          <CommitmentImageContainer>
+            <CommitmentImage
+              resizeMode="contain"
+              source={{ uri: data.image_url }}
+            />
+          </CommitmentImageContainer>
+        )}
       </ContentWrapper>
       {!noFooter && (
         <Footer>

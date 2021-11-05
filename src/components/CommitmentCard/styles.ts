@@ -45,6 +45,18 @@ export const ContentWrapper = styled.TouchableOpacity.attrs({
   padding: 20px 5px;
   border-radius: 6px;
 `
+export const CommitmentImageContainer = styled.View`
+  flex: 1;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-top: 20px;
+`
+export const CommitmentImage = styled.Image`
+  flex: 1;
+  height: 100%;
+  width: 100%;
+`
+
 export const CommitmentText = styled.Text`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.title};

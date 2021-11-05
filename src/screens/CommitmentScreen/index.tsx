@@ -20,7 +20,11 @@ import {
   PhotoButton,
   PhotoIcon,
   PickerButton,
-  PickerButtonText
+  PickerButtonText,
+  ImageContainer,
+  DeleteButton,
+  DeleteButtonIcon,
+  ImageSelected
 } from './styles'
 
 import Frequency from '../../components/ScheduleComponents/Frequency'
@@ -81,31 +85,43 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   const [frequency, setFrequency] = useState<number | undefined>()
   const [disableButton, setDisableButton] = useState(true)
   const [openModal, setOpenModal] = useState(false)
+  const [image, setImage] = useState('')
 
   const inputRef = useRef<TextInput>(null)
 
   let openImagePickerAsync = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync()
-
+    setOpenModal(false)
     if (permissionResult.granted === false) {
       alert('Permission to access camera roll is required!')
       return
     }
 
-    let pickerResult = await ImagePicker.launchImageLibraryAsync()
-    console.log(pickerResult)
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1]
+    })
+    if (!pickerResult.cancelled) {
+      setImage(pickerResult.uri)
+    }
   }
+
   let openCameraAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync()
-
+    setOpenModal(false)
     if (permissionResult.granted === false) {
       alert('Permission to access camera is required!')
       return
     }
 
-    let pickerResult = await ImagePicker.launchCameraAsync()
-    console.log(pickerResult)
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1]
+    })
+    if (!pickerResult.cancelled) {
+      setImage(pickerResult.uri)
+    }
   }
 
   useEffect(() => {
@@ -247,6 +263,14 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               <AddPeople people={people} />
               <Frequency onChange={handleOnChangeFrequency} item={frequency} />
             </>
+          )}
+          {!!image && (
+            <ImageContainer>
+              <ImageSelected source={{ uri: image }} />
+              <DeleteButton onPress={() => setImage('')}>
+                <DeleteButtonIcon />
+              </DeleteButton>
+            </ImageContainer>
           )}
           <CommentsCard />
         </ScrollView>

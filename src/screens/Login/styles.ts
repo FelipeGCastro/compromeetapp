@@ -37,7 +37,7 @@ export const SigninIcon = styled(AntDesign).attrs({
   size: 24
 })`
   margin-right: 15px;
-  color: ${({ theme }) => theme.colors.title};
+  color: ${({ theme }) => theme.colors.text};
 `
 export const SigninIconApple = styled(AntDesign).attrs({
   name: 'apple1',
@@ -48,4 +48,6 @@ export const SigninIconApple = styled(AntDesign).attrs({
 `
 export const SigninText = styled.Text`
   font-size: 16px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.title};
 `
