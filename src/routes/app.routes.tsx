@@ -8,12 +8,14 @@ import { MenuRoutes } from './menu.routes'
 import { CommitmentScreen } from '../screens/CommitmentScreen'
 import { PeopleSelector } from '../screens/PeopleSelector'
 import { CommitmentSelector } from '../screens/CommitmentSelector'
+import { UserNameScreen } from '../screens/UserNameScreen'
 
 const { Navigator, Screen } = createStackNavigator()
 
 export function PrivateRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="UserNameScreen" component={UserNameScreen}/>
       <Screen name="menu" component={MenuRoutes}></Screen>
       <Screen name="CommitmentScreen" component={CommitmentScreen}></Screen>
       <Screen name="PeopleSelector" component={PeopleSelector}></Screen>
@@ -34,8 +36,8 @@ export function AppRoutes() {
   const { user } = useAuth()
   return (
     <NavigationContainer>
-      {/* <PrivateRoutes /> */}
-      {user.id ? <PrivateRoutes /> : <PublicRoutes />}
+      <PrivateRoutes />
+      {/* {user.id ? <PrivateRoutes /> : <PublicRoutes />} */}
     </NavigationContainer>
   )
 }

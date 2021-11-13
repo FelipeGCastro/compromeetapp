@@ -17,11 +17,13 @@ interface IHeaderProps {
   onPress?: () => Promise<void>
   disableButton?: boolean
   noButton?: boolean
+  noBackButton?: boolean
 }
 
 export const HeaderScreens = ({
   title,
   noButton,
+  noBackButton,
   buttonLabel,
   onPress,
   disableButton
@@ -32,9 +34,14 @@ export const HeaderScreens = ({
   }
   return (
     <HeaderContainer>
-      <BackButton onPress={handleBackPress}>
-        <BackIcon />
-      </BackButton>
+      {noBackButton ? (
+        <MockView />
+      ) : (
+        <BackButton onPress={handleBackPress}>
+          <BackIcon />
+        </BackButton>
+      )}
+
       <ScreenTitle>{title}</ScreenTitle>
       {noButton ? (
         <MockView />
