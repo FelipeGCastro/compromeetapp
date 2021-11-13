@@ -23,7 +23,7 @@ const commentsMock: Comments[] = [
     text: 'Olá, só para lembrar que vou estar aguardando em frente a sorveteria',
     user: {
       user_id: 'user315315',
-      avatar_url: 'http://github.com/felipegcastro.png',
+      avatarUrl: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     }
   }
@@ -32,7 +32,7 @@ type Comments = {
   id: string
   user: {
     user_id: string
-    avatar_url: string
+    avatarUrl: string
     name: string
   }
   text: string

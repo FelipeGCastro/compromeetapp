@@ -37,7 +37,7 @@ import BottomSheet from '../../components/BottomSheet'
 interface IUser {
   id: string
   name: string
-  avatar_url: string
+  avatarUrl: string
   username: string
 }
 type CommitmentStackParamList = {
@@ -47,7 +47,7 @@ type CommitmentStackParamList = {
       user_id: string
       user: {
         user_id: string
-        avatar_url: string
+        avatarUrl: string
         name: string
       }
       commitment: {
@@ -56,7 +56,7 @@ type CommitmentStackParamList = {
         user_id: string
         user: {
           user_id: string
-          avatar_url: string
+          avatarUrl: string
           name: string
         }
       }

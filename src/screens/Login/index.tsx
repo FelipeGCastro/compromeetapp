@@ -10,36 +10,24 @@ import {
   ButtonsContainer,
   SigninButton,
   SigninIcon,
-  SigninText,
-  SigninIconApple
+  SigninText
 } from './styles'
 
 export const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const { signInWithGoogle, signInWithApple } = useAuth()
+  const { signInWithGoogle } = useAuth()
 
   async function handleSignInWithGoogle() {
     try {
       setIsLoading(true)
       await signInWithGoogle()
-      setIsLoading(false)
     } catch (error) {
       console.log(error)
       Alert.alert('Não foi possivel conectar a conta Google')
       setIsLoading(false)
     }
   }
-  async function handleSignInWithApple() {
-    setIsLoading(true)
-    try {
-      await signInWithApple()
-    } catch (error) {
-      console.log(error)
-      Alert.alert('Não foi possivel conectar a conta Apple')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+
   return (
     <Container>
       <BackgroundGradient percentage={90} />
@@ -49,10 +37,7 @@ export const Login: React.FC = () => {
           <SigninIcon />
           <SigninText>Entrar com Google</SigninText>
         </SigninButton>
-        {/* <SigninButton onPress={handleSignInWithApple}>
-          <SigninIconApple />
-          <SigninText>Entrar com Apple</SigninText>
-        </SigninButton> */}
+
         {isLoading && (
           <ActivityIndicator color={theme.colors.attention} size="large" />
         )}

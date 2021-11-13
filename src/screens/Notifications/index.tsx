@@ -13,7 +13,7 @@ const arr = [
     data: {
       user: {
         name: 'Lucas Moura Castro',
-        avatar_url: avatarUrl
+        avatarUrl: avatarUrl
       },
       commitmentTime: '14:25',
       commitmentOrder: '#2',
@@ -41,7 +41,7 @@ const arr = [
     data: {
       user: {
         name: 'Luiz Castro',
-        avatar_url: avatarUrl
+        avatarUrl: avatarUrl
       },
       commitmentTime: '14:25',
       commitmentOrder: '#2',

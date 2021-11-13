@@ -6,20 +6,19 @@ import React, {
   useState
 } from 'react'
 import * as AuthSession from 'expo-auth-session'
-import * as AppleAuthentication from 'expo-apple-authentication'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { api } from '../services/api'
+import { api, setUserToken } from '../services/api'
 
 interface User {
   id: string
   name: string
   email: string
-  avatar_url: string | undefined
+  avatarUrl: string | undefined
+  token: string
 }
 interface IAuthContextData {
   user: User
   signInWithGoogle: () => Promise<void>
-  signInWithApple: () => Promise<void>
   signOut: () => Promise<void>
   userStorageloading: boolean
 }
@@ -48,6 +47,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
         if (userStoraged && validator) {
           const userLogged = JSON.parse(userStoraged) as User
           setUser(userLogged)
+          setUserToken(userLogged.token)
         }
         if (validator) setUserStorageLoading(false)
       }
@@ -76,44 +76,17 @@ function AuthProvider({ children }: IAuthProviderProps) {
         const result = await api.post('authenticate', {
           token: params.access_token
         })
-        console.log(result)
-        // const response = await fetch(
-        //   `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
-        // )
-        // const userInfo = await response.json()
-        // const userLogged = {
-        //   id: userInfo.id,
-        //   email: userInfo.email,
-        //   name: userInfo.name,
-        //   avatar_url: userInfo.picture
-        // }
-        // setUser(userLogged)
-        // await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
-      }
-    } catch (error) {
-      throw new Error(error as string)
-    }
-  }
-
-  async function signInWithApple() {
-    try {
-      const credential = await AppleAuthentication.signInAsync({
-        requestedScopes: [
-          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-          AppleAuthentication.AppleAuthenticationScope.EMAIL
-        ]
-      })
-      if (credential) {
-        const userLogged: User = {
-          id: String(credential.user),
-          email: credential.email!,
-          name: `${credential.fullName!.givenName! || ''} ${
-            credential.fullName!.middleName! || ''
-          } ${credential.fullName!.familyName! || ''}`,
-          avatar_url: undefined
+        const { user: userInfo, token } = result.data
+        console.log(result.data, userInfo )
+        const userLogged = {
+          id: userInfo.id,
+          email: userInfo.email,
+          name: userInfo.name,
+          avatarUrl: userInfo.avatar_url || 'https://github.com/felipegcastro.png',
+          token: token
         }
-
         setUser(userLogged)
+        setUserToken(token)
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
       }
     } catch (error) {
@@ -131,7 +104,6 @@ function AuthProvider({ children }: IAuthProviderProps) {
       value={{
         user,
         signInWithGoogle,
-        signInWithApple,
         userStorageloading,
         signOut
       }}

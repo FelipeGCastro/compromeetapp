@@ -4,7 +4,7 @@ export const commitmentsData = [
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatar_url: 'http://github.com/felipegcastro.png',
+      avatarUrl: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -13,7 +13,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatar_url: 'http://github.com/felipegcastro.png',
+        avatarUrl: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -28,7 +28,7 @@ export const commitmentsData = [
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatar_url: 'http://github.com/felipegcastro.png',
+      avatarUrl: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -37,7 +37,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatar_url: 'http://github.com/felipegcastro.png',
+        avatarUrl: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -51,7 +51,7 @@ export const commitmentsData = [
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatar_url: 'http://github.com/felipegcastro.png',
+      avatarUrl: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -60,7 +60,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatar_url: 'http://github.com/felipegcastro.png',
+        avatarUrl: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -75,7 +75,7 @@ export const commitmentsData = [
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatar_url: 'http://github.com/felipegcastro.png',
+      avatarUrl: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -84,7 +84,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatar_url: 'http://github.com/felipegcastro.png',
+        avatarUrl: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },

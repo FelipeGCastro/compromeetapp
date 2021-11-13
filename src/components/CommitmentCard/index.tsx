@@ -39,7 +39,7 @@ interface CommitmentCardProps {
     user_id: string
     user: {
       user_id: string
-      avatar_url: string
+      avatarUrl: string
       name: string
     }
     commitment: {
@@ -48,7 +48,7 @@ interface CommitmentCardProps {
       user_id: string
       user: {
         user_id: string
-        avatar_url: string
+        avatarUrl: string
         name: string
       }
     }

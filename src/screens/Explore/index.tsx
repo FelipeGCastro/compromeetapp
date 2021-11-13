@@ -11,7 +11,7 @@ import { Container } from './styles'
 const user = {
   id: 'user84as8d4as84d98',
   name: 'Luiz Castro',
-  avatar_url: 'http://github.com/felipegcastro.png',
+  avatarUrl: 'http://github.com/felipegcastro.png',
   username: 'felipegcastro'
 }
 

@@ -6,7 +6,7 @@ import { UserContainer, UserImage, UserName } from './styles'
 interface UserMiniProps {
   user: {
     user_id: string
-    avatar_url: string
+    avatarUrl: string
     name: string
   }
 }
@@ -14,7 +14,7 @@ interface UserMiniProps {
 export const UserMini = ({ user }: UserMiniProps) => {
   return (
     <UserContainer>
-      <UserImage source={{ uri: user.avatar_url }} />
+      <UserImage source={{ uri: user.avatarUrl }} />
       <UserName>{user.name}</UserName>
     </UserContainer>
   )

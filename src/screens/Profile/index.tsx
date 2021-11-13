@@ -36,7 +36,7 @@ export const Profile: React.FC = () => {
         <BackgroundGradient />
         <ProfileCard>
           <ImageContainer>
-            <UserImg source={{ uri: user.avatar_url }} />
+            <UserImg source={{ uri: user.avatarUrl }} />
           </ImageContainer>
           <ProfileInfoContainer>
             <ProfileNameAndUsername>

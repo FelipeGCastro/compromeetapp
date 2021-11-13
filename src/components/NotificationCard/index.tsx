@@ -18,7 +18,7 @@ interface INotificationCardProps {
   data: {
     user?: {
       name: string
-      avatar_url: string
+      avatarUrl: string
     }
     commitmentTime?: string
     commitmentOrder?: string
@@ -29,9 +29,9 @@ interface INotificationCardProps {
 export const NotificationCard = ({ data }: INotificationCardProps) => {
   return (
     <Container>
-      {data.user?.avatar_url ? (
+      {data.user?.avatarUrl ? (
         <>
-          <UserImage avatarUrl={data.user?.avatar_url} />
+          <UserImage avatarUrl={data.user?.avatarUrl} />
         </>
       ) : (
         <>
