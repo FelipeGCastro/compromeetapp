@@ -5,7 +5,7 @@ import { Container } from './styles'
 interface IBackgroundGradientProps {
   percentage?: number
 }
-const BackgroundGradient = ({ percentage = 20 }: IBackgroundGradientProps) => {
+const BackgroundGradient = ({ percentage = 15 }: IBackgroundGradientProps) => {
   return <Container percentage={percentage} />
 }
 

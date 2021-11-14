@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const TextContainer = styled.View`
   padding: 20px;
   align-items: center;
-  margin: 40px 0px 80px;
+  margin: 40px 0px 70px;
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 6px;
 `
@@ -27,21 +27,4 @@ export const SubTitle = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   font-size: 20px;
   text-align: center;
-`
-export const UserNameExist = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.regular};
-  color: ${({ theme }) => theme.colors.attention};
-  font-size: 14px;
-`
-
-export const MessageContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 7px;
-  padding-left: 30px;
-`
-export const Icon = styled(FontAwesome)`
-  margin-right: 7px;
-  color: ${({ theme }) => theme.colors.attention};
 `

@@ -41,7 +41,7 @@ export const Profile: React.FC = () => {
           <ProfileInfoContainer>
             <ProfileNameAndUsername>
               <ProfileName>{user.name}</ProfileName>
-              <ProfileUserName>@luizfelipecastro</ProfileUserName>
+              <ProfileUserName>@{user.username}</ProfileUserName>
             </ProfileNameAndUsername>
             <OptionsContainer>
               <FriendsContainer>

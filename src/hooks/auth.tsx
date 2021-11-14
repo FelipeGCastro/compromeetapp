@@ -7,11 +7,12 @@ import React, {
 } from 'react'
 import * as AuthSession from 'expo-auth-session'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { api, setUserToken } from '../services/api'
+import { api } from '../services/api'
 
 interface User {
   id: string
   name: string
+  username: string
   email: string
   avatarUrl: string | undefined
   token: string
@@ -21,6 +22,7 @@ interface IAuthContextData {
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
   userStorageloading: boolean
+  setUsername: (username: string) => Promise<void>
 }
 
 interface IAuthorizationResponse {
@@ -38,7 +40,6 @@ function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<User>({} as User)
   const [userStorageloading, setUserStorageLoading] = useState(true)
   const userStorageKey = '@compromeet:user'
-
   useEffect(() => {
     let validator = true
     async function loadUserStorageDate() {
@@ -47,7 +48,6 @@ function AuthProvider({ children }: IAuthProviderProps) {
         if (userStoraged && validator) {
           const userLogged = JSON.parse(userStoraged) as User
           setUser(userLogged)
-          setUserToken(userLogged.token)
         }
         if (validator) setUserStorageLoading(false)
       }
@@ -77,19 +77,39 @@ function AuthProvider({ children }: IAuthProviderProps) {
           token: params.access_token
         })
         const { user: userInfo, token } = result.data
-        console.log(result.data, userInfo )
         const userLogged = {
           id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
-          avatarUrl: userInfo.avatar_url || 'https://github.com/felipegcastro.png',
+          username: userInfo.username,
+          avatarUrl: userInfo.avatar_url,
           token: token
         }
         setUser(userLogged)
-        setUserToken(token)
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
       }
     } catch (error) {
+      throw new Error(error as string)
+    }
+  }
+
+  async function setUsername(username: string) {
+    try {
+      const result = await api.put('username', { username, id: user.id })
+      const userInfo = result.data
+      const userLogged = {
+        id: userInfo.id,
+        email: userInfo.email,
+        name: userInfo.name,
+        username: userInfo.username,
+        avatarUrl: userInfo.avatar_url,
+        token: user.token
+      }
+
+      setUser(userLogged)
+      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
+    } catch (error) {
+      console.log(error)
       throw new Error(error as string)
     }
   }
@@ -105,7 +125,8 @@ function AuthProvider({ children }: IAuthProviderProps) {
         user,
         signInWithGoogle,
         userStorageloading,
-        signOut
+        signOut,
+        setUsername
       }}
     >
       {children}

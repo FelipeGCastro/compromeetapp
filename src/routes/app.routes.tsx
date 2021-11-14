@@ -15,19 +15,23 @@ const { Navigator, Screen } = createStackNavigator()
 export function PrivateRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="UserNameScreen" component={UserNameScreen}/>
       <Screen name="menu" component={MenuRoutes}></Screen>
-      <Screen name="CommitmentScreen" component={CommitmentScreen}></Screen>
-      <Screen name="PeopleSelector" component={PeopleSelector}></Screen>
-      <Screen name="CommitmentSelector" component={CommitmentSelector}></Screen>
+      <Screen name="CommitmentScreen" component={CommitmentScreen} />
+      <Screen name="PeopleSelector" component={PeopleSelector} />
+      <Screen name="CommitmentSelector" component={CommitmentSelector} />
     </Navigator>
   )
 }
 
 export function PublicRoutes() {
+  const { user } = useAuth()
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="signin" component={Login}></Screen>
+      {user.name ? (
+        <Screen name="UserNameScreen" component={UserNameScreen} />
+      ) : (
+        <Screen name="signin" component={Login} />
+      )}
     </Navigator>
   )
 }
@@ -36,8 +40,7 @@ export function AppRoutes() {
   const { user } = useAuth()
   return (
     <NavigationContainer>
-      <PrivateRoutes />
-      {/* {user.id ? <PrivateRoutes /> : <PublicRoutes />} */}
+      {user.username ? <PrivateRoutes /> : <PublicRoutes />}
     </NavigationContainer>
   )
 }

@@ -3,15 +3,11 @@ import React, { Component } from 'react'
 import { InputContainer, InputContent } from './styles'
 import { Ionicons } from '@expo/vector-icons'
 import theme from '../../global/styles/theme'
+import { TextInputProps } from 'react-native'
 
 type IconNameType = keyof typeof Ionicons.glyphMap
-interface IInputProps {
-  value: string
-  placeholder: string
-  onChangeText: (txt: string) => void
+interface IInputProps extends TextInputProps {
   IconName?: IconNameType
-  onBlur?: () => void
-  onFocus?: () => void
 }
 const Input = ({ IconName = 'at-outline', ...rest }: IInputProps) => {
   return (
