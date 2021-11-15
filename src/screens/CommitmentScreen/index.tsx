@@ -33,6 +33,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { BoldText } from '../../components/CommitmentCard/styles'
 import { CommentsCard } from '../../components/CommentsCard'
 import BottomSheet from '../../components/BottomSheet'
+import { api } from '../../services/api'
 
 interface IUser {
   id: string
@@ -40,36 +41,39 @@ interface IUser {
   avatarUrl: string
   username: string
 }
+interface Commitment {
+  id: number
+  text: string
+  isPublic: boolean
+  user_id: number
+}
+interface ICommitmentPlans {
+  id: number
+  commitment_id: number
+  commitment: {
+    id: number
+    text: string
+    isPublic: boolean
+    user_id: number
+  }
+  frequency?: string
+  status: string
+  timestamp: string
+  user_id: number
+  user?: {
+    id: number
+    name: string
+    avatar_url: string
+  }
+  index: number
+  image_url?: string
+}
 type CommitmentStackParamList = {
   CommitmentScreen: {
-    commitment?: {
-      id: string
-      user_id: string
-      user: {
-        user_id: string
-        avatarUrl: string
-        name: string
-      }
-      commitment: {
-        id: string
-        text: string
-        user_id: string
-        user: {
-          user_id: string
-          avatarUrl: string
-          name: string
-        }
-      }
-      image_url?: string
-      isPublic: boolean
-      schedule: boolean
-      date?: number | string
-      frequency?: number
-      index: number
-    }
+    commitmentPlan?: ICommitmentPlans
     people: IUser[]
     commitmentSelected: {
-      id: string
+      id: number
       text: string
     }
   }
@@ -77,13 +81,15 @@ type CommitmentStackParamList = {
 type Props = StackScreenProps<CommitmentStackParamList, 'CommitmentScreen'>
 export const CommitmentScreen = ({ route, navigation }: Props) => {
   const [editing, setEditing] = useState(false)
-  const [commitmentFixed, setCommitmentFixed] = useState<string | undefined>()
+  const [commitmentFixed, setCommitmentFixed] = useState<
+    Commitment | undefined
+  >()
   const [commitment, setCommitment] = useState('')
   const [isPublic, setIsPublic] = useState(false)
   const [schedule, setSchedule] = useState(false)
   const [date, setDate] = useState(new Date())
   const [people, setPeople] = useState<IUser[]>([])
-  const [frequency, setFrequency] = useState<number | undefined>()
+  const [frequency, setFrequency] = useState<string | undefined>()
   const [disableButton, setDisableButton] = useState(true)
   const [openModal, setOpenModal] = useState(false)
   const [image, setImage] = useState('')
@@ -141,7 +147,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     if (route.params?.commitmentSelected) {
-      setCommitmentFixed(route.params?.commitmentSelected.text)
+      setCommitmentFixed(route.params?.commitmentSelected as Commitment)
       setDisableButton(false)
     }
   }, [route.params?.commitmentSelected])
@@ -156,14 +162,14 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     if (!route.params) return
-    const { commitment } = route.params
-    if (commitment) {
-      setCommitmentFixed(commitment.commitment.text)
-      setIsPublic(commitment.isPublic)
-      setSchedule(commitment.schedule)
-      if (commitment.date) setDate(new Date(commitment.date))
-      if (commitment.image_url) setImage(commitment.image_url)
-      setFrequency(commitment.frequency)
+    const { commitmentPlan } = route.params
+    if (commitmentPlan) {
+      setCommitmentFixed(commitmentPlan.commitment)
+      setIsPublic(commitmentPlan.commitment.isPublic)
+      setSchedule(!!commitmentPlan.timestamp)
+      if (commitmentPlan.timestamp) setDate(new Date(commitmentPlan.timestamp))
+      if (commitmentPlan.image_url) setImage(commitmentPlan.image_url)
+      setFrequency(commitmentPlan.frequency)
       setEditing(true)
     }
     setDisableButton(false)
@@ -176,7 +182,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   function handleOnChangeToSchedule(value: boolean) {
     setSchedule(value)
   }
-  function handleOnChangeFrequency(value?: number) {
+  function handleOnChangeFrequency(value?: string) {
     setFrequency(value)
   }
   function handleAddCommitmentPress() {
@@ -184,17 +190,34 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   }
 
   async function handleOnPressSave() {
-    const { commitment } = route.params
+    const { commitmentPlan } = route.params
     if (
-      isPublic === commitment?.isPublic &&
-      schedule === commitment.schedule &&
-      commitment.date &&
-      date === new Date(commitment.date) &&
-      frequency === commitment.frequency
+      isPublic === commitmentPlan?.commitment.isPublic &&
+      schedule === !!commitmentPlan.timestamp &&
+      commitmentPlan.timestamp &&
+      date === new Date(commitmentPlan.timestamp) &&
+      frequency === commitmentPlan.frequency
     ) {
       navigation.goBack()
     }
     console.log(isPublic, schedule, date, frequency)
+  }
+
+  async function handleCreateCommitmentPlans() {
+    try {
+      const result = await api.post('commitment_plans', {
+        commitmentId: commitmentFixed?.id || null,
+        timestamp: schedule ? date : null,
+        frequency: frequency || null,
+        text: commitment || null,
+        isPublic
+      })
+      if (result.data) {
+        navigation.goBack()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -202,7 +225,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
         <BackgroundGradient />
         <HeaderScreens
           disableButton={disableButton}
-          onPress={handleOnPressSave}
+          onPress={editing ? handleOnPressSave : handleCreateCommitmentPlans}
           title="Compromisso"
           buttonLabel={editing ? 'Guardar' : 'Criar'}
         />
@@ -223,7 +246,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               <CommitmentFixedContainer>
                 <CommitmentText>
                   <BoldText>"</BoldText>
-                  {commitmentFixed}
+                  {commitmentFixed.text}
                   <BoldText>"</BoldText>
                 </CommitmentText>
               </CommitmentFixedContainer>

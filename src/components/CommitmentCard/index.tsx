@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
+import { api } from '../../services/api'
 import { UserMini } from '../UserCard/UserMini'
 import { ImageCard } from './components/ImageCard'
 
@@ -30,35 +31,30 @@ import {
   CloseButton,
   CloseIcon
 } from './styles'
+
+interface ICommitmentPlans {
+  id: number
+  commitment_id: number
+  commitment: {
+    text: string
+  }
+  frequency?: string
+  status: string
+  timestamp: Date
+  user_id: number
+  user?: {
+    id: number
+    name: string
+    avatar_url: string
+  }
+  index: number
+  image_url?: string
+}
 interface CommitmentCardProps {
   noLabel?: boolean
   noUser?: boolean
   noFooter?: boolean
-  data: {
-    id: string
-    user_id: string
-    user: {
-      user_id: string
-      avatarUrl: string
-      name: string
-    }
-    commitment: {
-      id: string
-      text: string
-      user_id: string
-      user: {
-        user_id: string
-        avatarUrl: string
-        name: string
-      }
-    }
-    image_url?: string
-    isPublic: boolean
-    schedule: boolean
-    date?: number | string
-    frequency?: number
-    index: number
-  }
+  data: ICommitmentPlans
 }
 const dateFormat = new Intl.DateTimeFormat('pt-BR', {
   month: '2-digit',
@@ -77,23 +73,42 @@ const CommitmentCard = ({
   const [expanded, setExpanded] = useState(false)
   const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
   function handlePress() {
-    Alert.alert('Tem certeza?')
+    Alert.alert('Tem certeza?', 'Quer eliminar', [
+      {
+        onPress: () => {},
+        style: 'cancel',
+        text: 'cancelar'
+      },
+      {
+        text: 'Excluir',
+        style: 'destructive',
+        onPress: () => deleteCommitmentPlan()
+      }
+    ])
+  }
+
+  async function deleteCommitmentPlan() {
+    try {
+      const result = await api.delete(`commitment_plans/${data.id}`)
+      console.log(result)
+    } catch (error) {}
   }
 
   function handleCardPress() {
-    navigation.navigate('CommitmentScreen' as 'route', { commitment: data })
+    navigation.navigate('CommitmentScreen' as 'route', { commitmentPlan: data })
   }
   function handleImageButton(exp: boolean) {
     setExpanded(exp)
   }
+
   return (
     <Container>
       <Header>
         <HeaderInfoContainer>
           {!noLabel && <Label>#{data.index + 1}</Label>}
-          {!noUser && <UserMini user={data.user} />}
+          {!noUser && data.user && <UserMini user={data.user} />}
         </HeaderInfoContainer>
-        <MoreButton onPress={handlePress}>
+        <MoreButton>
           <MoreIcon />
         </MoreButton>
       </Header>
@@ -127,11 +142,11 @@ const CommitmentCard = ({
             <FriendIcon />
             <FriendText>@lucas.silva.pereira...</FriendText>
           </FriendContainer>
-          {data.schedule && (
+          {data.timestamp && (
             <DateAndTimeContainer>
               <ClockIcon />
               <DateAndTimeText>
-                {dateFormat.format(Number(data.date))}
+                {dateFormat.format(new Date(data.timestamp))}
               </DateAndTimeText>
             </DateAndTimeContainer>
           )}

@@ -11,21 +11,21 @@ import {
 } from './styles'
 
 interface FrequencyProps {
-  onChange: (value?: number) => void
-  item?: number
+  onChange: (value?: string) => void
+  item?: string
 }
 type Frequencies = { [key: string]: string }
 const frequencies: Frequencies = {
-  1: 'Diária',
-  3: '3 Dias',
-  7: 'Semanalmente',
-  15: '15 dias',
-  30: 'Mensalmente'
+  '1d': 'Diária',
+  '3d': '3 Dias',
+  '7d': 'Semanalmente',
+  '15d': '15 dias',
+  '30d': 'Mensalmente'
 }
 const Frequency = ({ onChange, item }: FrequencyProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
-  function handleChangeFrequency(item: number) {
+  function handleChangeFrequency(item: string) {
     setOpenModal(false)
     onChange(item)
   }
@@ -43,7 +43,7 @@ const Frequency = ({ onChange, item }: FrequencyProps) => {
         {Object.keys(frequencies).map(itemIndex => (
           <OptionButton
             key={itemIndex}
-            onPress={() => handleChangeFrequency(Number(itemIndex))}
+            onPress={() => handleChangeFrequency(itemIndex)}
           >
             <OptionButtonText>{frequencies[itemIndex]}</OptionButtonText>
           </OptionButton>

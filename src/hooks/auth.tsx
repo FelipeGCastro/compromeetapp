@@ -95,7 +95,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
 
   async function setUsername(username: string) {
     try {
-      const result = await api.put('username', { username, id: user.id })
+      const result = await api.put('username', { username })
       const userInfo = result.data
       const userLogged = {
         id: userInfo.id,
