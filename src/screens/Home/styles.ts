@@ -45,8 +45,6 @@ export const ArrowDown = styled(AntDesign).attrs({
   color: ${({ theme }) => theme.colors.title};
 `
 
-export const CommitmentList = styled.FlatList`` as unknown as typeof FlatList
-
 export const ListItems = styled.FlatList`` as unknown as typeof FlatList
 export const ListItem = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })`
   background: ${({ theme }) => theme.colors.shape};

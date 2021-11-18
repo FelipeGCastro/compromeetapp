@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { FlatList } from 'react-native'
 
 export const Container = styled.View`
   flex: 1;
@@ -36,3 +37,6 @@ export const SearchIcon = styled(MaterialIcons).attrs({
 })`
   color: ${({ theme }) => theme.colors.text};
 `
+export const UserList = styled.FlatList`
+  margin-bottom: 20px;
+` as unknown as typeof FlatList

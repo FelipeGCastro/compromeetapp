@@ -1,9 +1,8 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
-import CommitmentCard from '../../components/CommitmentCard'
+import { CommitmentList } from '../../components/CommitmentList'
 import { useAuth } from '../../hooks/auth'
-import { commitmentsData } from '../Home/temp'
 
 import {
   Container,
@@ -23,8 +22,7 @@ import {
   UserImg,
   SettingsButton,
   SettingsIcon,
-  CommitmentTitle,
-  CommitmentList
+  CommitmentTitle
 } from './styles'
 
 export const Profile: React.FC = () => {
@@ -59,14 +57,9 @@ export const Profile: React.FC = () => {
           </SettingsButton>
         </ProfileCard>
         <CommitmentTitle>Seus Compromissos</CommitmentTitle>
-        <CommitmentList
-          showsVerticalScrollIndicator={false}
-          data={commitmentsData}
-          keyExtractor={item => item.id}
-          renderItem={({ item, index }) => (
-            <CommitmentCard noUser data={{ ...item, index }} />
-          )}
-        />
+        {/* <CommitmentList
+          commitmentPlans={[]}
+        /> */}
       </Container>
     </SafeAreaView>
   )

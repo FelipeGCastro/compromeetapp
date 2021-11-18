@@ -16,22 +16,25 @@ import {
 
 interface INotificationCardProps {
   data: {
+    id: number
     user?: {
+      id: number
       name: string
-      avatarUrl: string
+      avatar_url: string
     }
     commitmentTime?: string
     commitmentOrder?: string
     text: string
     toAccept?: boolean
+    type: 'request' | 'invite' | 'commitment'
   }
 }
 export const NotificationCard = ({ data }: INotificationCardProps) => {
   return (
     <Container>
-      {data.user?.avatarUrl ? (
+      {data.user?.avatar_url ? (
         <>
-          <UserImage avatarUrl={data.user?.avatarUrl} />
+          <UserImage avatarUrl={data.user?.avatar_url} />
         </>
       ) : (
         <>

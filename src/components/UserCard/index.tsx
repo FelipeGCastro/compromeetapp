@@ -10,16 +10,16 @@ import {
 } from './styles'
 
 interface IUser {
-  id: string
+  id: number
   name: string
-  username: string
-  avatarUrl: string
+  username?: string
+  avatar_url: string
 }
 interface IUserCard {
   user: IUser
   onPress?: (user: IUser) => void
   noButton?: boolean
-  onPressButton?: (user: IUser) => void
+  onPressButton?: (userId: number) => void
   textButton?: string
   remove?: boolean
 }
@@ -37,12 +37,15 @@ export const UserCard = ({
   }
   return (
     <Container onPress={handleOnPress}>
-      <UserImage avatarUrl={user.avatarUrl} />
+      <UserImage avatarUrl={user.avatar_url} />
       <InfoAndInviteWrapper>
         <UserName>{user.name}</UserName>
         <UserUsername>@{user.username}</UserUsername>
         {!noButton && (
-          <ActionButton remove={!!remove} onPress={() => onPressButton(user)}>
+          <ActionButton
+            remove={!!remove}
+            onPress={() => onPressButton(user.id)}
+          >
             <ActionButtonText>{textButton}</ActionButtonText>
           </ActionButton>
         )}

@@ -6,7 +6,7 @@ export const SearchInputContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
+  height: 45px;
   border-radius: 20px;
   padding: 0 10px 0 20px;
   margin-bottom: 20px;

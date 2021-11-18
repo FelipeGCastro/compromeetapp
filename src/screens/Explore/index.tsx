@@ -1,22 +1,86 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
-import CommitmentCard from '../../components/CommitmentCard'
+import { CommitmentList } from '../../components/CommitmentList'
 import { SearchInput } from '../../components/SearchInput'
+import { Tab } from '../../components/Tab'
 import { UserCard } from '../../components/UserCard'
-import { commitmentsData } from '../Home/temp'
 
-import { Container } from './styles'
+import { api } from '../../services/api'
 
-const user = {
-  id: 'user84as8d4as84d98',
-  name: 'Luiz Castro',
-  avatarUrl: 'http://github.com/felipegcastro.png',
-  username: 'felipegcastro'
+import { Container, UserList } from './styles'
+
+interface ICommitment {
+  id: number
+  text: string
+  favorites: number
+  commitmentFavorite: { user_id?: number; id?: number }[]
+  user_id: number
+  user: {
+    id: number
+    name: string
+    avatar_url: string
+  }
+}
+interface User {
+  id: number
+  name: string
+  avatar_url: string
+  username?: string
 }
 
 export const Explore = () => {
   const [search, setSearch] = useState('')
+  const [commitments, setCommitments] = useState<ICommitment[]>([])
+  const [tab, setTab] = useState('comprimissos')
+  const [users, setUsers] = useState<User[]>([])
+  const [refresh, setRefresh] = useState(false)
+
+  useEffect(() => {
+    const getCommitments = async () => {
+      try {
+        const result = await api.get('commitments')
+        setCommitments(result.data)
+      } catch (error) {
+        console.log('ERROR', error)
+        Alert.alert('Erro ao buscar compromissos')
+      }
+    }
+    getCommitments()
+  }, [])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const result = await api.get('users')
+        console.log(result.data)
+        setUsers(result.data)
+      } catch (error) {
+        console.log('ERROR', error)
+        Alert.alert('Erro ao buscar users')
+      }
+    }
+    getUsers()
+  }, [])
+  const onRefresh = () => {
+    setRefresh
+  }
+  const handleAddUser = async (friendId: number) => {
+    try {
+      const result = await api.post('friendship', { friendId })
+      if (result.data) {
+        const newUsers = users.filter(user => user.id !== friendId)
+        setUsers(newUsers)
+      }
+    } catch (error) {
+      console.log('ERROR', error)
+      Alert.alert('Erro ao Adicionar amigo')
+    }
+  }
+  const onTabPress = (tab: string) => {
+    setTab(tab)
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -26,14 +90,27 @@ export const Explore = () => {
           onChange={setSearch}
           placeholder="Procurar amigos e compromissos"
         />
-        <CommitmentCard noLabel data={{ index: 0, ...commitmentsData[0] }} />
-        <UserCard
-          user={user}
-          onPress={user => {}}
-          onPressButton={() => {}}
-          textButton="Enviar Convite"
-        />
-        <CommitmentCard noLabel data={{ index: 1, ...commitmentsData[1] }} />
+        <Tab onTabPress={onTabPress} />
+        {tab === 'Compromissos' ? (
+          <CommitmentList
+            commitment={commitments}
+            refreshingCommitment={refresh}
+            onRefresh={onRefresh}
+            noLabel
+          />
+        ) : (
+          <UserList
+            data={users}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+              <UserCard
+                user={item}
+                onPressButton={handleAddUser}
+                textButton="Adicionar"
+              />
+            )}
+          />
+        )}
       </Container>
     </SafeAreaView>
   )

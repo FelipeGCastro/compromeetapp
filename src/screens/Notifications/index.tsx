@@ -1,66 +1,79 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { NotificationCard } from '../../components/NotificationCard'
+import { Tab } from '../../components/Tab'
+import { api } from '../../services/api'
 
 import { Container, NotificationList, NotificationTitle } from './styles'
+import { notificationsTemp } from './temp'
 
-const avatarUrl = 'http://github.com/felipegcastro.png'
-
-const arr = [
-  {
-    id: '2323',
-    data: {
-      user: {
-        name: 'Lucas Moura Castro',
-        avatarUrl: avatarUrl
-      },
-      commitmentTime: '14:25',
-      commitmentOrder: '#2',
-      text: 'marcou um compromisso com você!'
-    }
-  },
-  {
-    id: '23242',
-    data: {
-      commitmentTime: '14:25',
-      commitmentOrder: '#3',
-      text: 'Você tem um compromisso para hoje daqui a pouco.'
-    }
-  },
-  {
-    id: '23223232',
-    data: {
-      commitmentTime: '15:00',
-      commitmentOrder: '#4',
-      text: 'Você tem um compromisso para hoje daqui a pouco.'
-    }
-  },
-  {
-    id: '232ad233',
-    data: {
-      user: {
-        name: 'Luiz Castro',
-        avatarUrl: avatarUrl
-      },
-      commitmentTime: '14:25',
-      commitmentOrder: '#2',
-      text: 'fez um pedido de amizade.',
-      toAccept: true
-    }
+interface FriendRequest {
+  id: number
+  status: string
+  userone: {
+    id: number
+    name: string
+    avatar_url: string
+    username: string
   }
-]
+}
+interface INotifications {
+  id: number
+  user?: {
+    id: number
+    name: string
+    avatar_url: string
+  }
+  commitmentTime?: string
+  commitmentOrder?: string
+  text: string
+  toAccept?: boolean
+  type: 'request' | 'invite' | 'commitment'
+}
+const tabList = ['Todos', 'Meets', 'Amizades']
+export const Notifications = () => {
+  const [notifications, setNotifications] = useState<INotifications[]>(
+    notificationsTemp as INotifications[]
+  )
 
-export const Notifications: React.FC = () => {
+  useEffect(() => {
+    const getFriendRequests = async () => {
+      try {
+        const result = await api.get('friendship-requests')
+        console.log(result.data)
+        setNotifications([
+          {
+            id: 12123,
+            user: {
+              id: result.data[0].userone.id,
+              name: result.data[0].userone.name,
+              avatar_url: result.data[0].userone.avatar_url
+            },
+            text: 'fez um pedido de amizade.',
+            toAccept: true,
+            type: 'request'
+          },
+          ...notifications
+        ])
+      } catch (error) {
+        console.log(error)
+        Alert.alert('Erro ao buscar pedidos de amizade')
+      }
+    }
+    getFriendRequests()
+  }, [])
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
         <NotificationTitle>Notificações</NotificationTitle>
+        <Tab tabList={tabList} />
         <NotificationList
-          data={arr}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => <NotificationCard data={item.data} />}
+          data={notifications}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => <NotificationCard data={item} />}
         />
       </Container>
     </SafeAreaView>

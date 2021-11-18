@@ -10,6 +10,10 @@ import {
   Container,
   HeaderInfoContainer,
   Label,
+  CompletedIcon,
+  DateAndTimeContainer,
+  ClockIcon,
+  DateAndTimeText,
   MoreButton,
   MoreIcon,
   Header,
@@ -21,48 +25,68 @@ import {
   FavoriteButton,
   FavoriteIcon,
   FavoriteNumber,
+  FriendContainer,
+  FriendIcon,
+  FriendText,
   CloseButton,
   CloseIcon
 } from './styles'
 
-interface ICommitment {
+interface ICommitmentPlans {
   id: number
-  text: string
+  commitment_id: number
+  commitment: {
+    id: number
+    text: string
+    favorites: number
+    commitmentFavorite: {
+      id?: number
+      user_id?: number
+    }[]
+  }
+  frequency?: string
+  status: string
+  timestamp: Date
   user_id: number
-  favorites: number
-  index?: number
   user?: {
     id: number
     name: string
     avatar_url: string
   }
-  commitmentFavorite: {
-    id?: number
-    user_id?: number
-  }[]
+  index: number
+  image_url?: string
 }
 interface CommitmentCardProps {
   noLabel?: boolean
   noUser?: boolean
   noFooter?: boolean
-  commitment: ICommitment
+  commitmentPlan: ICommitmentPlans
 }
+const dateFormat = new Intl.DateTimeFormat('pt-BR', {
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit'
+})
 
-export const CommitmentCard = ({
-  commitment,
+export const CommitmentPlanCard = ({
+  commitmentPlan,
   noFooter,
   noLabel,
   noUser
 }: CommitmentCardProps) => {
   const [isFavorite, setIsFavorite] = useState(
-    commitment.commitmentFavorite.length > 0 || false
+    commitmentPlan.commitment.commitmentFavorite.length > 0 || false
   )
-  const [favorites, setFavorites] = useState(commitment.favorites)
+  const [expanded, setExpanded] = useState(false)
+  const [favorites, setFavorites] = useState(
+    commitmentPlan.commitment.favorites
+  )
   const [favoriteId, setFavoriteId] = useState(
-    commitment.commitmentFavorite[0]?.id
+    commitmentPlan.commitment.commitmentFavorite[0]?.id
   )
   const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
-  function handlePressDelete() {
+  function handlePress() {
     Alert.alert('Tem certeza?', 'Quer eliminar', [
       {
         onPress: () => {},
@@ -72,21 +96,25 @@ export const CommitmentCard = ({
       {
         text: 'Excluir',
         style: 'destructive',
-        onPress: () => deleteCommitment()
+        onPress: () => deleteCommitmentPlan()
       }
     ])
   }
 
-  async function deleteCommitment() {
+  async function deleteCommitmentPlan() {
     try {
-      const result = await api.delete(`commitment/${commitment.id}`)
-    } catch (error) {}
+      await api.delete(`commitment_plans/${commitmentPlan.id}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function handleCardPress() {
-    navigation.navigate('CommitmentScreen' as 'route', { commitment })
+    navigation.navigate('CommitmentScreen' as 'route', { commitmentPlan })
   }
-
+  function handleImageButton(exp: boolean) {
+    setExpanded(exp)
+  }
   async function handlePressFavorite() {
     try {
       if (isFavorite) {
@@ -96,7 +124,7 @@ export const CommitmentCard = ({
       } else {
         setIsFavorite(true)
         const result = await api.post('commitment_favorites', {
-          commitmentId: commitment.id
+          commitmentId: commitmentPlan.commitment.id
         })
         setFavoriteId(result.data.id)
         setFavorites(prev => prev + 1)
@@ -111,11 +139,10 @@ export const CommitmentCard = ({
     <Container>
       <Header>
         <HeaderInfoContainer>
-          {!noLabel && commitment.index !== undefined && (
-            <Label>#{commitment.index + 1}</Label>
+          {!noLabel && <Label>#{commitmentPlan.index + 1}</Label>}
+          {!noUser && commitmentPlan.user && (
+            <UserMini user={commitmentPlan.user} />
           )}
-
-          {!noUser && commitment.user && <UserMini user={commitment.user} />}
         </HeaderInfoContainer>
         <MoreButton>
           <MoreIcon />
@@ -125,10 +152,17 @@ export const CommitmentCard = ({
         <CommitmentTextContainer onPress={handleCardPress}>
           <CommitmentText>
             <BoldText>"</BoldText>
-            {commitment.text}
+            {commitmentPlan.commitment.text}
             <BoldText>"</BoldText>
           </CommitmentText>
         </CommitmentTextContainer>
+        {commitmentPlan.image_url && (
+          <ImageCard
+            expanded={expanded}
+            setExpanded={handleImageButton}
+            image_url={commitmentPlan.image_url}
+          />
+        )}
       </ContentWrapper>
       {!noFooter && (
         <Footer>
@@ -139,7 +173,21 @@ export const CommitmentCard = ({
             />
             <FavoriteNumber>{favorites || ''}</FavoriteNumber>
           </FavoriteButton>
-          <CloseButton onPress={handlePressDelete}>
+          <CompletedIcon />
+          <FriendContainer>
+            <FriendIcon />
+            <FriendText>@lucas.silva.pereira...</FriendText>
+          </FriendContainer>
+          {commitmentPlan.timestamp && (
+            <DateAndTimeContainer>
+              <ClockIcon />
+              <DateAndTimeText>
+                {dateFormat.format(new Date(commitmentPlan.timestamp))}
+              </DateAndTimeText>
+            </DateAndTimeContainer>
+          )}
+
+          <CloseButton onPress={handlePress}>
             <CloseIcon />
           </CloseButton>
         </Footer>

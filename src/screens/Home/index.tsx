@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, RefreshControl, View } from 'react-native'
 import BackgroundGradient from '../../components/BackgroundGradient'
-import CommitmentCard from '../../components/CommitmentCard'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import {
   Container,
-  CommitmentList,
   PeriodContainer,
   PeriodText,
   ArrowDown,
@@ -20,6 +18,7 @@ import {
 import BottomSheet from '../../components/BottomSheet'
 import { ActionButton } from './components/ActionButton/ActionButton'
 import { api } from '../../services/api'
+import { CommitmentList } from '../../components/CommitmentList'
 
 interface IPeriod {
   label: string
@@ -36,7 +35,10 @@ interface ICommitmentPlans {
   id: number
   commitment_id: number
   commitment: {
+    id: number
     text: string
+    favorites: number
+    commitmentFavorite: { user_id?: number; id?: number }[]
   }
   frequency?: string
   status: string
@@ -58,12 +60,15 @@ export const Home: React.FC = () => {
   }, [])
 
   async function getCommitments() {
+    setRefreshingCommitmentPlans(true)
     try {
       const result = await api.get('commitment_plans')
       setCommitmentPlans(result.data)
     } catch (error) {
       console.log(error)
       Alert.alert('Error ao buscar seus compromissos')
+    } finally {
+      setRefreshingCommitmentPlans(false)
     }
   }
   function handleSelectItem(item: IPeriod) {
@@ -88,18 +93,10 @@ export const Home: React.FC = () => {
           </FilterButton>
         </OptionsContainer>
         <CommitmentList
-          showsVerticalScrollIndicator={false}
-          data={commitmentPlans}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshingCommitmentPlans}
-              onRefresh={onRefresh}
-            />
-          }
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item, index }) => (
-            <CommitmentCard noUser data={{ ...item, index }} />
-          )}
+          commitmentPlans={commitmentPlans}
+          onRefresh={onRefresh}
+          isCommitmentPlan
+          refreshingCommitment={refreshingCommitmentPlans}
         />
         <BottomSheet visible={openModal} onDismiss={() => setOpenModal(false)}>
           <ListItems
