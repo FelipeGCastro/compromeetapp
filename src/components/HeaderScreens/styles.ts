@@ -3,9 +3,8 @@ import styled from 'styled-components/native'
 
 export const HeaderContainer = styled.View`
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
 `
 export const BackButton = styled.TouchableOpacity`
   width: 80px;
