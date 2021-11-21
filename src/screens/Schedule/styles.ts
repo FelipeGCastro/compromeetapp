@@ -12,6 +12,7 @@ export const TextContainer = styled.View`
   padding: 20px;
   align-items: center;
   margin: 25px 10px;
+  margin-top: 15px;
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 6px;
 `

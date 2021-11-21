@@ -18,12 +18,12 @@ const { Navigator, Screen } = createStackNavigator()
 export function PrivateRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="schedule" component={Schedule}></Screen>
       <Screen name="menu" component={MenuRoutes}></Screen>
       <Screen name="CommitmentScreen" component={CommitmentScreen} />
       <Screen name="PeopleSelector" component={PeopleSelector} />
       <Screen name="CommitmentSelector" component={CommitmentSelector} />
       <Screen name="logout" component={Logout} />
+      <Screen name="schedule" component={Schedule}></Screen>
     </Navigator>
   )
 }

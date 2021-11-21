@@ -42,7 +42,7 @@ export const Notifications = () => {
     const getFriendRequests = async () => {
       try {
         const result = await api.get('friendship-requests')
-        console.log(result.data)
+        if (!result.data[0]) return
         setNotifications([
           {
             id: 12123,

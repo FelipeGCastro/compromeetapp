@@ -5,6 +5,8 @@ export const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: transparent;
+  padding-bottom: 10px;
 `
 export const BackButton = styled.TouchableOpacity`
   width: 80px;

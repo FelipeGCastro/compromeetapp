@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { ActivityIndicator, Alert } from 'react-native'
-import BackgroundGradient from '../../components/BackgroundGradient'
 import theme from '../../global/styles/theme'
 import { useAuth } from '../../hooks/auth'
 
 import {
   Container,
+  ContainerBackground,
   LogoImageSvg,
   ButtonsContainer,
   SigninButton,
@@ -30,7 +30,7 @@ export const Login: React.FC = () => {
 
   return (
     <Container>
-      <BackgroundGradient percentage={90} />
+      <ContainerBackground />
       <LogoImageSvg />
       <ButtonsContainer>
         <SigninButton onPress={handleSignInWithGoogle}>

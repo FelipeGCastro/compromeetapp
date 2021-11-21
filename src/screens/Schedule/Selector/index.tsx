@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { TextInput } from 'react-native'
 
 import {
   Container,
   Header,
   HeaderTitle,
+  InputAndButtonWrapper,
+  InputContainer,
+  InputField,
   HeaderButton,
   IconPlus,
+  IconSend,
   ContentContainer,
   ContentWrapper,
   ContentRow,
@@ -18,26 +23,75 @@ interface SelectorProps {
   rowOne: string[]
   rowTwo: string[]
   onSelect: (item: string) => void
+  disabled: boolean
+  loaded: boolean
 }
 
 export const Selector = ({
   title,
   rowOne,
   rowTwo,
-  onSelect
+  onSelect,
+  disabled,
+  loaded
 }: SelectorProps) => {
   const [itemSelected, setSelected] = useState('')
-
+  const [showInput, setShowInput] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [textInput, setTextInput] = useState('')
+  const inputRef = useRef<TextInput>(null)
+  useEffect(() => {
+    if (loaded) setSelected('')
+  }, [loaded])
+  useEffect(() => {
+    showInput && inputRef.current?.focus()
+  }, [showInput])
   const handleSelectItem = (item: string) => {
+    setTextInput('')
+    setShowInput(false)
     setSelected(item)
+    onSelect(item)
   }
+  const handlePressAddButton = () => {
+    if (showInput) {
+      if (textInput) {
+        inputRef.current?.blur()
+        onSelect(textInput)
+        setTextInput('')
+        setShowInput(false)
+        setFocused(false)
+      }
+    } else {
+      setShowInput(prev => !prev)
+    }
+  }
+  const handleOnBlur = () => {
+    setFocused(false)
+  }
+
   return (
-    <Container>
+    <Container disabled={disabled}>
       <Header>
         <HeaderTitle>{title}</HeaderTitle>
-        <HeaderButton>
-          <IconPlus />
-        </HeaderButton>
+        <InputAndButtonWrapper>
+          <InputContainer focused={focused} showInput={showInput}>
+            <InputField
+              value={textInput}
+              onChangeText={setTextInput}
+              ref={inputRef}
+              onBlur={handleOnBlur}
+              onFocus={() => setFocused(true)}
+              onSubmitEditing={handlePressAddButton}
+            />
+          </InputContainer>
+          <HeaderButton
+            focused={focused}
+            disabled={disabled}
+            onPress={handlePressAddButton}
+          >
+            {focused ? <IconSend /> : <IconPlus />}
+          </HeaderButton>
+        </InputAndButtonWrapper>
       </Header>
       <ContentContainer horizontal showsHorizontalScrollIndicator={false}>
         <ContentWrapper>
@@ -46,6 +100,7 @@ export const Selector = ({
               <ItemContainer
                 selected={itemSelected === item}
                 onPress={() => handleSelectItem(item)}
+                disabled={disabled}
                 key={index.toString()}
               >
                 <ItemTitle selected={itemSelected === item}>{item}</ItemTitle>
@@ -57,6 +112,7 @@ export const Selector = ({
               <ItemContainer
                 selected={itemSelected === item}
                 onPress={() => handleSelectItem(item)}
+                disabled={disabled}
                 key={index.toString()}
               >
                 <ItemTitle selected={itemSelected === item}>{item}</ItemTitle>
