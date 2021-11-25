@@ -19,9 +19,9 @@ export const PhotoButton = styled.TouchableOpacity.attrs({
   background-color: ${({ theme }) => theme.colors.textLight};
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 35px;
   padding: 0 15px;
-  margin-top: 10px;
+  margin-top: 15px;
   border-radius: 6px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
   elevation: 1;
@@ -52,31 +52,6 @@ export const CommitmentText = styled.Text`
   padding: 10px;
   text-align: center;
 `
-export const AddCommitmentButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8
-})`
-  align-self: flex-start;
-  flex-direction: row;
-  align-items: center;
-  padding: 7px;
-  border-top-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.link};
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
-`
-export const AddCommitmentText = styled.Text`
-  color: ${({ theme }) => theme.colors.textLight};
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: 16px;
-  margin: 0 7px;
-`
-export const AddCommitmentIcon = styled(FontAwesome).attrs({
-  name: 'heart',
-  size: 16
-})`
-  color: ${({ theme }) => theme.colors.textLight};
-`
 export const CommitmentInput = styled.TextInput`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};
@@ -85,48 +60,4 @@ export const CommitmentInput = styled.TextInput`
   border-radius: 6px;
   padding: 10px;
   margin-bottom: 20px;
-`
-export const PickerButton = styled.TouchableOpacity`
-  padding: 15px;
-  background-color: ${({ theme }) => theme.colors.textLight};
-  margin-bottom: 10px;
-  border-radius: 6px;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
-`
-export const PickerButtonText = styled.Text`
-  color: ${({ theme }) => theme.colors.textFading};
-  font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: 16px;
-`
-export const ImageContainer = styled.View`
-  margin-top: 10px;
-  width: 107px;
-  height: 107px;
-  border-radius: 10px;
-  border-color: ${({ theme }) => theme.colors.primary};
-  border-width: 5px;
-  align-items: center;
-  justify-content: center;
-`
-export const DeleteButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8
-})`
-  position: absolute;
-  right: -10px;
-  bottom: -10px;
-  background-color: ${({ theme }) => theme.colors.attention};
-  padding: 5px;
-  border-radius: 30px;
-`
-export const DeleteButtonIcon = styled(AntDesign).attrs({
-  name: 'close',
-  size: 20
-})`
-  color: ${({ theme }) => theme.colors.textLight};
-`
-export const ImageSelected = styled.Image`
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
 `

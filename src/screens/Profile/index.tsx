@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommitmentList } from '../../components/CommitmentList'
 import { useAuth } from '../../hooks/auth'
+import { api } from '../../services/api'
 
 import {
   Container,
@@ -25,8 +27,44 @@ import {
   CommitmentTitle
 } from './styles'
 
+interface ICommitmentPlans {
+  id: number
+  commitment_id: number
+  commitment: {
+    id: number
+    text: string
+    favorites: number
+    commitmentFavorite: { user_id?: number; id?: number }[]
+  }
+  frequency?: string
+  status: string
+  timestamp: Date
+  user_id: number
+}
 export const Profile: React.FC = () => {
   const { user, signOut } = useAuth()
+
+  const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlans[]>([])
+  const [refreshingCommitmentPlans, setRefreshingCommitmentPlans] =
+    useState(false)
+  useEffect(() => {
+    getCommitments()
+  }, [])
+
+  async function getCommitments() {
+    setRefreshingCommitmentPlans(true)
+    try {
+      const result = await api.get('commitment_plans')
+      setCommitmentPlans(result.data)
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error ao buscar seus compromissos')
+    } finally {
+      setRefreshingCommitmentPlans(false)
+    }
+  }
+
+  const onRefresh = () => getCommitments()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,12 +81,12 @@ export const Profile: React.FC = () => {
             </ProfileNameAndUsername>
             <OptionsContainer>
               <FriendsContainer>
-                <FriendsNumber>52</FriendsNumber>
+                <FriendsNumber>{user.friendships || 0}</FriendsNumber>
                 <FriendsLabel>Amigos</FriendsLabel>
               </FriendsContainer>
               <CommitmentContainer>
-                <CommitmentNumber>10</CommitmentNumber>
-                <CommitmentLabel>Compromissos</CommitmentLabel>
+                <CommitmentNumber>{commitmentPlans.length}</CommitmentNumber>
+                <CommitmentLabel>Meets</CommitmentLabel>
               </CommitmentContainer>
             </OptionsContainer>
           </ProfileInfoContainer>
@@ -56,10 +94,13 @@ export const Profile: React.FC = () => {
             <SettingsIcon />
           </SettingsButton>
         </ProfileCard>
-        <CommitmentTitle>Seus Compromissos</CommitmentTitle>
-        {/* <CommitmentList
-          commitmentPlans={[]}
-        /> */}
+        <CommitmentTitle>Meets Realizadas</CommitmentTitle>
+        <CommitmentList
+          commitmentPlans={commitmentPlans}
+          onRefresh={onRefresh}
+          isCommitmentPlan
+          refreshingCommitment={refreshingCommitmentPlans}
+        />
       </Container>
     </SafeAreaView>
   )

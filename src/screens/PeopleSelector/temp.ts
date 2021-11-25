@@ -1,32 +1,32 @@
 interface IUser {
-  id: string
+  id: number
   name: string
-  avatarUrl: string
+  avatar_url: string
   username: string
 }
 export const users: IUser[] = [
   {
-    id: 'user84as8d4asagasfgaafgs84d98',
+    id: 1,
     name: 'Luiz Castro',
-    avatarUrl: 'http://github.com/felipegcastro.png',
+    avatar_url: 'http://github.com/felipegcastro.png',
     username: 'felipegcastro'
   },
   {
-    id: 'user84as8d4asfdsf84d98',
+    id: 2,
     name: 'Luiz Felipe Castro',
-    avatarUrl: 'http://github.com/felipegcastro.png',
+    avatar_url: 'http://github.com/felipegcastro.png',
     username: 'felipegcastro'
   },
   {
-    id: 'userfdsdfFSDf',
+    id: 3,
     name: 'Léa Castro',
-    avatarUrl: 'http://github.com/felipegcastro.png',
+    avatar_url: 'http://github.com/felipegcastro.png',
     username: 'felipegcastro'
   },
   {
-    id: 'user151fsd15f6sa15df615sd',
+    id: 4,
     name: 'Luiz Castro',
-    avatarUrl: 'http://github.com/felipegcastro.png',
+    avatar_url: 'http://github.com/felipegcastro.png',
     username: 'felipegcastro'
   }
 ]

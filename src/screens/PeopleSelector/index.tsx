@@ -1,19 +1,19 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { HeaderScreens } from '../../components/HeaderScreens'
 import { SearchInput } from '../../components/SearchInput'
 import { UserCard } from '../../components/UserCard'
+import { api } from '../../services/api'
 
 import { Container, SearchingList, SelectedUsers } from './styles'
-import { users } from './temp'
 interface IUser {
-  id: string
+  id: number
   name: string
-  avatarUrl: string
-  username: string
+  avatar_url: string
+  username?: string
 }
 
 type PeopleSelectorStackParamList = {
@@ -25,13 +25,27 @@ type Props = StackScreenProps<PeopleSelectorStackParamList, 'PeopleSelector'>
 export const PeopleSelector = ({ route, navigation }: Props) => {
   const [searching, setSearching] = useState(false)
   const [searchInput, setSearchInput] = useState('')
-  const [usersSelected, setUsersSelected] = useState<typeof users>([])
+  const [users, setUsers] = useState<IUser[]>([])
+  const [usersSelected, setUsersSelected] = useState<IUser[]>([])
 
   useEffect(() => {
     if (route.params?.people) {
       setUsersSelected(route.params?.people)
     }
   }, [route.params?.people])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const result = await api.get('friends')
+        console.log(result.data)
+        setUsers(result.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsers()
+  }, [])
 
   useEffect(() => {
     if (/\S/.test(searchInput)) setSearching(true)
@@ -50,8 +64,8 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
     setSearchInput('')
   }
 
-  function handleRemoveUser(user: IUser) {
-    const filtedUsers = usersSelected.filter(u => u.id !== user.id)
+  function handleRemoveUser(userId: number) {
+    const filtedUsers = usersSelected.filter(u => u.id !== userId)
     setUsersSelected(filtedUsers)
   }
 
@@ -61,6 +75,7 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
     })
   }
 
+  const handleOnFocus = () => setSearching(true)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -74,12 +89,13 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
           value={searchInput}
           placeholder="Amigos"
           onChange={handleChangeText}
+          onFocus={handleOnFocus}
         />
         {searching ? (
           <SearchingList
             data={users}
             keyboardShouldPersistTaps="handled"
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => (
               <UserCard user={item} onPress={handleSelectUser} noButton />
             )}
@@ -87,7 +103,7 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
         ) : (
           <SelectedUsers
             data={usersSelected}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => (
               <UserCard
                 user={item}

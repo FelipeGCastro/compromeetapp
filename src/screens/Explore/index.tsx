@@ -33,7 +33,7 @@ interface User {
 export const Explore = () => {
   const [search, setSearch] = useState('')
   const [commitments, setCommitments] = useState<ICommitment[]>([])
-  const [tab, setTab] = useState('comprimissos')
+  const [tab, setTab] = useState('Meets')
   const [users, setUsers] = useState<User[]>([])
   const [refresh, setRefresh] = useState(false)
 
@@ -91,7 +91,7 @@ export const Explore = () => {
           placeholder="Procurar amigos e compromissos"
         />
         <Tab onTabPress={onTabPress} />
-        {tab === 'Compromissos' ? (
+        {tab === 'Meets' ? (
           <CommitmentList
             commitment={commitments}
             refreshingCommitment={refresh}

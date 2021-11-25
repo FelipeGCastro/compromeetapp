@@ -6,6 +6,7 @@ import { Home } from '../screens/Home'
 import { Explore } from '../screens/Explore'
 import { Notifications } from '../screens/Notifications'
 import { Profile } from '../screens/Profile'
+import theme from '../global/styles/theme'
 
 const Tab = createBottomTabNavigator()
 
@@ -31,8 +32,8 @@ export function MenuRoutes() {
 
           // You can return any component that you like here!
         },
-        tabBarActiveTintColor: '#E8DC68',
-        tabBarInactiveTintColor: '#B3DB6E'
+        tabBarActiveTintColor: theme.colors.secondary,
+        tabBarInactiveTintColor: theme.colors.primary
       })}
     >
       <Tab.Screen name="home" component={Home} />

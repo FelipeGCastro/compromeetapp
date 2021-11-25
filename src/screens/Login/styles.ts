@@ -20,13 +20,14 @@ export const ContainerBackground = styled(LinearGradient).attrs({
 `
 
 export const LogoImageSvg = styled(LogoImage).attrs({
-  width: '45%'
+  width: '40%'
 })`
   max-width: 400px;
   align-self: center;
 `
 export const ButtonsContainer = styled.View`
   align-items: center;
+  margin-bottom: 80px;
 `
 export const SigninButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7

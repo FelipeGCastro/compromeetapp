@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import styled from 'styled-components/native'
 
 export const Container = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })`
-  margin-top: 10px;
+  margin-top: 15px;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
@@ -24,4 +24,9 @@ export const PeopleText = styled.Text`
   font-size: 16px;
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.title};
+`
+export const PeopleTextPerson = styled.Text`
+  font-size: 16px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.link};
 `

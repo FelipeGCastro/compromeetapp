@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, ScrollView, TextInput } from 'react-native'
-import * as ImagePicker from 'expo-image-picker'
+
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AddPeople from '../../components/ScheduleComponents/AddPeople'
 import BackgroundGradient from '../../components/BackgroundGradient'
@@ -9,31 +9,22 @@ import { OptionsButtons } from '../../components/OptionsButtons'
 
 import {
   Container,
-  AddCommitmentButton,
-  AddCommitmentText,
-  AddCommitmentIcon,
   CommitmentInput,
   CommitmentContainer,
-  CommitmentFixedContainer,
-  CommitmentText,
   PrivacyAndPhoto,
   PhotoButton,
-  PhotoIcon,
-  PickerButton,
-  PickerButtonText,
-  ImageContainer,
-  DeleteButton,
-  DeleteButtonIcon,
-  ImageSelected
+  PhotoIcon
 } from './styles'
 
 import Frequency from '../../components/ScheduleComponents/Frequency'
 import { HeaderScreens } from '../../components/HeaderScreens'
 import { StackScreenProps } from '@react-navigation/stack'
-import { BoldText } from '../../components/CommitmentCard/styles'
 import { CommentsCard } from '../../components/CommentsCard'
-import BottomSheet from '../../components/BottomSheet'
 import { api } from '../../services/api'
+import CommitmentFixed from './CommitmentFixed'
+import { FavoriteButton } from './FavoriteButton'
+import { CommitmentImage } from './CommitmentImage'
+import { PhotoOptions } from './PhotoOptions'
 
 interface IUser {
   id: string
@@ -80,7 +71,7 @@ type CommitmentStackParamList = {
 }
 type Props = StackScreenProps<CommitmentStackParamList, 'CommitmentScreen'>
 export const CommitmentScreen = ({ route, navigation }: Props) => {
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState<ICommitmentPlans | undefined>()
   const [commitmentFixed, setCommitmentFixed] = useState<
     Commitment | undefined
   >()
@@ -95,41 +86,6 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
   const [image, setImage] = useState('')
 
   const inputRef = useRef<TextInput>(null)
-
-  let openImagePickerAsync = async () => {
-    let permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync()
-    setOpenModal(false)
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!')
-      return
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1]
-    })
-    if (!pickerResult.cancelled) {
-      setImage(pickerResult.uri)
-    }
-  }
-
-  let openCameraAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraPermissionsAsync()
-    setOpenModal(false)
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera is required!')
-      return
-    }
-
-    let pickerResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1]
-    })
-    if (!pickerResult.cancelled) {
-      setImage(pickerResult.uri)
-    }
-  }
 
   useEffect(() => {
     Keyboard.dismiss()
@@ -170,37 +126,82 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
       if (commitmentPlan.timestamp) setDate(new Date(commitmentPlan.timestamp))
       if (commitmentPlan.image_url) setImage(commitmentPlan.image_url)
       setFrequency(commitmentPlan.frequency)
-      setEditing(true)
+      setEditing(commitmentPlan)
+      getPeople(commitmentPlan.id)
     }
     setDisableButton(false)
   }, [])
 
-  function handleOnChangePrivacy(value: boolean) {
+  const getPeople = async (id: number) => {
+    try {
+      const result = await api.get(`invites/${id}`)
+      const invitedPeople = result.data.map(
+        (invite: { usertwo: IUser }) => invite.usertwo
+      )
+      setPeople([...people, ...invitedPeople])
+    } catch (error) {
+      console.log('GET PEOPLE ERROR', error)
+    }
+  }
+  const handleOnChangePrivacy = (value: boolean) => {
     setIsPublic(value)
   }
 
-  function handleOnChangeToSchedule(value: boolean) {
+  const handleOnChangeToSchedule = (value: boolean) => {
     setSchedule(value)
   }
-  function handleOnChangeFrequency(value?: string) {
+  const handleOnChangeFrequency = (value?: string) => {
     setFrequency(value)
   }
-  function handleAddCommitmentPress() {
+  const handleAddCommitmentPress = () => {
     navigation.navigate('CommitmentSelector' as never)
   }
 
-  async function handleOnPressSave() {
-    const { commitmentPlan } = route.params
-    if (
-      isPublic === commitmentPlan?.commitment.isPublic &&
-      schedule === !!commitmentPlan.timestamp &&
-      commitmentPlan.timestamp &&
-      date === new Date(commitmentPlan.timestamp) &&
-      frequency === commitmentPlan.frequency
-    ) {
-      navigation.goBack()
+  const UpdatePeople = async (commitmentPlanId: number) => {
+    try {
+      if (people.length > 0) {
+        const invitesData = people.map(person => ({
+          userTwo: person.id,
+          commitmentPlanId
+        }))
+        const resultInvites = await api.post('invites', {
+          people: invitesData
+        })
+        return resultInvites
+      }
+    } catch (error) {
+      throw new Error(error as string)
     }
-    console.log(isPublic, schedule, date, frequency)
+  }
+
+  async function handleOnPressSave() {
+    if (
+      isPublic === editing?.commitment.isPublic &&
+      schedule === !!editing.timestamp &&
+      editing.timestamp &&
+      date === new Date(editing.timestamp) &&
+      frequency === editing.frequency
+    ) {
+      console.log('NOTHING EDITED')
+      const resultInvites = await UpdatePeople(editing?.id)
+      console.log(resultInvites)
+      navigation.goBack()
+    } else {
+      try {
+        console.log('EDITED', editing?.id)
+        const result = await api.put(`commitment_plans/${editing?.id}`, {
+          timestamp: schedule ? date : null,
+          frequency: frequency || null
+        })
+        if (result.data && editing?.id) {
+          await UpdatePeople(editing?.id)
+        }
+      } catch (error) {
+        console.log('ERROR SAVE PLAN', error)
+      } finally {
+        navigation.goBack()
+      }
+    }
   }
 
   async function handleCreateCommitmentPlans() {
@@ -213,10 +214,12 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
         isPublic
       })
       if (result.data) {
-        navigation.goBack()
+        await UpdatePeople(result.data.id)
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      navigation.goBack()
     }
   }
   return (
@@ -235,21 +238,10 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
           showsVerticalScrollIndicator={false}
         >
           <CommitmentContainer>
-            {!editing && (
-              <AddCommitmentButton onPress={handleAddCommitmentPress}>
-                <AddCommitmentIcon />
-                <AddCommitmentText>Favoritos</AddCommitmentText>
-              </AddCommitmentButton>
-            )}
+            {!editing && <FavoriteButton onPress={handleAddCommitmentPress} />}
 
             {commitmentFixed ? (
-              <CommitmentFixedContainer>
-                <CommitmentText>
-                  <BoldText>"</BoldText>
-                  {commitmentFixed.text}
-                  <BoldText>"</BoldText>
-                </CommitmentText>
-              </CommitmentFixedContainer>
+              <CommitmentFixed text={commitmentFixed.text} />
             ) : (
               <CommitmentInput
                 ref={inputRef}
@@ -262,14 +254,15 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
             )}
           </CommitmentContainer>
           <PrivacyAndPhoto>
-            <OptionsButtons
+            {/* SEPARAR A PARTE DO EDITAR O COMMITMENT */}
+            {/* <OptionsButtons
               onChange={handleOnChangePrivacy}
               data={{
                 selected: isPublic,
                 firstOption: { value: false, label: 'Privado' },
                 secondOption: { value: true, label: 'Público' }
               }}
-            />
+            /> */}
             <PhotoButton onPress={() => setOpenModal(true)}>
               <PhotoIcon />
             </PhotoButton>
@@ -289,28 +282,14 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
               <Frequency onChange={handleOnChangeFrequency} item={frequency} />
             </>
           )}
-          {!!image && (
-            <ImageContainer>
-              <ImageSelected source={{ uri: image }} />
-              <DeleteButton onPress={() => setImage('')}>
-                <DeleteButtonIcon />
-              </DeleteButton>
-            </ImageContainer>
-          )}
+          {!!image && <CommitmentImage image={image} setImage={setImage} />}
           <CommentsCard />
         </ScrollView>
-        <BottomSheet
-          gradient={false}
+        <PhotoOptions
           visible={openModal}
-          onDismiss={() => setOpenModal(false)}
-        >
-          <PickerButton onPress={openCameraAsync}>
-            <PickerButtonText>Tirar Foto</PickerButtonText>
-          </PickerButton>
-          <PickerButton onPress={openImagePickerAsync}>
-            <PickerButtonText>Galeria</PickerButtonText>
-          </PickerButton>
-        </BottomSheet>
+          setOpenModal={setOpenModal}
+          setImage={setImage}
+        />
       </Container>
     </SafeAreaView>
   )

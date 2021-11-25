@@ -55,7 +55,7 @@ export const FriendsContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8
 })`
   align-items: center;
-  margin-right: 20px;
+  margin-right: 30px;
 `
 export const FriendsLabel = styled.Text`
   color: ${({ theme }) => theme.colors.title};

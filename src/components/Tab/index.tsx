@@ -7,7 +7,7 @@ interface TabProps {
   tabList?: string[]
   onTabPress?: (tab: string) => void
 }
-const list = ['Compromissos', 'Pessoas']
+const list = ['Meets', 'Pessoas']
 export const Tab = ({ tabList = list, onTabPress }: TabProps) => {
   const [activeTab, setActiveTab] = useState(tabList[0])
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   gradient: {
     alignItems: 'stretch',
     justifyContent: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
     paddingVertical: 6,
     borderRadius: 40
   },

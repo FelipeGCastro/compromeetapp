@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
-import { Container, PeopleIcon, PeopleText } from './styles'
+import { Container, PeopleIcon, PeopleText, PeopleTextPerson } from './styles'
 
 interface IUser {
   id: string
@@ -25,7 +25,7 @@ const AddPeople = ({ people }: IAddPeopleProps) => {
       <PeopleIcon />
       <PeopleText>Adicionar Pessoas{!!people.length && ': '}</PeopleText>
       {people.map(user => (
-        <PeopleText key={user.id}> - {user.name}</PeopleText>
+        <PeopleTextPerson key={user.id}> - @{user.username}</PeopleTextPerson>
       ))}
     </Container>
   )

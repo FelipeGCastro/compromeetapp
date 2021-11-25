@@ -4,7 +4,7 @@ export const DateAndHourWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
+  margin-top: 15px;
 `
 
 export const DateButton = styled.TouchableOpacity.attrs({

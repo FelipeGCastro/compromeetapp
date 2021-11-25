@@ -15,6 +15,7 @@ interface User {
   username: string
   email: string
   avatarUrl: string | undefined
+  friendships: number
   token: string
 }
 interface IAuthContextData {
@@ -77,12 +78,14 @@ function AuthProvider({ children }: IAuthProviderProps) {
           token: params.access_token
         })
         const { user: userInfo, token } = result.data
+        console.log(userInfo)
         const userLogged = {
           id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
           username: userInfo.username,
           avatarUrl: userInfo.avatar_url,
+          friendships: userInfo.friendships,
           token: token
         }
         setUser(userLogged)
@@ -96,18 +99,12 @@ function AuthProvider({ children }: IAuthProviderProps) {
   async function setUsername(username: string) {
     try {
       const result = await api.put('username', { username })
-      const userInfo = result.data
-      const userLogged = {
-        id: userInfo.id,
-        email: userInfo.email,
-        name: userInfo.name,
-        username: userInfo.username,
-        avatarUrl: userInfo.avatar_url,
-        token: user.token
-      }
+      if (result.data) {
+        const userLogged = { ...user, username }
 
-      setUser(userLogged)
-      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
+        setUser(userLogged)
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
+      }
     } catch (error) {
       console.log(error)
       throw new Error(error as string)

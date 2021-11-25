@@ -1,5 +1,6 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
+import { api } from '../../services/api'
 import { UserImage } from '../UserImage'
 
 import {
@@ -28,8 +29,22 @@ interface INotificationCardProps {
     toAccept?: boolean
     type: 'request' | 'invite' | 'commitment'
   }
+  remove: (id: number) => void
 }
-export const NotificationCard = ({ data }: INotificationCardProps) => {
+export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
+  const handlePressButton = async () => {
+    if (data.toAccept) {
+      try {
+        console.log(data.id)
+        const result = await api.put(`friendship/${data.id}`)
+        console.log('Accepted invite', result.data)
+        remove(data.id)
+      } catch (error) {
+        Alert.alert('Problemas ao aceitar pedido')
+      }
+    }
+  }
+
   return (
     <Container>
       {data.user?.avatar_url ? (
@@ -50,7 +65,7 @@ export const NotificationCard = ({ data }: INotificationCardProps) => {
           {data.text}
         </InfoText>
       </InfoContainer>
-      <ActionButton toAccept={data.toAccept}>
+      <ActionButton onPress={handlePressButton} toAccept={data.toAccept}>
         <ActionButtonText>{data.toAccept ? 'Aceitar' : 'Ver'}</ActionButtonText>
       </ActionButton>
     </Container>

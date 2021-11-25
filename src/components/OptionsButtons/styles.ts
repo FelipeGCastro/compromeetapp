@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 export const OptionsButtonContainer = styled.View`
   flex-direction: row;
-  margin-top: 10px;
+  margin-top: 15px;
   align-items: center;
   justify-content: flex-start;
 `
@@ -16,7 +16,7 @@ export const OptionButtonLeft = styled.TouchableOpacity<ActiveProps>`
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
   elevation: 1;
-  height: 30px;
+  height: 35px;
   width: 120px;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -28,7 +28,7 @@ export const OptionButtonRight = styled.TouchableOpacity<ActiveProps>`
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
   elevation: 1;
-  height: 30px;
+  height: 35px;
   width: 120px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;

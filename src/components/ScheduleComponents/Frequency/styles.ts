@@ -4,7 +4,7 @@ import styled from 'styled-components/native'
 export const FrequencyButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8
 })`
-  margin-top: 10px;
+  margin-top: 15px;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.textLight};

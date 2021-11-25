@@ -43,20 +43,18 @@ export const Notifications = () => {
       try {
         const result = await api.get('friendship-requests')
         if (!result.data[0]) return
-        setNotifications([
-          {
-            id: 12123,
-            user: {
-              id: result.data[0].userone.id,
-              name: result.data[0].userone.name,
-              avatar_url: result.data[0].userone.avatar_url
-            },
-            text: 'fez um pedido de amizade.',
-            toAccept: true,
-            type: 'request'
+        const mappedRequests = result.data.map((item: FriendRequest) => ({
+          id: item.id,
+          user: {
+            id: item.userone.id,
+            name: item.userone.name,
+            avatar_url: item.userone.avatar_url
           },
-          ...notifications
-        ])
+          text: 'fez um pedido de amizade.',
+          toAccept: true,
+          type: 'request'
+        }))
+        setNotifications([...mappedRequests, ...notifications])
       } catch (error) {
         console.log(error)
         Alert.alert('Erro ao buscar pedidos de amizade')
@@ -64,6 +62,11 @@ export const Notifications = () => {
     }
     getFriendRequests()
   }, [])
+
+  const handleRemoveRequest = (id: number) => {
+    const filteredRequests = notifications.filter(item => item.id !== id)
+    setNotifications(filteredRequests)
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -73,7 +76,9 @@ export const Notifications = () => {
         <NotificationList
           data={notifications}
           keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => <NotificationCard data={item} />}
+          renderItem={({ item }) => (
+            <NotificationCard data={item} remove={handleRemoveRequest} />
+          )}
         />
       </Container>
     </SafeAreaView>
