@@ -46,13 +46,15 @@ interface CommitmentCardProps {
   noUser?: boolean
   noFooter?: boolean
   commitment: ICommitment
+  deleteButton?: boolean
 }
 
 export const CommitmentCard = ({
   commitment,
   noFooter,
   noLabel,
-  noUser
+  noUser,
+  deleteButton
 }: CommitmentCardProps) => {
   const [isFavorite, setIsFavorite] = useState(
     commitment.commitmentFavorite.length > 0 || false
@@ -139,9 +141,11 @@ export const CommitmentCard = ({
             />
             <FavoriteNumber>{favorites || ''}</FavoriteNumber>
           </FavoriteButton>
-          <CloseButton onPress={handlePressDelete}>
-            <CloseIcon />
-          </CloseButton>
+          {deleteButton && (
+            <CloseButton onPress={handlePressDelete}>
+              <CloseIcon />
+            </CloseButton>
+          )}
         </Footer>
       )}
     </Container>

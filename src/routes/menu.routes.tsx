@@ -7,8 +7,22 @@ import { Explore } from '../screens/Explore'
 import { Notifications } from '../screens/Notifications'
 import { Profile } from '../screens/Profile'
 import theme from '../global/styles/theme'
+import { NotificationsProvider } from '../hooks/notifications'
+import { CommitmentInvite } from '../screens/CommitmentInvite'
+import { createStackNavigator } from '@react-navigation/stack'
+
+const { Navigator, Screen } = createStackNavigator()
 
 const Tab = createBottomTabNavigator()
+
+const NotificationsContainer = () => (
+  <NotificationsProvider>
+    <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="Notifications" component={Notifications} />
+      <Screen name="CommitmentInvite" component={CommitmentInvite} />
+    </Navigator>
+  </NotificationsProvider>
+)
 
 export function MenuRoutes() {
   return (
@@ -38,7 +52,7 @@ export function MenuRoutes() {
     >
       <Tab.Screen name="home" component={Home} />
       <Tab.Screen name="explore" component={Explore} />
-      <Tab.Screen name="notifications" component={Notifications} />
+      <Tab.Screen name="notifications" component={NotificationsContainer} />
       <Tab.Screen name="profile" component={Profile} />
     </Tab.Navigator>
   )

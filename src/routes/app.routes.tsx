@@ -22,7 +22,7 @@ export function PrivateRoutes() {
       <Screen name="CommitmentScreen" component={CommitmentScreen} />
       <Screen name="PeopleSelector" component={PeopleSelector} />
       <Screen name="CommitmentSelector" component={CommitmentSelector} />
-      <Screen name="schedule" component={Schedule}></Screen>      
+      <Screen name="schedule" component={Schedule}></Screen>
       <Screen name="logout" component={Logout} />
     </Navigator>
   )
