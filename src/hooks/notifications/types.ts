@@ -65,6 +65,12 @@ interface ICommitmentPlan {
   timestamp: string
   updated_at: string
   user_id: number
+  user: {
+    id: number
+    name: string
+    username: string
+    avatar_url: string
+  }
   commitment: ICommitment
 }
 

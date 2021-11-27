@@ -7,3 +7,6 @@ export const Container = styled.View`
   padding: 10px 7px;
   background-color: ${({ theme }) => theme.colors.background};
 `
+export const Space = styled.View`
+  height: 25px;
+`
