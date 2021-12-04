@@ -17,9 +17,13 @@ import {
 
 interface INotificationsContextData {
   handleRemoveRequest: (id: number) => void
+  handleRemoveInvite: (id: number) => void
   notifications: INotifications[]
   commitmentPlan: ICommitmentPlan
-  loadCommitmentPlan: (id: number) => void
+  loadCommitmentPlan: (notification: {
+    commitmentPlanId: number
+    inviteId: number
+  }) => void
 }
 
 const NotificationsContext = createContext({} as INotificationsContextData)
@@ -37,8 +41,8 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
         if (!result.data[0]) return
         const mappedRequests = result.data.map(
           (item: FriendRequest, index: number) => ({
-            id: `${item.id}${index}`,
-            itemId: item.id,
+            id: item.id,
+            key: `${item.id}${index}`,
             user: {
               id: item.userone.id,
               name: item.userone.name,
@@ -62,11 +66,12 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     const getInvitesRequests = async () => {
       try {
         const result = await api.get('invites')
-        console.log(result.data)
+        console.log('getInvitesRequests', result.data)
         if (!result.data[0]) return
         const mappedRequests = result.data.map(
           (item: InviteRequest, index: number) => ({
-            id: `${item.id}${index}`,
+            id: item.id,
+            key: `${item.id}${index}`,
             commitmentPlanId: item.commitment_plan_id,
             user: {
               id: item.userone.id,
@@ -90,11 +95,22 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     const filteredRequests = notifications.filter(item => item.id !== id)
     setNotifications(filteredRequests)
   }
+  const handleRemoveInvite = (commitmentId: number) => {
+    const filteredRequests = notifications.filter(
+      item => item.commitmentPlanId !== commitmentId
+    )
+    setNotifications(filteredRequests)
+  }
 
-  const loadCommitmentPlan = async (id: number) => {
+  const loadCommitmentPlan = async (notification: {
+    commitmentPlanId: number
+    inviteId: number
+  }) => {
     try {
-      const result = await api.get(`/commitment_plans/${id}`)
-      setCommitmentPlan(result.data)
+      const result = await api.get(
+        `/commitment_plans/${notification.commitmentPlanId}`
+      )
+      setCommitmentPlan({ ...result.data, inviteId: notification.inviteId })
     } catch (error) {
       console.log(error)
       Alert.alert('Erro ao carregar Meet')
@@ -107,7 +123,8 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
         handleRemoveRequest,
         notifications,
         commitmentPlan,
-        loadCommitmentPlan
+        loadCommitmentPlan,
+        handleRemoveInvite
       }}
     >
       {children}

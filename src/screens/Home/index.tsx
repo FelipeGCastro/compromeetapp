@@ -19,6 +19,7 @@ import BottomSheet from '../../components/BottomSheet'
 import { ActionButton } from './components/ActionButton/ActionButton'
 import { api } from '../../services/api'
 import { CommitmentList } from '../../components/CommitmentList'
+import { useCommitment } from '../../hooks/commitments'
 
 interface IPeriod {
   label: string
@@ -31,52 +32,20 @@ const periods: IPeriod[] = [
   { label: 'Mês', value: 'month' }
 ]
 
-interface ICommitmentPlans {
-  id: number
-  commitment_id: number
-  commitment: {
-    id: number
-    text: string
-    favorites: number
-    commitmentFavorite: { user_id?: number; id?: number }[]
-  }
-  frequency?: string
-  status: string
-  timestamp: Date
-  user_id: number
-}
-export const Home: React.FC = () => {
+export const Home = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlans[]>([])
-  const [refreshingCommitmentPlans, setRefreshingCommitmentPlans] =
-    useState(false)
   const [period, setPeriod] = useState<IPeriod>({
     label: 'Semana',
     value: 'week'
   })
 
-  useEffect(() => {
-    getCommitments()
-  }, [])
+  const { commitmentPlans } = useCommitment()
 
-  async function getCommitments() {
-    setRefreshingCommitmentPlans(true)
-    try {
-      const result = await api.get('commitment_plans')
-      setCommitmentPlans(result.data)
-    } catch (error) {
-      console.log(error)
-      Alert.alert('Error ao buscar seus compromissos')
-    } finally {
-      setRefreshingCommitmentPlans(false)
-    }
-  }
+
   function handleSelectItem(item: IPeriod) {
     setOpenModal(false)
     setPeriod(item)
   }
-
-  const onRefresh = () => getCommitments()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -94,9 +63,7 @@ export const Home: React.FC = () => {
         </OptionsContainer>
         <CommitmentList
           commitmentPlans={commitmentPlans}
-          onRefresh={onRefresh}
           isCommitmentPlan
-          refreshingCommitment={refreshingCommitmentPlans}
         />
         <BottomSheet visible={openModal} onDismiss={() => setOpenModal(false)}>
           <ListItems

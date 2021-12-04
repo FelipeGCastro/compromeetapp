@@ -13,7 +13,7 @@ export default {
     text: '#5B5B5B',
     textFading: '#919191',
 
-    shape: 'rgba(255, 255, 255, 0.7)',
+    shape: 'rgba(255, 255, 255, 0.5)',
     textLight: '#FFFFFF'
   },
 

@@ -1,16 +1,36 @@
 import React from 'react'
 import moment from 'moment'
-import { Container, DateField, FrequencyField } from './styles'
+import 'moment/locale/pt-br'
+import {
+  Container,
+  DateField,
+  FrequencyField,
+  DataLabel,
+  FrequencyLabel
+} from './styles'
 
 interface MeetInfoProps {
   timestamp?: string
   frequency?: string
 }
+
 const MeetInfo = ({ timestamp, frequency }: MeetInfoProps) => {
+  var localLocale = moment()
+
+  // localLocale.locale('pt-br') // set this instance to use French // dimanche 15 juillet 2012 11:01
   return (
     <Container>
-      {timestamp && <DateField>{moment(timestamp).format('LLLL')}</DateField>}
-      {frequency && <FrequencyField>{frequency}</FrequencyField>}
+      <DataLabel>Data</DataLabel>
+      {timestamp && (
+        <DateField>{localLocale.format('dddd, DD/MM [às] h:mm')}</DateField>
+      )}
+
+      {frequency && (
+        <>
+          <FrequencyLabel>Frequencia</FrequencyLabel>
+          <FrequencyField>{frequency}</FrequencyField>
+        </>
+      )}
     </Container>
   )
 }

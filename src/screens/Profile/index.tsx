@@ -45,26 +45,21 @@ export const Profile: React.FC = () => {
   const { user, signOut } = useAuth()
 
   const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlans[]>([])
-  const [refreshingCommitmentPlans, setRefreshingCommitmentPlans] =
-    useState(false)
   useEffect(() => {
     getCommitments()
   }, [])
 
   async function getCommitments() {
-    setRefreshingCommitmentPlans(true)
+
     try {
       const result = await api.get('commitment_plans')
       setCommitmentPlans(result.data)
     } catch (error) {
       console.log(error)
       Alert.alert('Error ao buscar seus compromissos')
-    } finally {
-      setRefreshingCommitmentPlans(false)
     }
   }
 
-  const onRefresh = () => getCommitments()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -97,9 +92,7 @@ export const Profile: React.FC = () => {
         <CommitmentTitle>Meets Realizadas</CommitmentTitle>
         <CommitmentList
           commitmentPlans={commitmentPlans}
-          onRefresh={onRefresh}
           isCommitmentPlan
-          refreshingCommitment={refreshingCommitmentPlans}
         />
       </Container>
     </SafeAreaView>

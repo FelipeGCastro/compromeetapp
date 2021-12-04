@@ -170,7 +170,7 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
         return resultInvites
       }
     } catch (error) {
-      throw new Error(error as string)
+      throw new Error(('MESSAGE ERROR SEND INVITES' + error) as string)
     }
   }
 

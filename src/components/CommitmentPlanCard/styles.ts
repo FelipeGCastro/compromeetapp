@@ -5,7 +5,7 @@ export const Container = styled.View`
   background: ${({ theme }) => theme.colors.shape};
   padding: 3px 10px;
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 `
 export const Header = styled.View`
   flex-direction: row;

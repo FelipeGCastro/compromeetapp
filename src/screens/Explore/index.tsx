@@ -35,7 +35,6 @@ export const Explore = () => {
   const [commitments, setCommitments] = useState<ICommitment[]>([])
   const [tab, setTab] = useState('Meets')
   const [users, setUsers] = useState<User[]>([])
-  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     const getCommitments = async () => {
@@ -63,9 +62,7 @@ export const Explore = () => {
     }
     getUsers()
   }, [])
-  const onRefresh = () => {
-    setRefresh
-  }
+
   const handleAddUser = async (friendId: number) => {
     try {
       const result = await api.post('friendship', { friendId })
@@ -94,8 +91,6 @@ export const Explore = () => {
         {tab === 'Meets' ? (
           <CommitmentList
             commitment={commitments}
-            refreshingCommitment={refresh}
-            onRefresh={onRefresh}
             noLabel
           />
         ) : (

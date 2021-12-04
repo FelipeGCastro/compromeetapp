@@ -11,7 +11,6 @@ export const Container = styled.View`
 `
 export const ProfileCard = styled.View`
   flex-direction: row;
-  background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 6px;
   margin-top: 20px;
   padding: 12px 5px;
@@ -40,16 +39,18 @@ export const ProfileNameAndUsername = styled.View``
 export const ProfileName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.title};
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: -3px;
 `
 export const ProfileUserName = styled.Text`
   color: ${({ theme }) => theme.colors.link};
   font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: 16px;
+  margin-top: 3px;
 `
 export const OptionsContainer = styled.View`
   flex-direction: row;
-  margin-top: 5px;
+  margin-top: 20px;
 `
 export const FriendsContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8

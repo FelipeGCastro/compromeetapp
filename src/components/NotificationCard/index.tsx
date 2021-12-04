@@ -40,7 +40,6 @@ export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
   const handlePressButton = async () => {
     if (data.toAccept) {
       try {
-        console.log(data.id)
         const result = await api.put(`friendship/${data.id}`)
         console.log('Accepted invite', result.data)
         remove(data.id)
@@ -49,7 +48,10 @@ export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
       }
     }
     if (data.type === 'commitment' && data.commitmentPlanId) {
-      loadCommitmentPlan(data.commitmentPlanId)
+      loadCommitmentPlan({
+        commitmentPlanId: data.commitmentPlanId,
+        inviteId: data.id
+      })
       navigate('CommitmentInvite' as never)
     }
   }

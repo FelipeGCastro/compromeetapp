@@ -7,7 +7,8 @@ import React, {
 } from 'react'
 import * as AuthSession from 'expo-auth-session'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { api } from '../services/api'
+import { api, setTokenInterceptors } from '../services/api'
+import { useNavigation } from '@react-navigation/core'
 
 interface User {
   id: string
@@ -43,6 +44,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
   const userStorageKey = '@compromeet:user'
   useEffect(() => {
     let validator = true
+    setTokenInterceptors(signOut)
     async function loadUserStorageDate() {
       if (validator) {
         const userStoraged = await AsyncStorage.getItem(userStorageKey)
@@ -112,8 +114,11 @@ function AuthProvider({ children }: IAuthProviderProps) {
   }
 
   async function signOut() {
+    const { navigate } = useNavigation()
     setUser({} as User)
     await AsyncStorage.removeItem(userStorageKey)
+    navigate('logout' as never)
+
   }
 
   return (

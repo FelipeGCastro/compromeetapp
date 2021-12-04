@@ -6,11 +6,13 @@ interface INotificationsProviderProps {
 
 interface INotifications {
   id: number
+  key: string
   user?: {
     id: number
     name: string
     avatar_url: string
   }
+  commitmentPlanId?: number
   commitmentTime?: string
   commitmentOrder?: string
   text: string
@@ -72,6 +74,7 @@ interface ICommitmentPlan {
     avatar_url: string
   }
   commitment: ICommitment
+  inviteId: number
 }
 
 export {

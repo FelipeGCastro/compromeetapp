@@ -19,7 +19,7 @@ export const Notifications = () => {
         <Tab tabList={tabList} />
         <NotificationList
           data={notifications}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.key}
           renderItem={({ item }) => (
             <NotificationCard data={item} remove={handleRemoveRequest} />
           )}

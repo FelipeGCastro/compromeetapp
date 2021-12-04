@@ -1,5 +1,4 @@
 import React from 'react'
-import { RefreshControl } from 'react-native'
 import { CommitmentCard } from '../CommitmentCard'
 import { CommitmentPlanCard } from '../CommitmentPlanCard'
 import { CommitmentFlatList } from './styles'
@@ -36,11 +35,9 @@ interface ICommitment {
 }
 
 interface ICommitmentProps {
-  refreshingCommitment: boolean
   isCommitmentPlan?: boolean
   noUser?: boolean
   noLabel?: boolean
-  onRefresh: () => void
   commitmentPlans?: ICommitmentPlan[]
   commitment?: ICommitment[]
 }
@@ -48,9 +45,7 @@ interface ICommitmentProps {
 export const CommitmentList = ({
   commitmentPlans,
   commitment,
-  refreshingCommitment,
   isCommitmentPlan,
-  onRefresh,
   noUser,
   noLabel
 }: ICommitmentProps) => {
@@ -60,12 +55,6 @@ export const CommitmentList = ({
     <CommitmentFlatList
       showsVerticalScrollIndicator={false}
       data={data as ICommitmentPlan[] | null | undefined}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshingCommitment}
-          onRefresh={onRefresh}
-        />
-      }
       keyExtractor={item => item.id.toString()}
       renderItem={({ item, index }) => {
         return isCommitmentPlan ? (

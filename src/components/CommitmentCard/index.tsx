@@ -21,6 +21,9 @@ import {
   FavoriteButton,
   FavoriteIcon,
   FavoriteNumber,
+  UploadButton,
+  UploadIcon,
+  UploadsNumber,
   CloseButton,
   CloseIcon
 } from './styles'
@@ -141,6 +144,10 @@ export const CommitmentCard = ({
             />
             <FavoriteNumber>{favorites || ''}</FavoriteNumber>
           </FavoriteButton>
+          <UploadButton>
+            <UploadIcon name="upload" />
+            <UploadsNumber>1</UploadsNumber>
+          </UploadButton>
           {deleteButton && (
             <CloseButton onPress={handlePressDelete}>
               <CloseIcon />

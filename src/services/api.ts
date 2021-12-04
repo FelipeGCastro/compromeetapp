@@ -19,19 +19,22 @@ api.interceptors.request.use(async function (config) {
   return config
 })
 
-api.interceptors.response.use(
-  response => {
-    return response;
-  },
-  (error: AxiosError) => {
-    console.log(error)
-    if (error.response?.status === 401) {
-      navigate('logout')
+export const setTokenInterceptors = (signOut: () => void) => {
+  api.interceptors.response.use(
+    response => {
+      return response;
+    },
+    (error: AxiosError) => {
+      if (error.response?.status === 401) {
+        signOut()
+      }
+  
+      return Promise.reject(error);
     }
+  )
+}
 
-    return Promise.reject(error);
-  }
-)
+
 
 api.interceptors.request.use(async function (config) {
   const token = await getToken()

@@ -23,7 +23,10 @@ export const UserImage = styled.Image`
   border-radius: 50px;
 `
 
-export const UserInfoContainer = styled.View``
+export const UserInfoContainer = styled.View`
+  flex: 1;
+  align-items: stretch;
+`
 
 export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};

@@ -5,7 +5,7 @@ export const Container = styled.View`
   background: ${({ theme }) => theme.colors.shape};
   padding: 3px 10px;
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 `
 export const Header = styled.View`
   flex-direction: row;
@@ -63,7 +63,7 @@ export const BoldText = styled.Text`
 
 export const Footer = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `
 export const FavoriteButton = styled.TouchableOpacity.attrs({
@@ -73,6 +73,7 @@ export const FavoriteButton = styled.TouchableOpacity.attrs({
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  margin-right: 20px;
 `
 type IconProps = { active: boolean }
 export const FavoriteIcon = styled(AntDesign).attrs({
@@ -87,6 +88,26 @@ export const FavoriteNumber = styled.Text`
   font-size: 12px;
   margin-left: 2px;
 `
+export const UploadButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8
+})`
+  padding: 5px 15px 5px 5px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`
+export const UploadIcon = styled(AntDesign).attrs({
+  size: 16
+})`
+  color: ${({ theme }) => theme.colors.title};
+`
+export const UploadsNumber = styled.Text`
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: 12px;
+  margin-left: 2px;
+`
+
 export const FriendContainer = styled.View`
   flex-direction: row;
   align-items: center;

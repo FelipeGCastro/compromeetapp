@@ -14,11 +14,13 @@ import { navigationRef } from './rootnavigator'
 import { Schedule } from '../screens/Schedule'
 import { CommitmentInvite } from '../screens/CommitmentInvite'
 import { NotificationsProvider } from '../hooks/notifications'
+import { CommitmentProvider } from '../hooks/commitments'
 
 const { Navigator, Screen } = createStackNavigator()
 
 export function PrivateRoutes() {
   return (
+    <CommitmentProvider>
     <NotificationsProvider>
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="menu" component={MenuRoutes}></Screen>
@@ -30,6 +32,7 @@ export function PrivateRoutes() {
         <Screen name="CommitmentInvite" component={CommitmentInvite} />
       </Navigator>
     </NotificationsProvider>
+    </CommitmentProvider>
   )
 }
 
