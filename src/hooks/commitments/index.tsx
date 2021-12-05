@@ -11,6 +11,7 @@ import { api } from '../../services/api'
 
 interface ICommitmentContextData {
   commitmentPlans: ICommitmentPlan[]
+  getCommitments: () => Promise<void>
 }
 
 interface ICommitmentProviderProps {
@@ -23,21 +24,21 @@ interface ICommitmentPlan {
     id: number
     text: string
     favorites: number
+    isPublic: boolean
+    meets: number
+    user_id: number
     commitmentFavorite: { user_id?: number; id?: number }[]
   }
+  invites: number
   frequency?: string
   status: string
-  timestamp: Date
+  timestamp: string
   user_id: number
 }
 const CommitmentContext = createContext({} as ICommitmentContextData)
 
 function CommitmentProvider({ children }: ICommitmentProviderProps) {
   const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlan[]>([])
-
-  useEffect(() => {
-    getCommitments()
-  }, [])
 
   const getCommitments = async () => {
     try {
@@ -50,7 +51,7 @@ function CommitmentProvider({ children }: ICommitmentProviderProps) {
   }
 
   return (
-    <CommitmentContext.Provider value={{ commitmentPlans }}>
+    <CommitmentContext.Provider value={{ commitmentPlans, getCommitments }}>
       {children}
     </CommitmentContext.Provider>
   )

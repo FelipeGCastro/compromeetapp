@@ -64,11 +64,11 @@ export const CommitmentCard = ({
   deleteButton
 }: CommitmentCardProps) => {
   const [isFavorite, setIsFavorite] = useState(
-    commitment.commitmentFavorite.length > 0 || false
+    commitment.commitmentFavorite?.length > 0 || false
   )
   const [favorites, setFavorites] = useState(commitment.favorites)
   const [favoriteId, setFavoriteId] = useState(
-    commitment.commitmentFavorite[0]?.id
+    commitment.commitmentFavorite && commitment.commitmentFavorite[0]?.id
   )
   const navigation = useNavigation()
   const { addCommitment } = useMeet()
@@ -93,7 +93,7 @@ export const CommitmentCard = ({
     } catch (error) {}
   }
 
-  function handleCardPress() {
+  function handleUsePress() {
     addCommitment(commitment)
     navigation.navigate('CommitmentScreen' as never)
   }
@@ -133,7 +133,7 @@ export const CommitmentCard = ({
         </MoreButton>
       </Header>
       <ContentWrapper>
-        <CommitmentTextContainer onPress={handleCardPress}>
+        <CommitmentTextContainer>
           <CommitmentText>
             <BoldText>"</BoldText>
             {commitment.text}
@@ -150,7 +150,7 @@ export const CommitmentCard = ({
             />
             <FavoriteNumber>{favorites || ''}</FavoriteNumber>
           </FavoriteButton>
-          <UploadButton>
+          <UploadButton onPress={handleUsePress}>
             <UploadIcon name="upload" />
             <UploadsNumber>{commitment.meets || ''}</UploadsNumber>
           </UploadButton>

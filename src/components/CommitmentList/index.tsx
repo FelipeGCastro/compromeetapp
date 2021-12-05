@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { CommitmentCard } from '../CommitmentCard'
 import { CommitmentPlanCard } from '../CommitmentPlanCard'
 import { CommitmentFlatList } from './styles'
@@ -15,6 +15,7 @@ interface ICommitmentPlan {
     meets: number
     commitmentFavorite: { user_id?: number; id?: number }[]
   }
+  invites: number
   frequency?: string
   status: string
   timestamp: string
@@ -41,6 +42,7 @@ interface ICommitment {
 }
 
 interface ICommitmentProps {
+  header?: ReactElement
   isCommitmentPlan?: boolean
   noUser?: boolean
   noLabel?: boolean
@@ -49,6 +51,7 @@ interface ICommitmentProps {
 }
 
 export const CommitmentList = ({
+  header,
   commitmentPlans,
   commitment,
   isCommitmentPlan,
@@ -60,6 +63,8 @@ export const CommitmentList = ({
   return (
     <CommitmentFlatList
       showsVerticalScrollIndicator={false}
+      ListHeaderComponent={header}
+      contentContainerStyle={{ paddingBottom: 100 }}
       data={data as ICommitmentPlan[] | null | undefined}
       keyExtractor={item => item.id.toString()}
       renderItem={({ item, index }) => {

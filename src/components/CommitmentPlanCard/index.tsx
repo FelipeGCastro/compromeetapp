@@ -31,6 +31,7 @@ import {
   CloseButton,
   CloseIcon
 } from './styles'
+import moment from 'moment'
 
 interface ICommitmentPlan {
   id: number
@@ -46,6 +47,7 @@ interface ICommitmentPlan {
       user_id?: number
     }[]
   }
+  invites: number
   frequency?: string
   status: string
   timestamp: string
@@ -53,6 +55,7 @@ interface ICommitmentPlan {
   user?: {
     id: number
     name: string
+    username: string
     avatar_url: string
   }
   index: number
@@ -78,14 +81,15 @@ export const CommitmentPlanCard = ({
   noUser
 }: CommitmentCardProps) => {
   const [isFavorite, setIsFavorite] = useState(
-    commitmentPlan.commitment.commitmentFavorite.length > 0 || false
+    commitmentPlan.commitment.commitmentFavorite?.length > 0 || false
   )
   const [expanded, setExpanded] = useState(false)
   const [favorites, setFavorites] = useState(
     commitmentPlan.commitment.favorites
   )
   const [favoriteId, setFavoriteId] = useState(
-    commitmentPlan.commitment.commitmentFavorite[0]?.id
+    commitmentPlan.commitment.commitmentFavorite &&
+      commitmentPlan.commitment.commitmentFavorite[0]?.id
   )
   const navigation = useNavigation()
   const { setMeet } = useMeet()
@@ -178,22 +182,24 @@ export const CommitmentPlanCard = ({
             <FavoriteNumber>{favorites || ''}</FavoriteNumber>
           </FavoriteButton>
           <CompletedIcon />
-          <FriendContainer>
-            <FriendIcon />
-            <FriendText>@lucas.silva.pereira...</FriendText>
-          </FriendContainer>
+          {!!commitmentPlan.invites && (
+            <FriendContainer>
+              <FriendIcon />
+              <FriendText>{commitmentPlan.invites}</FriendText>
+            </FriendContainer>
+          )}
           {commitmentPlan.timestamp && (
             <DateAndTimeContainer>
               <ClockIcon />
               <DateAndTimeText>
-                {dateFormat.format(new Date(commitmentPlan.timestamp))}
+                {moment(commitmentPlan.timestamp).format('dddd, DD/MM  HH:MM')}
               </DateAndTimeText>
             </DateAndTimeContainer>
           )}
 
-          <CloseButton onPress={handlePress}>
+          {/* <CloseButton onPress={handlePress}>
             <CloseIcon />
-          </CloseButton>
+          </CloseButton> */}
         </Footer>
       )}
     </Container>

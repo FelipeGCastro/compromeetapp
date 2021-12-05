@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { NotificationCard } from '../../components/NotificationCard'
@@ -9,7 +9,12 @@ import { Container, NotificationList, NotificationTitle } from './styles'
 const tabList = ['Todos', 'Meets', 'Amizades']
 
 export const Notifications = () => {
-  const { notifications, handleRemoveRequest } = useNotifications()
+  const { notifications, handleRemoveRequest, getFriendRequests } =
+    useNotifications()
+
+  useEffect(() => {
+    getFriendRequests()
+  }, [])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

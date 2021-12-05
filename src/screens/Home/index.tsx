@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, RefreshControl, View } from 'react-native'
+import { View } from 'react-native'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -17,7 +17,6 @@ import {
 } from './styles'
 import BottomSheet from '../../components/BottomSheet'
 import { ActionButton } from './components/ActionButton/ActionButton'
-import { api } from '../../services/api'
 import { CommitmentList } from '../../components/CommitmentList'
 import { useCommitment } from '../../hooks/commitments'
 
@@ -39,8 +38,11 @@ export const Home = () => {
     value: 'week'
   })
 
-  const { commitmentPlans } = useCommitment()
+  const { commitmentPlans, getCommitments } = useCommitment()
 
+  useEffect(() => {
+    getCommitments()
+  }, [])
 
   function handleSelectItem(item: IPeriod) {
     setOpenModal(false)
@@ -62,6 +64,7 @@ export const Home = () => {
           </FilterButton>
         </OptionsContainer>
         <CommitmentList
+          noLabel
           commitmentPlans={commitmentPlans}
           isCommitmentPlan
         />

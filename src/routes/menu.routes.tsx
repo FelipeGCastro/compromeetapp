@@ -7,6 +7,7 @@ import { Explore } from '../screens/Explore'
 import { Notifications } from '../screens/Notifications'
 import { Profile } from '../screens/Profile'
 import theme from '../global/styles/theme'
+import Favorites from '../screens/Favorites'
 
 const Tab = createBottomTabNavigator()
 
@@ -19,10 +20,17 @@ export function MenuRoutes() {
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           if (route.name === 'home') {
+            return <FontAwesome name="th-list" size={size} color={color} />
+          } else if (route.name === 'favorites') {
             return <AntDesign name="heart" size={size} color={color} />
           } else if (route.name === 'explore') {
             return (
-              <MaterialIcons name="explore" size={size + 2} color={color} />
+              <MaterialIcons
+                style={{ marginBottom: 10 }}
+                name="explore"
+                size={size + 15}
+                color={focused ? color : theme.colors.link}
+              />
             )
           } else if (route.name === 'notifications') {
             return <FontAwesome name="bell" size={size} color={color} />
@@ -37,6 +45,7 @@ export function MenuRoutes() {
       })}
     >
       <Tab.Screen name="home" component={Home} />
+      <Tab.Screen name="favorites" component={Favorites} />
       <Tab.Screen name="explore" component={Explore} />
       <Tab.Screen name="notifications" component={Notifications} />
       <Tab.Screen name="profile" component={Profile} />

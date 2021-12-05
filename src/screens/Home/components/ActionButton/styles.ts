@@ -14,7 +14,7 @@ export const Container = styled.TouchableOpacity.attrs({
   justify-content: center;
   elevation: 4;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.18);
-  background-color: ${({ theme }) => theme.colors.link};
+  background-color: ${({ theme }) => theme.colors.primary};
 `
 export const Icon = styled(AntDesign).attrs({
   name: 'plus',

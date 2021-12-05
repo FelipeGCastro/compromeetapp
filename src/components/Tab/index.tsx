@@ -54,7 +54,7 @@ export const Tab = ({ tabList = list, onTabPress }: TabProps) => {
 const styles = StyleSheet.create({
   tabList: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 10,
     paddingHorizontal: 4,
     justifyContent: 'flex-start'
   },

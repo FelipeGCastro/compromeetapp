@@ -16,6 +16,7 @@ import {
 } from './types'
 
 interface INotificationsContextData {
+  getFriendRequests: () => Promise<void>
   handleRemoveRequest: (id: number) => void
   handleRemoveInvite: (id: number) => void
   notifications: INotifications[]
@@ -34,33 +35,30 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     {} as ICommitmentPlan
   )
 
-  useEffect(() => {
-    const getFriendRequests = async () => {
-      try {
-        const result = await api.get('friendship-requests')
-        if (!result.data[0]) return
-        const mappedRequests = result.data.map(
-          (item: FriendRequest, index: number) => ({
-            id: item.id,
-            key: `${item.id}${index}`,
-            user: {
-              id: item.userone.id,
-              name: item.userone.name,
-              avatar_url: item.userone.avatar_url
-            },
-            text: 'fez um pedido de amizade.',
-            toAccept: true,
-            type: 'request'
-          })
-        )
-        setNotifications([...mappedRequests, ...notifications])
-      } catch (error) {
-        console.log(error)
-        Alert.alert('Erro ao buscar pedidos de amizade')
-      }
+  const getFriendRequests = async () => {
+    try {
+      const result = await api.get('friendship-requests')
+      if (!result.data[0]) return
+      const mappedRequests = result.data.map(
+        (item: FriendRequest, index: number) => ({
+          id: item.id,
+          key: `${item.id}${index}`,
+          user: {
+            id: item.userone.id,
+            name: item.userone.name,
+            avatar_url: item.userone.avatar_url
+          },
+          text: 'fez um pedido de amizade.',
+          toAccept: true,
+          type: 'request'
+        })
+      )
+      setNotifications([...mappedRequests, ...notifications])
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Erro ao buscar pedidos de amizade')
     }
-    getFriendRequests()
-  }, [])
+  }
 
   useEffect(() => {
     const getInvitesRequests = async () => {
@@ -123,7 +121,8 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
         notifications,
         commitmentPlan,
         loadCommitmentPlan,
-        handleRemoveInvite
+        handleRemoveInvite,
+        getFriendRequests
       }}
     >
       {children}

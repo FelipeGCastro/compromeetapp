@@ -35,10 +35,14 @@ interface ICommitmentPlans {
     text: string
     favorites: number
     commitmentFavorite: { user_id?: number; id?: number }[]
+    isPublic: boolean
+    user_id: number
+    meets: number
   }
+  invites: number
   frequency?: string
   status: string
-  timestamp: Date
+  timestamp: string
   user_id: number
 }
 export const Profile: React.FC = () => {

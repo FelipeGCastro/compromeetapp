@@ -9,7 +9,7 @@ export const SearchInputContainer = styled.View`
   height: 45px;
   border-radius: 20px;
   padding: 0 10px 0 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   elevation: 4;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
 `
