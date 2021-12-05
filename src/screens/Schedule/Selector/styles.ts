@@ -42,7 +42,7 @@ export const InputContainer = styled.View<InputProps>`
   max-width: 150px;
   margin: 0 10px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 2;
+  elevation: 4;
 `
 export const InputField = styled.TextInput`
   flex: 1;
@@ -65,7 +65,7 @@ export const HeaderButton = styled.TouchableOpacity.attrs({
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 2;
+  elevation: 4;
 `
 export const IconPlus = styled(AntDesign).attrs({
   name: 'plus',
@@ -106,7 +106,7 @@ export const ItemContainer = styled.TouchableOpacity.attrs({
   padding: 0 20px;
   margin: 4px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
 `
 export const ItemTitle = styled.Text<Item>`
   font-family: ${({ theme }) => theme.fonts.regular};

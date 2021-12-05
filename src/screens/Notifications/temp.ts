@@ -1,4 +1,4 @@
-const avatarUrl = 'http://github.com/felipegcastro.png'
+const avatar_url = 'http://github.com/felipegcastro.png'
 
 export const notificationsTemp = [
   {
@@ -6,7 +6,7 @@ export const notificationsTemp = [
     user: {
       id: 1,
       name: 'Lucas Moura Castro',
-      avatarUrl: avatarUrl
+      avatar_url: avatar_url
     },
     commitmentTime: '14:25',
     commitmentOrder: '#2',
@@ -32,7 +32,7 @@ export const notificationsTemp = [
     user: {
       id: 2,
       name: 'Luiz Castro',
-      avatarUrl: avatarUrl
+      avatar_url: avatar_url
     },
     commitmentTime: '14:25',
     commitmentOrder: '#2',

@@ -12,7 +12,7 @@ import {
 interface IUser {
   id: number
   name: string
-  username?: string
+  username: string
   avatar_url: string
 }
 interface IUserCard {
@@ -37,7 +37,7 @@ export const UserCard = ({
   }
   return (
     <Container onPress={handleOnPress}>
-      <UserImage avatarUrl={user.avatar_url} />
+      <UserImage avatar_url={user.avatar_url} />
       <InfoAndInviteWrapper>
         <UserName>{user.name}</UserName>
         <UserUsername>@{user.username}</UserUsername>

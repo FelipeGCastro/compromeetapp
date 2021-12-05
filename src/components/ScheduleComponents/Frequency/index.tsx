@@ -33,8 +33,8 @@ const Frequency = ({ onChange, item }: FrequencyProps) => {
     <>
       <FrequencyButton onPress={() => setOpenModal(true)}>
         <FrequencyText>Frequencia: {item && frequencies[item]}</FrequencyText>
-        {item && (
-          <CloseButton onPress={() => onChange(undefined)}>
+        {!!item && (
+          <CloseButton onPress={() => onChange()}>
             <CloseIcon />
           </CloseButton>
         )}

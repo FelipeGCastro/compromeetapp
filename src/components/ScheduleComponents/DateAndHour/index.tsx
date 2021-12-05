@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { useState } from 'react'
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker'
 import {
   DateAndHourWrapper,
@@ -8,6 +8,7 @@ import {
   HourButtonText
 } from './styles'
 import { Platform } from 'react-native'
+import moment from 'moment'
 
 type PickerMode = 'date' | 'time'
 
@@ -51,7 +52,9 @@ export const DateAndHour = ({ value, onChangeDate }: DateAndHourProps) => {
   return (
     <DateAndHourWrapper>
       <DateButton onPress={showDatepicker}>
-        <DateButtonText>{dateFormat.format(value)}</DateButtonText>
+        <DateButtonText>
+          {moment(value).format('dddd, DD MMM YYYY')}
+        </DateButtonText>
       </DateButton>
       <HourButton onPress={showTimepicker}>
         <HourButtonText>{timeFormat.format(value)}</HourButtonText>

@@ -24,7 +24,7 @@ export const PhotoButton = styled.TouchableOpacity.attrs({
   margin-top: 15px;
   border-radius: 6px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
 `
 export const PhotoIcon = styled(FontAwesome).attrs({
   name: 'camera',
@@ -38,7 +38,7 @@ export const CommitmentContainer = styled.View`
   border-radius: 6px;
   min-height: 130px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 `
 export const CommitmentFixedContainer = styled.View`
   justify-content: center;
@@ -52,6 +52,7 @@ export const CommitmentText = styled.Text`
   padding: 10px;
   text-align: center;
 `
+
 export const CommitmentInput = styled.TextInput`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};

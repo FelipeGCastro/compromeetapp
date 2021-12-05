@@ -5,12 +5,15 @@ import {
   AddCommitmentIcon,
   AddCommitmentText
 } from './styles'
-
-export const FavoriteButton = ({ onPress }: { onPress: () => void }) => {
+type FavoriteProps = {
+  onPress: () => void
+  hasFixedText: boolean
+}
+export const FavoriteButton = ({ onPress, hasFixedText }: FavoriteProps) => {
   return (
     <AddCommitmentButton onPress={onPress}>
       <AddCommitmentIcon />
-      <AddCommitmentText>Favoritos</AddCommitmentText>
+      {!hasFixedText && <AddCommitmentText>Favoritos</AddCommitmentText>}
     </AddCommitmentButton>
   )
 }

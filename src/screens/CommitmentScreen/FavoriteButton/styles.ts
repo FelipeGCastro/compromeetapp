@@ -12,7 +12,7 @@ export const AddCommitmentButton = styled.TouchableOpacity.attrs({
   border-bottom-right-radius: 6px;
   background-color: ${({ theme }) => theme.colors.link};
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
 `
 export const AddCommitmentText = styled.Text`
   color: ${({ theme }) => theme.colors.textLight};

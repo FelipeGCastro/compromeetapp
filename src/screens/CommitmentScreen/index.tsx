@@ -18,74 +18,41 @@ import {
 
 import Frequency from '../../components/ScheduleComponents/Frequency'
 import { HeaderScreens } from '../../components/HeaderScreens'
-import { StackScreenProps } from '@react-navigation/stack'
 import { CommentsCard } from '../../components/CommentsCard'
-import { api } from '../../services/api'
+
 import CommitmentFixed from './CommitmentFixed'
-import { FavoriteButton } from './FavoriteButton'
 import { CommitmentImage } from './CommitmentImage'
 import { PhotoOptions } from './PhotoOptions'
+import { useMeet } from '../../hooks/meet'
+import { useNavigation } from '@react-navigation/core'
+import MeetHeader from './MeetHeader'
 
-interface IUser {
-  id: string
-  name: string
-  avatarUrl: string
-  username: string
-}
-interface Commitment {
-  id: number
-  text: string
-  isPublic: boolean
-  user_id: number
-}
-interface ICommitmentPlans {
-  id: number
-  commitment_id: number
-  commitment: {
-    id: number
-    text: string
-    isPublic: boolean
-    user_id: number
-  }
-  frequency?: string
-  status: string
-  timestamp: string
-  user_id: number
-  user?: {
-    id: number
-    name: string
-    avatar_url: string
-  }
-  index: number
-  image_url?: string
-}
-type CommitmentStackParamList = {
-  CommitmentScreen: {
-    commitmentPlan?: ICommitmentPlans
-    people: IUser[]
-    commitmentSelected: {
-      id: number
-      text: string
-    }
-  }
-}
-type Props = StackScreenProps<CommitmentStackParamList, 'CommitmentScreen'>
-export const CommitmentScreen = ({ route, navigation }: Props) => {
-  const [editing, setEditing] = useState<ICommitmentPlans | undefined>()
-  const [commitmentFixed, setCommitmentFixed] = useState<
-    Commitment | undefined
-  >()
-  const [commitment, setCommitment] = useState('')
-  const [isPublic, setIsPublic] = useState(false)
-  const [schedule, setSchedule] = useState(false)
-  const [date, setDate] = useState(new Date())
-  const [people, setPeople] = useState<IUser[]>([])
-  const [frequency, setFrequency] = useState<string | undefined>()
-  const [disableButton, setDisableButton] = useState(true)
+export const CommitmentScreen = () => {
   const [openModal, setOpenModal] = useState(false)
-  const [image, setImage] = useState('')
-
   const inputRef = useRef<TextInput>(null)
+  const navigation = useNavigation()
+
+  const {
+    editing,
+    people,
+    isPublic,
+    schedule,
+    date,
+    frequency,
+    commitmentFixed,
+    handleOnPressSave,
+    createCommitmentPlans,
+    disableButton,
+    setIsPublic,
+    setSchedule,
+    setFrequency,
+    setCommitment,
+    commitment,
+    setDate,
+    setImage,
+    image,
+    reset
+  } = useMeet()
 
   useEffect(() => {
     Keyboard.dismiss()
@@ -93,56 +60,11 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     inputRef.current?.focus()
+    return () => {
+      reset()
+    }
   }, [])
 
-  useEffect(() => {
-    if (route.params?.people) {
-      setPeople(route.params?.people)
-    }
-  }, [route.params?.people])
-
-  useEffect(() => {
-    if (route.params?.commitmentSelected) {
-      setCommitmentFixed(route.params?.commitmentSelected as Commitment)
-      setDisableButton(false)
-    }
-  }, [route.params?.commitmentSelected])
-
-  useEffect(() => {
-    if (/\S/.test(commitment)) setDisableButton(false)
-    else setDisableButton(true)
-  }, [
-    commitment
-    //  date, privacy, isToSchedule, frequenc
-  ])
-
-  useEffect(() => {
-    if (!route.params) return
-    const { commitmentPlan } = route.params
-    if (commitmentPlan) {
-      setCommitmentFixed(commitmentPlan.commitment)
-      setIsPublic(commitmentPlan.commitment.isPublic)
-      setSchedule(!!commitmentPlan.timestamp)
-      if (commitmentPlan.timestamp) setDate(new Date(commitmentPlan.timestamp))
-      if (commitmentPlan.image_url) setImage(commitmentPlan.image_url)
-      setFrequency(commitmentPlan.frequency)
-      setEditing(commitmentPlan)
-      getPeople(commitmentPlan.id)
-    }
-    setDisableButton(false)
-  }, [])
-
-  const getPeople = async (id: number) => {
-    try {
-      const result = await api.get(`invites/${id}`)
-      const invitedPeople = result.data.map(
-        (invite: { usertwo: IUser }) => invite.usertwo
-      )
-      setPeople([...people, ...invitedPeople])
-    } catch (error) {
-      console.log('GET PEOPLE ERROR', error)
-    }
-  }
   const handleOnChangePrivacy = (value: boolean) => {
     setIsPublic(value)
   }
@@ -151,84 +73,24 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
     setSchedule(value)
   }
   const handleOnChangeFrequency = (value?: string) => {
-    setFrequency(value)
-  }
-  const handleAddCommitmentPress = () => {
-    navigation.navigate('CommitmentSelector' as never)
+    if (value) setFrequency(value)
   }
 
-  const UpdatePeople = async (commitmentPlanId: number) => {
-    try {
-      if (people.length > 0) {
-        const invitesData = people.map(person => ({
-          userTwo: person.id,
-          commitmentPlanId
-        }))
-        const resultInvites = await api.post('invites', {
-          people: invitesData
-        })
-        return resultInvites
-      }
-    } catch (error) {
-      throw new Error(('MESSAGE ERROR SEND INVITES' + error) as string)
-    }
+  const handleGoBack = () => navigation.goBack()
+  const handleCreate = async () => {
+    createCommitmentPlans(handleGoBack)
+  }
+  const handleSave = async () => {
+    handleOnPressSave(handleGoBack)
   }
 
-  async function handleOnPressSave() {
-    if (
-      isPublic === editing?.commitment.isPublic &&
-      schedule === !!editing.timestamp &&
-      editing.timestamp &&
-      date === new Date(editing.timestamp) &&
-      frequency === editing.frequency
-    ) {
-      console.log('NOTHING EDITED')
-      const resultInvites = await UpdatePeople(editing?.id)
-      console.log(resultInvites)
-      navigation.goBack()
-    } else {
-      try {
-        console.log('EDITED', editing?.id)
-        const result = await api.put(`commitment_plans/${editing?.id}`, {
-          timestamp: schedule ? date : null,
-          frequency: frequency || null
-        })
-        if (result.data && editing?.id) {
-          await UpdatePeople(editing?.id)
-        }
-      } catch (error) {
-        console.log('ERROR SAVE PLAN', error)
-      } finally {
-        navigation.goBack()
-      }
-    }
-  }
-
-  async function handleCreateCommitmentPlans() {
-    try {
-      const result = await api.post('commitment_plans', {
-        commitmentId: commitmentFixed?.id || null,
-        timestamp: schedule ? date : null,
-        frequency: frequency || null,
-        text: commitment || null,
-        isPublic
-      })
-      if (result.data) {
-        await UpdatePeople(result.data.id)
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      navigation.goBack()
-    }
-  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
         <HeaderScreens
           disableButton={disableButton}
-          onPress={editing ? handleOnPressSave : handleCreateCommitmentPlans}
+          onPress={editing ? handleSave : handleCreate}
           title="Compromisso"
           buttonLabel={editing ? 'Guardar' : 'Criar'}
         />
@@ -238,13 +100,18 @@ export const CommitmentScreen = ({ route, navigation }: Props) => {
           showsVerticalScrollIndicator={false}
         >
           <CommitmentContainer>
-            {!editing && <FavoriteButton onPress={handleAddCommitmentPress} />}
+            {!editing && (
+              <MeetHeader
+                hasFixedText={!!commitmentFixed.text || !!commitment}
+              />
+            )}
 
-            {commitmentFixed ? (
+            {commitmentFixed.text ? (
               <CommitmentFixed text={commitmentFixed.text} />
             ) : (
               <CommitmentInput
                 ref={inputRef}
+                value={commitment}
                 onChangeText={setCommitment}
                 placeholder="Escreva aqui seu compromisso."
                 multiline

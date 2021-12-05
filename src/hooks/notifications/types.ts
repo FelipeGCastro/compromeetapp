@@ -46,10 +46,12 @@ interface ICommitment {
   text: string
   user_id: number
   favorites: number
+  isPublic: boolean
   index?: number
   user?: {
     id: number
     name: string
+    username: string
     avatar_url: string
   }
   commitmentFavorite: {

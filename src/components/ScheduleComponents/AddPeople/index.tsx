@@ -3,9 +3,9 @@ import React from 'react'
 import { Container, PeopleIcon, PeopleText, PeopleTextPerson } from './styles'
 
 interface IUser {
-  id: string
+  id: number
   name: string
-  avatarUrl: string
+  avatar_url: string
   username: string
 }
 

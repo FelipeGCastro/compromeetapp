@@ -1,10 +1,10 @@
 export const commitmentsData = [
   {
-    id: 'schedule151d51sa5d1a51',
+    id: 232,
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatarUrl: 'http://github.com/felipegcastro.png',
+      avatar_url: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -13,7 +13,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatarUrl: 'http://github.com/felipegcastro.png',
+        avatar_url: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -24,11 +24,11 @@ export const commitmentsData = [
     frequency: undefined
   },
   {
-    id: 'schedule151d51sa5ddsadasd1a51',
+    id: 23232,
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatarUrl: 'http://github.com/felipegcastro.png',
+      avatar_url: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -37,7 +37,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatarUrl: 'http://github.com/felipegcastro.png',
+        avatar_url: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -47,11 +47,11 @@ export const commitmentsData = [
     frequency: undefined
   },
   {
-    id: 'asdasdsaddsadad',
+    id: 2562,
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatarUrl: 'http://github.com/felipegcastro.png',
+      avatar_url: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -60,7 +60,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatarUrl: 'http://github.com/felipegcastro.png',
+        avatar_url: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },
@@ -71,11 +71,11 @@ export const commitmentsData = [
     frequency: undefined
   },
   {
-    id: 'gdsfgfdshgdfs',
+    id: 41514,
     user_id: 'user5118516514651651',
     user: {
       user_id: 'user5118516514651651',
-      avatarUrl: 'http://github.com/felipegcastro.png',
+      avatar_url: 'http://github.com/felipegcastro.png',
       name: 'Luiz Felipe Castro'
     },
     commitment: {
@@ -84,7 +84,7 @@ export const commitmentsData = [
       user_id: 'user5118516514651651',
       user: {
         user_id: 'user5118516514651651',
-        avatarUrl: 'http://github.com/felipegcastro.png',
+        avatar_url: 'http://github.com/felipegcastro.png',
         name: 'Luiz Felipe Castro'
       }
     },

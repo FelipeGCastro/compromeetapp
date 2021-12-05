@@ -2,9 +2,10 @@ import styled from 'styled-components/native'
 
 export const DateAndHourWrapper = styled.View`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   margin-top: 15px;
+  /* background-color: #faf; */
 `
 
 export const DateButton = styled.TouchableOpacity.attrs({
@@ -13,7 +14,7 @@ export const DateButton = styled.TouchableOpacity.attrs({
   background-color: ${({ theme }) => theme.colors.textLight};
   padding: 5px 15px;
   border-radius: 6px;
-  elevation: 1;
+  elevation: 4;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
   margin-right: 10px;
 `
@@ -29,7 +30,8 @@ export const HourButton = styled.TouchableOpacity.attrs({
   padding: 5px 15px;
   border-radius: 6px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
+  /* margin-top: 15px; */
 `
 export const HourButtonText = styled.Text`
   font-size: 16px;

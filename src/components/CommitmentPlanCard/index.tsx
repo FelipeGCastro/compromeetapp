@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/core'
-import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/core'
 import { Alert } from 'react-native'
+import { useMeet } from '../../hooks/meet'
 import { api } from '../../services/api'
 import { UserMini } from '../UserCard/UserMini'
 import { ImageCard } from './components/ImageCard'
@@ -32,11 +32,13 @@ import {
   CloseIcon
 } from './styles'
 
-interface ICommitmentPlans {
+interface ICommitmentPlan {
   id: number
   commitment_id: number
   commitment: {
     id: number
+    isPublic: boolean
+    user_id: number
     text: string
     favorites: number
     commitmentFavorite: {
@@ -46,7 +48,7 @@ interface ICommitmentPlans {
   }
   frequency?: string
   status: string
-  timestamp: Date
+  timestamp: string
   user_id: number
   user?: {
     id: number
@@ -60,7 +62,7 @@ interface CommitmentCardProps {
   noLabel?: boolean
   noUser?: boolean
   noFooter?: boolean
-  commitmentPlan: ICommitmentPlans
+  commitmentPlan: ICommitmentPlan
 }
 const dateFormat = new Intl.DateTimeFormat('pt-BR', {
   month: '2-digit',
@@ -85,7 +87,8 @@ export const CommitmentPlanCard = ({
   const [favoriteId, setFavoriteId] = useState(
     commitmentPlan.commitment.commitmentFavorite[0]?.id
   )
-  const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
+  const navigation = useNavigation()
+  const { setMeet } = useMeet()
   function handlePress() {
     Alert.alert('Tem certeza?', 'Quer eliminar', [
       {
@@ -110,7 +113,8 @@ export const CommitmentPlanCard = ({
   }
 
   function handleCardPress() {
-    navigation.navigate('CommitmentScreen' as 'route', { commitmentPlan })
+    setMeet(commitmentPlan)
+    navigation.navigate('CommitmentScreen' as never)
   }
   function handleImageButton(exp: boolean) {
     setExpanded(exp)

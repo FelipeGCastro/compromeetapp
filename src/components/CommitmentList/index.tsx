@@ -8,13 +8,16 @@ interface ICommitmentPlan {
   commitment_id: number
   commitment: {
     id: number
+    isPublic: boolean
+    user_id: number
     text: string
     favorites: number
+    meets: number
     commitmentFavorite: { user_id?: number; id?: number }[]
   }
   frequency?: string
   status: string
-  timestamp: Date
+  timestamp: string
   user_id: number
 }
 interface ICommitment {
@@ -22,11 +25,14 @@ interface ICommitment {
   text: string
   user_id: number
   favorites: number
+  isPublic: boolean
+  meets: number
   index?: number
   user?: {
     id: number
     name: string
     avatar_url: string
+    username: string
   }
   commitmentFavorite: {
     id?: number

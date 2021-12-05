@@ -6,7 +6,7 @@ export const PickerButton = styled.TouchableOpacity`
   margin-bottom: 10px;
   border-radius: 6px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
 `
 export const PickerButtonText = styled.Text`
   color: ${({ theme }) => theme.colors.textFading};

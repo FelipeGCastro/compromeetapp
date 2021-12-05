@@ -6,6 +6,7 @@ import BackgroundGradient from '../../components/BackgroundGradient'
 import { HeaderScreens } from '../../components/HeaderScreens'
 import { SearchInput } from '../../components/SearchInput'
 import { UserCard } from '../../components/UserCard'
+import { useMeet } from '../../hooks/meet'
 import { api } from '../../services/api'
 
 import { Container, SearchingList, SelectedUsers } from './styles'
@@ -13,7 +14,7 @@ interface IUser {
   id: number
   name: string
   avatar_url: string
-  username?: string
+  username: string
 }
 
 type PeopleSelectorStackParamList = {
@@ -27,6 +28,7 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
   const [searchInput, setSearchInput] = useState('')
   const [users, setUsers] = useState<IUser[]>([])
   const [usersSelected, setUsersSelected] = useState<IUser[]>([])
+  const { addPeople } = useMeet()
 
   useEffect(() => {
     if (route.params?.people) {
@@ -38,7 +40,6 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
     const getUsers = async () => {
       try {
         const result = await api.get('friends')
-        console.log(result.data)
         setUsers(result.data)
       } catch (error) {
         console.log(error)
@@ -70,9 +71,8 @@ export const PeopleSelector = ({ route, navigation }: Props) => {
   }
 
   async function handleSavePress() {
-    navigation.navigate('CommitmentScreen' as 'PeopleSelector', {
-      people: usersSelected
-    })
+    addPeople(usersSelected)
+    navigation.goBack()
   }
 
   const handleOnFocus = () => setSearching(true)

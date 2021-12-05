@@ -66,7 +66,6 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     const getInvitesRequests = async () => {
       try {
         const result = await api.get('invites')
-        console.log('getInvitesRequests', result.data)
         if (!result.data[0]) return
         const mappedRequests = result.data.map(
           (item: InviteRequest, index: number) => ({

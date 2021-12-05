@@ -40,8 +40,7 @@ export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
   const handlePressButton = async () => {
     if (data.toAccept) {
       try {
-        const result = await api.put(`friendship/${data.id}`)
-        console.log('Accepted invite', result.data)
+        await api.put(`friendship/${data.id}`)
         remove(data.id)
       } catch (error) {
         Alert.alert('Problemas ao aceitar pedido')
@@ -60,7 +59,7 @@ export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
     <Container>
       {data.user?.avatar_url ? (
         <>
-          <UserImage avatarUrl={data.user?.avatar_url} />
+          <UserImage avatar_url={data.user?.avatar_url} />
         </>
       ) : (
         <>

@@ -11,11 +11,11 @@ import { api, setTokenInterceptors } from '../services/api'
 import { useNavigation } from '@react-navigation/core'
 
 interface User {
-  id: string
+  id: number
   name: string
   username: string
   email: string
-  avatarUrl: string | undefined
+  avatar_url: string | undefined
   friendships: number
   token: string
 }
@@ -80,13 +80,12 @@ function AuthProvider({ children }: IAuthProviderProps) {
           token: params.access_token
         })
         const { user: userInfo, token } = result.data
-        console.log(userInfo)
         const userLogged = {
           id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
           username: userInfo.username,
-          avatarUrl: userInfo.avatar_url,
+          avatar_url: userInfo.avatar_url,
           friendships: userInfo.friendships,
           token: token
         }
@@ -114,11 +113,8 @@ function AuthProvider({ children }: IAuthProviderProps) {
   }
 
   async function signOut() {
-    const { navigate } = useNavigation()
     setUser({} as User)
     await AsyncStorage.removeItem(userStorageKey)
-    navigate('logout' as never)
-
   }
 
   return (

@@ -1,41 +1,49 @@
+import { useNavigation } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
-import CommitmentCard from '../../components/CommitmentCard'
 import { HeaderScreens } from '../../components/HeaderScreens'
+import { useMeet } from '../../hooks/meet'
+import { api } from '../../services/api'
 import { commitmentsData } from '../Home/temp'
 import { Commitment } from './components/Commitment'
 
-import { Container, Title, CommitmentList } from './styles'
+import { Container, CommitmentList } from './styles'
 
-type CommitmentSelectorStackParamList = {
-  CommitmentSelector: {
-    commitmentSelected: {
-      id: string
-      text: string
-    }
-  }
-  CommitmentScreen: {
-    commitmentSelected: {
-      id: string
-      text: string
-    }
-  }
-}
-type Props = StackScreenProps<
-  CommitmentSelectorStackParamList,
-  'CommitmentSelector'
->
 type CommitmentType = {
-  id: string
+  id: number
   text: string
-}
-export const CommitmentSelector = ({ route, navigation }: Props) => {
-  function handlePressCommitment(commitment: CommitmentType) {
-    navigation.navigate('CommitmentScreen', { commitmentSelected: commitment })
+  isPublic: boolean
+  user_id: number
+  user: {
+    id: number
+    name: string
+    username: string
+    avatar_url: string
   }
+}
+export const CommitmentSelector = () => {
+  const [commitments, setCommitments] = useState<CommitmentType[]>([])
+  const navigation = useNavigation()
+  const { addCommitment } = useMeet()
+
+  useEffect(() => {
+    const getFavoritesCommitments = async () => {
+      try {
+        const result = await api.get('my-commitments')
+        setCommitments(result.data)
+      } catch (error) {}
+    }
+    getFavoritesCommitments()
+  }, [])
+
+  function handlePressCommitment(commitment: CommitmentType) {
+    addCommitment(commitment)
+    navigation.navigate('CommitmentScreen' as never)
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -43,13 +51,10 @@ export const CommitmentSelector = ({ route, navigation }: Props) => {
         <HeaderScreens title="Adicionar dos Favoritos" noButton />
         <CommitmentList
           showsVerticalScrollIndicator={false}
-          data={commitmentsData}
-          keyExtractor={item => item.id}
+          data={commitments}
+          keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => (
-            <Commitment
-              onPress={handlePressCommitment}
-              commitment={item.commitment}
-            />
+            <Commitment onPress={handlePressCommitment} commitment={item} />
           )}
         />
       </Container>

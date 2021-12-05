@@ -34,7 +34,7 @@ export const SigninButton = styled.TouchableOpacity.attrs({
 })`
   flex-direction: row;
   margin-bottom: 15px;
-  elevation: 2;
+  elevation: 4;
   align-items: center;
   justify-content: center;
   width: 80%;

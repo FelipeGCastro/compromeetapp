@@ -20,7 +20,6 @@ export const CommitmentInvite = () => {
 
   const handleAccept = async () => {
     try {
-      console.log(commitmentPlan.inviteId)
       await api.put(`commitment_invites/${commitmentPlan.inviteId}`, {
         status: 'ACCEPTED'
       })

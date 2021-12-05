@@ -4,11 +4,12 @@ export const ContentWrapper = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8
 })`
   background-color: ${({ theme }) => theme.colors.textLight};
-  padding: 20px 5px;
+  padding: 5px;
   border-radius: 6px;
   margin-bottom: 10px;
 `
 export const CommitmentText = styled.Text`
+  margin: 20px 5px 30px;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.lightItalico};

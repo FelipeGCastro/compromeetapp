@@ -15,19 +15,22 @@ interface ICommitment {
   id: number
   text: string
   favorites: number
+  meets: number
+  isPublic: boolean
   commitmentFavorite: { user_id?: number; id?: number }[]
   user_id: number
   user: {
     id: number
     name: string
     avatar_url: string
+    username: string
   }
 }
 interface User {
   id: number
   name: string
   avatar_url: string
-  username?: string
+  username: string
 }
 
 export const Explore = () => {
@@ -53,7 +56,6 @@ export const Explore = () => {
     const getUsers = async () => {
       try {
         const result = await api.get('users')
-        console.log(result.data)
         setUsers(result.data)
       } catch (error) {
         console.log('ERROR', error)
@@ -89,10 +91,7 @@ export const Explore = () => {
         />
         <Tab onTabPress={onTabPress} />
         {tab === 'Meets' ? (
-          <CommitmentList
-            commitment={commitments}
-            noLabel
-          />
+          <CommitmentList commitment={commitments} noLabel />
         ) : (
           <UserList
             data={users}

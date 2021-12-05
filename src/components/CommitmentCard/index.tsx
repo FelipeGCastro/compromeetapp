@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
+import { useMeet } from '../../hooks/meet'
 import { api } from '../../services/api'
 import { UserMini } from '../UserCard/UserMini'
 import { ImageCard } from './components/ImageCard'
@@ -33,11 +34,14 @@ interface ICommitment {
   text: string
   user_id: number
   favorites: number
+  isPublic: boolean
+  meets?: number
   index?: number
   user?: {
     id: number
     name: string
     avatar_url: string
+    username: string
   }
   commitmentFavorite: {
     id?: number
@@ -66,7 +70,8 @@ export const CommitmentCard = ({
   const [favoriteId, setFavoriteId] = useState(
     commitment.commitmentFavorite[0]?.id
   )
-  const navigation = useNavigation<StackNavigationProp<{ route: {} }>>()
+  const navigation = useNavigation()
+  const { addCommitment } = useMeet()
   function handlePressDelete() {
     Alert.alert('Tem certeza?', 'Quer eliminar', [
       {
@@ -89,7 +94,8 @@ export const CommitmentCard = ({
   }
 
   function handleCardPress() {
-    navigation.navigate('CommitmentScreen' as 'route', { commitment })
+    addCommitment(commitment)
+    navigation.navigate('CommitmentScreen' as never)
   }
 
   async function handlePressFavorite() {
@@ -146,7 +152,7 @@ export const CommitmentCard = ({
           </FavoriteButton>
           <UploadButton>
             <UploadIcon name="upload" />
-            <UploadsNumber>1</UploadsNumber>
+            <UploadsNumber>{commitment.meets || ''}</UploadsNumber>
           </UploadButton>
           {deleteButton && (
             <CloseButton onPress={handlePressDelete}>

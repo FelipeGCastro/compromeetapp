@@ -12,7 +12,7 @@ export const Container = styled.TouchableOpacity.attrs({
   height: 55px;
   align-items: center;
   justify-content: center;
-  elevation: 2;
+  elevation: 4;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.18);
   background-color: ${({ theme }) => theme.colors.link};
 `

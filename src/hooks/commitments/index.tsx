@@ -11,8 +11,6 @@ import { api } from '../../services/api'
 
 interface ICommitmentContextData {
   commitmentPlans: ICommitmentPlan[]
-  setEditCommitment: (meet: ICommitmentPlan) => void
-  commitmentPlan: ICommitmentPlan
 }
 
 interface ICommitmentProviderProps {
@@ -36,9 +34,6 @@ const CommitmentContext = createContext({} as ICommitmentContextData)
 
 function CommitmentProvider({ children }: ICommitmentProviderProps) {
   const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlan[]>([])
-  const [commitmentPlan, setCommitmentPlan] = useState<ICommitmentPlan>(
-    {} as ICommitmentPlan
-  )
 
   useEffect(() => {
     getCommitments()
@@ -53,15 +48,9 @@ function CommitmentProvider({ children }: ICommitmentProviderProps) {
       Alert.alert('Error ao buscar seus compromissos')
     }
   }
-  const setEditCommitment = (commitmentPlan: ICommitmentPlan) => {
-    const navigation = useNavigation()
-    setCommitmentPlan(commitmentPlan)
-    navigation.navigate('CommitmentScreen' as never)
-  }
+
   return (
-    <CommitmentContext.Provider
-      value={{ commitmentPlans, setEditCommitment, commitmentPlan }}
-    >
+    <CommitmentContext.Provider value={{ commitmentPlans }}>
       {children}
     </CommitmentContext.Provider>
   )

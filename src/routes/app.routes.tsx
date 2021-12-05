@@ -15,23 +15,26 @@ import { Schedule } from '../screens/Schedule'
 import { CommitmentInvite } from '../screens/CommitmentInvite'
 import { NotificationsProvider } from '../hooks/notifications'
 import { CommitmentProvider } from '../hooks/commitments'
+import { MeetProvider } from '../hooks/meet'
 
 const { Navigator, Screen } = createStackNavigator()
 
 export function PrivateRoutes() {
   return (
     <CommitmentProvider>
-    <NotificationsProvider>
-      <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="menu" component={MenuRoutes}></Screen>
-        <Screen name="CommitmentScreen" component={CommitmentScreen} />
-        <Screen name="PeopleSelector" component={PeopleSelector} />
-        <Screen name="CommitmentSelector" component={CommitmentSelector} />
-        <Screen name="schedule" component={Schedule}></Screen>
-        <Screen name="logout" component={Logout} />
-        <Screen name="CommitmentInvite" component={CommitmentInvite} />
-      </Navigator>
-    </NotificationsProvider>
+      <NotificationsProvider>
+        <MeetProvider>
+          <Navigator screenOptions={{ headerShown: false }}>
+            <Screen name="menu" component={MenuRoutes}></Screen>
+            <Screen name="CommitmentScreen" component={CommitmentScreen} />
+            <Screen name="PeopleSelector" component={PeopleSelector} />
+            <Screen name="CommitmentSelector" component={CommitmentSelector} />
+            <Screen name="schedule" component={Schedule}></Screen>
+            <Screen name="logout" component={Logout} />
+            <Screen name="CommitmentInvite" component={CommitmentInvite} />
+          </Navigator>
+        </MeetProvider>
+      </NotificationsProvider>
     </CommitmentProvider>
   )
 }

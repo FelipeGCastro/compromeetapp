@@ -15,7 +15,7 @@ export const OptionButtonLeft = styled.TouchableOpacity<ActiveProps>`
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
   height: 35px;
   width: 120px;
   border-top-left-radius: 6px;
@@ -27,7 +27,7 @@ export const OptionButtonRight = styled.TouchableOpacity<ActiveProps>`
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
   height: 35px;
   width: 120px;
   border-top-right-radius: 6px;

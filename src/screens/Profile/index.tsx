@@ -50,7 +50,6 @@ export const Profile: React.FC = () => {
   }, [])
 
   async function getCommitments() {
-
     try {
       const result = await api.get('commitment_plans')
       setCommitmentPlans(result.data)
@@ -60,14 +59,13 @@ export const Profile: React.FC = () => {
     }
   }
 
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
         <ProfileCard>
           <ImageContainer>
-            <UserImg source={{ uri: user.avatarUrl }} />
+            <UserImg source={{ uri: user.avatar_url }} />
           </ImageContainer>
           <ProfileInfoContainer>
             <ProfileNameAndUsername>
@@ -90,10 +88,7 @@ export const Profile: React.FC = () => {
           </SettingsButton>
         </ProfileCard>
         <CommitmentTitle>Meets Realizadas</CommitmentTitle>
-        <CommitmentList
-          commitmentPlans={commitmentPlans}
-          isCommitmentPlan
-        />
+        <CommitmentList commitmentPlans={commitmentPlans} isCommitmentPlan />
       </Container>
     </SafeAreaView>
   )

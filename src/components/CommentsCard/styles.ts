@@ -7,7 +7,7 @@ export const Container = styled.View`
   align-items: stretch;
   background-color: ${({ theme }) => theme.colors.textLight};
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
   padding: 5px 7px;
   border-radius: 6px;
 `

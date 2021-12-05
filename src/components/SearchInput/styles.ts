@@ -10,7 +10,7 @@ export const SearchInputContainer = styled.View`
   border-radius: 20px;
   padding: 0 10px 0 20px;
   margin-bottom: 20px;
-  elevation: 1;
+  elevation: 4;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
 `
 export const Input = styled.TextInput`

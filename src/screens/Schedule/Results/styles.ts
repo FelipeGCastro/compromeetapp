@@ -26,7 +26,7 @@ export const HeaderButton = styled.TouchableOpacity.attrs({
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 2;
+  elevation: 4;
 `
 export const ContentContainer = styled.View`
   flex-direction: row;
@@ -38,7 +38,7 @@ export const ResultItem = styled.View`
   padding: 10px 15px;
   border-radius: 8px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 2;
+  elevation: 4;
   align-items: center;
   justify-content: center;
   margin: 4px 6px;
@@ -64,7 +64,7 @@ export const CloseButton = styled.TouchableOpacity.attrs({
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 2;
+  elevation: 4;
   position: absolute;
   right: -7px;
   top: -7px;

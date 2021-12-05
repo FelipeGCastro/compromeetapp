@@ -8,7 +8,7 @@ export const Container = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })`
   align-items: center;
   background-color: ${({ theme }) => theme.colors.textLight};
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 1;
+  elevation: 4;
   padding: 5px 15px;
   align-self: flex-start;
   border-radius: 6px;

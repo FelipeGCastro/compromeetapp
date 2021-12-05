@@ -13,9 +13,17 @@ export const UserImage = styled.Image`
   border-radius: 15px;
   margin-right: 7px;
 `
+export const NameAndUsername = styled.View``
 export const UserName = styled.Text`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.medium};
   margin-right: 7px;
+`
+export const UserUsername = styled.Text`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.textFading};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  margin-right: 7px;
+  margin-top: -2px;
 `

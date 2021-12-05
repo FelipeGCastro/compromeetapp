@@ -4,13 +4,13 @@ import { View } from 'react-native'
 import { ImageContainer, UserImg } from './styles'
 
 interface IUserImageProps {
-  avatarUrl: string
+  avatar_url: string
 }
 
-export const UserImage = ({ avatarUrl }: IUserImageProps) => {
+export const UserImage = ({ avatar_url }: IUserImageProps) => {
   return (
     <ImageContainer>
-      <UserImg source={{ uri: avatarUrl }} />
+      <UserImg source={{ uri: avatar_url }} />
     </ImageContainer>
   )
 }
