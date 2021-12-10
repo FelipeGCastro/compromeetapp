@@ -62,12 +62,10 @@ interface ICommitment {
 
 interface ICommitmentPlan {
   commitment_id: number
-  created_at: string
   frequency?: string
   id: number
   status: string
   timestamp: string
-  updated_at: string
   user_id: number
   user: {
     id: number

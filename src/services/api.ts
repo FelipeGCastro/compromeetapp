@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios, { AxiosError } from 'axios'
-import { navigate } from '../routes/rootnavigator'
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.81:3333'
+  baseURL: 'http://192.168.1.86:3333'
 })
 const getToken = async () => {
   const userStorageKey = '@compromeet:user'

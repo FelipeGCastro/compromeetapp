@@ -21,6 +21,7 @@ interface INotificationsContextData {
   handleRemoveInvite: (id: number) => void
   notifications: INotifications[]
   commitmentPlan: ICommitmentPlan
+  setInviteMeet: (meet: ICommitmentPlan) => void
   loadCommitmentPlan: (notification: {
     commitmentPlanId: number
     inviteId: number
@@ -98,7 +99,11 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     )
     setNotifications(filteredRequests)
   }
-
+  
+  const setInviteMeet = (meet:ICommitmentPlan) => {
+    setCommitmentPlan(meet)
+  }
+  
   const loadCommitmentPlan = async (notification: {
     commitmentPlanId: number
     inviteId: number
@@ -121,6 +126,7 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
         notifications,
         commitmentPlan,
         loadCommitmentPlan,
+        setInviteMeet,
         handleRemoveInvite,
         getFriendRequests
       }}

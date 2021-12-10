@@ -35,7 +35,7 @@ function MeetProvider({ children }: IMeetProviderProps) {
   // set commitment fixed
 
   useEffect(() => {
-    if (!editing && commitmentFixed.text && schedule) {
+    if (editing && commitmentFixed.text && schedule) {
       setDisableButton(false)
     } else {
       if (/\S/.test(commitment)) setDisableButton(false)
@@ -74,7 +74,7 @@ function MeetProvider({ children }: IMeetProviderProps) {
       const invitedPeople = result.data.map(
         (invite: { usertwo: IUser }) => invite.usertwo
       )
-      setPeople([...people, ...invitedPeople])
+      setPeople(invitedPeople)
     } catch (error) {
       console.log('GET PEOPLE ERROR', error)
     }
@@ -164,6 +164,7 @@ function MeetProvider({ children }: IMeetProviderProps) {
       value={{
         editing,
         setMeet,
+        getPeople,
         commitmentFixed,
         commitment,
         isPublic,

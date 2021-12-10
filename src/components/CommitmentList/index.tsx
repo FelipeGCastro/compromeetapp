@@ -15,6 +15,12 @@ interface ICommitmentPlan {
     meets: number
     commitmentFavorite: { user_id?: number; id?: number }[]
   }
+  user: {
+    id: number
+    name: string
+    avatar_url: string
+    username: string
+  }
   invites: number
   frequency?: string
   status: string

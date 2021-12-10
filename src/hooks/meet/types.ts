@@ -43,6 +43,7 @@ interface IMeetContextData {
   frequency: string
   disableButton: boolean
   image: string
+  getPeople: (meetId: number) => Promise<void>
   setMeet: (meet: ICommitmentPlan) => void
   handleOnPressSave: (goBack: () => void) => Promise<void>
   createCommitmentPlans: (goBack: () => void) => Promise<void>

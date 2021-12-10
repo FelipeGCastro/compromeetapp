@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommentsCard } from '../../components/CommentsCard'
 import { CommitmentCard } from '../../components/CommitmentCard'
 import { HeaderScreens } from '../../components/HeaderScreens'
+import { useMeet } from '../../hooks/meet'
 import { useNotifications } from '../../hooks/notifications'
 import { api } from '../../services/api'
 import Buttons from './Buttons'
@@ -16,7 +17,17 @@ import User from './User'
 
 export const CommitmentInvite = () => {
   const { commitmentPlan, handleRemoveInvite } = useNotifications()
+  const { getPeople, people } = useMeet()
   const navigation = useNavigation()
+
+  useEffect(() => {
+    const fetchPeople = async () => {
+      await getPeople(commitmentPlan.id)
+    }
+    if (commitmentPlan.id) {
+      fetchPeople()
+    }
+  }, [commitmentPlan])
 
   const handleAccept = async () => {
     try {
@@ -44,12 +55,15 @@ export const CommitmentInvite = () => {
       <Container>
         <BackgroundGradient />
         <HeaderScreens title="Meet" noButton />
-        <User user={commitmentPlan.user}></User>
+        <User user={commitmentPlan.user} />
         <MeetInfo
           timestamp={commitmentPlan.timestamp}
           frequency={commitmentPlan.frequency}
+          people={people}
         />
-        <Buttons onePressAccept={handleAccept} onPressReject={handleReject} />
+        {commitmentPlan.inviteId !== 0 && (
+          <Buttons onePressAccept={handleAccept} onPressReject={handleReject} />
+        )}
         <Space />
         <CommitmentCard commitment={commitmentPlan.commitment} />
         <CommentsCard />

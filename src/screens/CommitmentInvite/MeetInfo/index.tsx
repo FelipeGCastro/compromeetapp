@@ -8,14 +8,16 @@ import {
   DataLabel,
   FrequencyLabel
 } from './styles'
+import { IUser } from '../../../hooks/meet/types'
 
 interface MeetInfoProps {
   timestamp?: string
   frequency?: string
+  people: IUser[]
 }
 
-const MeetInfo = ({ timestamp, frequency }: MeetInfoProps) => {
-  var localLocale = moment()
+const MeetInfo = ({ timestamp, frequency, people }: MeetInfoProps) => {
+  var localLocale = moment(timestamp)
 
   // localLocale.locale('pt-br') // set this instance to use French // dimanche 15 juillet 2012 11:01
   return (
@@ -29,6 +31,14 @@ const MeetInfo = ({ timestamp, frequency }: MeetInfoProps) => {
         <>
           <FrequencyLabel>Frequencia</FrequencyLabel>
           <FrequencyField>{frequency}</FrequencyField>
+        </>
+      )}
+      {people.length > 0 && (
+        <>
+          <FrequencyLabel>Convidados</FrequencyLabel>
+          <FrequencyField>
+            {people.map(person => person.name).join(', ')}
+          </FrequencyField>
         </>
       )}
     </Container>

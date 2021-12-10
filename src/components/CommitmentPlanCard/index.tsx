@@ -32,6 +32,8 @@ import {
   CloseIcon
 } from './styles'
 import moment from 'moment'
+import { useAuth } from '../../hooks/auth'
+import { useNotifications } from '../../hooks/notifications'
 
 interface ICommitmentPlan {
   id: number
@@ -52,7 +54,7 @@ interface ICommitmentPlan {
   status: string
   timestamp: string
   user_id: number
-  user?: {
+  user: {
     id: number
     name: string
     username: string
@@ -67,12 +69,6 @@ interface CommitmentCardProps {
   noFooter?: boolean
   commitmentPlan: ICommitmentPlan
 }
-const dateFormat = new Intl.DateTimeFormat('pt-BR', {
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit'
-})
 
 export const CommitmentPlanCard = ({
   commitmentPlan,
@@ -93,20 +89,8 @@ export const CommitmentPlanCard = ({
   )
   const navigation = useNavigation()
   const { setMeet } = useMeet()
-  function handlePress() {
-    Alert.alert('Tem certeza?', 'Quer eliminar', [
-      {
-        onPress: () => {},
-        style: 'cancel',
-        text: 'cancelar'
-      },
-      {
-        text: 'Excluir',
-        style: 'destructive',
-        onPress: () => deleteCommitmentPlan()
-      }
-    ])
-  }
+  const { setInviteMeet } = useNotifications()
+  const { user } = useAuth()
 
   async function deleteCommitmentPlan() {
     try {
@@ -117,8 +101,13 @@ export const CommitmentPlanCard = ({
   }
 
   function handleCardPress() {
-    setMeet(commitmentPlan)
-    navigation.navigate('CommitmentScreen' as never)
+    if (user.id === commitmentPlan.user_id) {
+      setMeet(commitmentPlan)
+      navigation.navigate('CommitmentScreen' as never)
+    } else {
+      setInviteMeet({...commitmentPlan, inviteId: 0 })
+      navigation.navigate('CommitmentInvite' as never)
+    }
   }
   function handleImageButton(exp: boolean) {
     setExpanded(exp)
