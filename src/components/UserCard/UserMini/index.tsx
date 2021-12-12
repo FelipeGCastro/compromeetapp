@@ -15,13 +15,14 @@ interface UserMiniProps {
     name: string
     username: string
   }
+  reverse?: boolean
 }
 
-export const UserMini = ({ user }: UserMiniProps) => {
+export const UserMini = ({ user, reverse }: UserMiniProps) => {
   return (
-    <UserContainer>
+    <UserContainer reverse={!!reverse}>
       <UserImage source={{ uri: user.avatar_url }} />
-      <NameAndUsername>
+      <NameAndUsername reverse={!!reverse}>
         <UserName>{user.name}</UserName>
         <UserUsername>@{user.username}</UserUsername>
       </NameAndUsername>

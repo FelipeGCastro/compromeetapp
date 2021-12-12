@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '../../hooks/auth'
+import { api } from '../../services/api'
 import { UserMini } from '../UserCard/UserMini'
 
 import {
@@ -17,34 +19,52 @@ import {
   CommentInput
 } from './styles'
 
-const commentsMock: Comments[] = [
-  {
-    id: 'comment5156s1a15da56s1f',
-    text: 'Olá, só para lembrar que vou estar aguardando em frente a sorveteria',
-    user: {
-      user_id: 'user315315',
-      avatar_url: 'http://github.com/felipegcastro.png',
-      name: 'Luiz Felipe Castro'
-    }
-  }
-]
 type Comments = {
-  id: string
+  id: number
   user: {
-    user_id: string
+    id: number
     avatar_url: string
     name: string
+    username: string
   }
   text: string
 }
 
 interface ICommentsCardProps {
-  comments?: Comments[]
+  meetId?: number
 }
 
-export const CommentsCard = ({ comments = [] }: ICommentsCardProps) => {
-  // Remove commentsMock
+export const CommentsCard = ({ meetId }: ICommentsCardProps) => {
   const [commentInput, setCommentInput] = useState('')
+  const [comments, setComments] = useState<Comments[]>([])
+  const { user } = useAuth()
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const result = await api.get(`comments/${meetId}`)
+        setComments(result.data)
+      } catch (error) {
+        console.log('ERROR COMMENTS', error)
+      }
+    }
+    if (meetId) getComments()
+  }, [meetId])
+
+  const handlePressSend = async () => {
+    if (/\S/.test(commentInput)) {
+      try {
+        const result = await api.post('comments', {
+          meetId: meetId,
+          text: commentInput
+        })
+        setComments(prev => [...prev, { ...result.data, user }])
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <Container>
       <HeaderWrapper>
@@ -56,8 +76,8 @@ export const CommentsCard = ({ comments = [] }: ICommentsCardProps) => {
       </HeaderWrapper>
       <Comments>
         {comments.map(comm => (
-          <CommentWrapper key={comm.id}>
-            <UserMini user={comm.user} />
+          <CommentWrapper reverse={comm.user.id === user.id} key={comm.id}>
+            <UserMini reverse={comm.user.id === user.id} user={comm.user} />
             <CommentText>{comm.text}</CommentText>
           </CommentWrapper>
         ))}
@@ -69,7 +89,7 @@ export const CommentsCard = ({ comments = [] }: ICommentsCardProps) => {
           multiline
           placeholder="Escrever Comentários"
         />
-        <SendButton>
+        <SendButton onPress={handlePressSend}>
           <SendIcon />
         </SendButton>
       </InputWrapper>

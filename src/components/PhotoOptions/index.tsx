@@ -1,6 +1,6 @@
 import React from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import BottomSheet from '../../../components/BottomSheet'
+import BottomSheet from '../BottomSheet'
 
 import { PickerButton, PickerButtonText } from './styles'
 

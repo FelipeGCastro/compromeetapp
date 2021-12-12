@@ -31,6 +31,21 @@ export const UserImg = styled.Image`
   height: 90px;
   border-radius: 48px;
 `
+
+export const ImageButton = styled.TouchableOpacity`
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+  right: -5px;
+  bottom: -5px;
+  background-color: ${({ theme }) => theme.colors.link};
+  align-items: center;
+  justify-content: center;
+`
+export const ImageIcon = styled(MaterialIcons)`
+  color: ${({ theme }) => theme.colors.textLight};
+`
 export const ProfileInfoContainer = styled.View`
   flex: 1;
   justify-content: space-between;

@@ -163,6 +163,7 @@ function MeetProvider({ children }: IMeetProviderProps) {
     <MeetContext.Provider
       value={{
         editing,
+        toEditMeet,
         setMeet,
         getPeople,
         commitmentFixed,

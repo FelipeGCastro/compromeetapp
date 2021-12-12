@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommentsCard } from '../../components/CommentsCard'
@@ -55,6 +56,7 @@ export const CommitmentInvite = () => {
       <Container>
         <BackgroundGradient />
         <HeaderScreens title="Meet" noButton />
+      <ScrollView showsVerticalScrollIndicator={false}>
         <User user={commitmentPlan.user} />
         <MeetInfo
           timestamp={commitmentPlan.timestamp}
@@ -66,7 +68,8 @@ export const CommitmentInvite = () => {
         )}
         <Space />
         <CommitmentCard commitment={commitmentPlan.commitment} />
-        <CommentsCard />
+        <CommentsCard meetId={commitmentPlan.id} />
+      </ScrollView>
       </Container>
     </SafeAreaView>
   ) : (

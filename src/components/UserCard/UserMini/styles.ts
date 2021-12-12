@@ -1,9 +1,11 @@
 import styled from 'styled-components/native'
-
+type UserType = {
+  reverse: boolean
+}
 export const UserContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8
-})`
-  flex-direction: row;
+})<UserType>`
+  flex-direction: ${({ reverse }) => reverse ? 'row-reverse' : 'row'} ;
   align-items: center;
   justify-content: flex-start;
 `
@@ -13,7 +15,10 @@ export const UserImage = styled.Image`
   border-radius: 15px;
   margin-right: 7px;
 `
-export const NameAndUsername = styled.View``
+export const NameAndUsername = styled.View<UserType>`
+  align-items: ${({reverse}) => reverse ? 'flex-end' : 'flex-start' };
+`
+
 export const UserName = styled.Text`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.title};

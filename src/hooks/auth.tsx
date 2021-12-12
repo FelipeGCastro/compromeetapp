@@ -22,8 +22,10 @@ interface IAuthContextData {
   user: User
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
+  getMe: () => Promise<void>
   userStorageloading: boolean
   setUsername: (username: string) => Promise<void>
+  setUser: (user: User) => void
 }
 
 interface IAuthorizationResponse {
@@ -118,6 +120,15 @@ function AuthProvider({ children }: IAuthProviderProps) {
     await AsyncStorage.clear()
   }
 
+  async function getMe() {
+    try {
+      const result = await api.get('getme')
+      setUser(result.data)
+    } catch (error) {
+      console.log('GET ME', error)
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -125,6 +136,8 @@ function AuthProvider({ children }: IAuthProviderProps) {
         signInWithGoogle,
         userStorageloading,
         signOut,
+        getMe,
+        setUser,
         setUsername
       }}
     >

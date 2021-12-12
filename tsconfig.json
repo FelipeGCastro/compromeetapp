@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-      "strict": true
+    "strict": true,
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
   },
   "extends": "expo/tsconfig.base"
 }

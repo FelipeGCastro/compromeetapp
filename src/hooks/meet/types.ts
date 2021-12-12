@@ -34,6 +34,7 @@ interface ICommitmentPlan {
 
 interface IMeetContextData {
   editing: boolean
+  toEditMeet?: ICommitmentPlan
   commitmentFixed: ICommitment
   commitment: string
   isPublic: boolean

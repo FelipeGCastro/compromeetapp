@@ -5,9 +5,8 @@ export const Container = styled.View`
   align-self: stretch;
   margin-top: 10px;
   align-items: stretch;
-  background-color: ${({ theme }) => theme.colors.textLight};
+  background-color: ${({ theme }) => theme.colors.shape};
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.18);
-  elevation: 4;
   padding: 5px 7px;
   border-radius: 6px;
 `
@@ -15,6 +14,7 @@ export const Container = styled.View`
 export const HeaderWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 10px;
 `
 export const MockView = styled.View`
   width: 40px;
@@ -32,13 +32,18 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `
 export const Comments = styled.View``
-export const CommentWrapper = styled.View`
+
+type IComment = {
+  reverse: boolean
+}
+export const CommentWrapper = styled.View<IComment>`
   padding: 7px 0;
   border-bottom-width: 2px;
   border-bottom-color: ${({ theme }) => theme.colors.background};
+  align-items: ${({ reverse }) => reverse ? 'flex-end' : 'flex-start'};
 `
 export const CommentText = styled.Text`
-  margin: 0px 20px;
+  margin: 10px 20px;
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.regular};
 `

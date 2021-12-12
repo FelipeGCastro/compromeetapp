@@ -22,10 +22,11 @@ import { CommentsCard } from '../../components/CommentsCard'
 
 import CommitmentFixed from './CommitmentFixed'
 import { CommitmentImage } from './CommitmentImage'
-import { PhotoOptions } from './PhotoOptions'
+
 import { useMeet } from '../../hooks/meet'
 import { useNavigation } from '@react-navigation/core'
 import MeetHeader from './MeetHeader'
+import { PhotoOptions } from '../../components/PhotoOptions'
 
 export const CommitmentScreen = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -34,6 +35,7 @@ export const CommitmentScreen = () => {
 
   const {
     editing,
+    toEditMeet,
     people,
     isPublic,
     schedule,
@@ -150,7 +152,7 @@ export const CommitmentScreen = () => {
             </>
           )}
           {!!image && <CommitmentImage image={image} setImage={setImage} />}
-          <CommentsCard />
+          {editing && toEditMeet && <CommentsCard meetId={toEditMeet.id} />}
         </ScrollView>
         <PhotoOptions
           visible={openModal}

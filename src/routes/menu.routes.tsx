@@ -26,9 +26,9 @@ export function MenuRoutes() {
           } else if (route.name === 'explore') {
             return (
               <MaterialIcons
-                style={{ marginBottom: 10 }}
+                style={{ marginBottom: 0 }}
                 name="explore"
-                size={size + 15}
+                size={size + 22}
                 color={focused ? color : theme.colors.link}
               />
             )

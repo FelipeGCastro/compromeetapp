@@ -3,13 +3,17 @@ import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommitmentList } from '../../components/CommitmentList'
+import { PhotoOptions } from '../../components/PhotoOptions'
 import { useAuth } from '../../hooks/auth'
+import { IUser } from '../../hooks/meet/types'
 import { api } from '../../services/api'
 
 import {
   Container,
   ProfileCard,
   ImageContainer,
+  ImageButton,
+  ImageIcon,
   ProfileInfoContainer,
   ProfileNameAndUsername,
   ProfileName,
@@ -44,15 +48,17 @@ interface ICommitmentPlans {
   status: string
   timestamp: string
   user_id: number
+  user: IUser
 }
 export const Profile: React.FC = () => {
-  const { user, signOut } = useAuth()
+  const { user, signOut, getMe, setUser } = useAuth()
+  const [photoModal, setPhotoModal] = useState(false)
 
   const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlans[]>([])
   useEffect(() => {
+    getMe()
     getCommitments()
   }, [])
-
   async function getCommitments() {
     try {
       const result = await api.get('commitment_plans')
@@ -63,6 +69,29 @@ export const Profile: React.FC = () => {
     }
   }
 
+  const handlePressPhoto = async (imgUri: string) => {
+    console.log(imgUri)
+    try {
+      const formData = new FormData()
+      formData.append('avatar', {
+        uri: imgUri,
+        type: 'image/jpg',
+        name: user.username
+      })
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      const result = await api.post('avatar', formData, config)
+      if (result.data?.avatar_url) {
+        setUser(result.data)
+      }
+    } catch (error) {
+      console.log('UPDATE AVATAR', error)
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -70,6 +99,9 @@ export const Profile: React.FC = () => {
         <ProfileCard>
           <ImageContainer>
             <UserImg source={{ uri: user.avatar_url }} />
+            <ImageButton onPress={() => setPhotoModal(true)}>
+              <ImageIcon name="camera-alt" size={22} />
+            </ImageButton>
           </ImageContainer>
           <ProfileInfoContainer>
             <ProfileNameAndUsername>
@@ -93,6 +125,11 @@ export const Profile: React.FC = () => {
         </ProfileCard>
         <CommitmentTitle>Meets Realizadas</CommitmentTitle>
         <CommitmentList commitmentPlans={commitmentPlans} isCommitmentPlan />
+        <PhotoOptions
+          visible={photoModal}
+          setOpenModal={setPhotoModal}
+          setImage={handlePressPhoto}
+        />
       </Container>
     </SafeAreaView>
   )

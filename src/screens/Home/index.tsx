@@ -19,6 +19,7 @@ import BottomSheet from '../../components/BottomSheet'
 import { ActionButton } from './components/ActionButton/ActionButton'
 import { CommitmentList } from '../../components/CommitmentList'
 import { useCommitment } from '../../hooks/commitments'
+import { useAuth } from '../../hooks/auth'
 
 interface IPeriod {
   label: string
@@ -39,8 +40,9 @@ export const Home = () => {
   })
 
   const { commitmentPlans, getCommitments } = useCommitment()
-
+  const { getMe } = useAuth()
   useEffect(() => {
+    getMe()
     getCommitments()
   }, [])
 
