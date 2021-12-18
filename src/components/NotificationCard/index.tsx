@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
-import { Alert, View } from 'react-native'
 import { useNotifications } from '../../hooks/notifications'
 import { api } from '../../services/api'
 import { UserImage } from '../UserImage'
@@ -43,7 +42,7 @@ export const NotificationCard = ({ data, remove }: INotificationCardProps) => {
         await api.put(`friendship/${data.id}`)
         remove(data.id)
       } catch (error) {
-        Alert.alert('Problemas ao aceitar pedido')
+        console.log('Problemas ao aceitar pedido', error)
       }
     }
     if (data.type === 'commitment' && data.commitmentPlanId) {

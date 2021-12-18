@@ -30,7 +30,6 @@ function MeetProvider({ children }: IMeetProviderProps) {
   const [frequency, setFrequency] = useState<string>('')
   const [disableButton, setDisableButton] = useState(true)
   const [image, setImage] = useState('')
-
   //   set people
   // set commitment fixed
 

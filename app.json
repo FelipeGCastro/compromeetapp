@@ -12,7 +12,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
-      "package": "com.luizcastro.compromeetapp"
+      "package": "com.compromeetapp"
     },
     "packagerOpts": {
       "config": "metro.config.js",

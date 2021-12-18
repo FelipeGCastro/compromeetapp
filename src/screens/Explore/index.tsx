@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommitmentList } from '../../components/CommitmentList'
@@ -45,8 +44,7 @@ export const Explore = () => {
         const result = await api.get('commitments')
         setCommitments(result.data)
       } catch (error) {
-        console.log('ERROR', error)
-        Alert.alert('Erro ao buscar compromissos')
+        console.log('Erro ao buscar compromissos', error)
       }
     }
     getCommitments()
@@ -58,8 +56,7 @@ export const Explore = () => {
         const result = await api.get('users')
         setUsers(result.data)
       } catch (error) {
-        console.log('ERROR', error)
-        Alert.alert('Erro ao buscar users')
+        console.log('Erro ao buscar users', error)
       }
     }
     getUsers()
@@ -73,8 +70,7 @@ export const Explore = () => {
         setUsers(newUsers)
       }
     } catch (error) {
-      console.log('ERROR', error)
-      Alert.alert('Erro ao Adicionar amigo')
+      console.log('Erro ao Adicionar amigo', error)
     }
   }
   const onTabPress = (tab: string) => {

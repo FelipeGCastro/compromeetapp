@@ -25,9 +25,9 @@ export const UserNameScreen = () => {
       setusernameValid(!result.data)
       setusernameExist(!!result.data)
     } catch (error) {
-      console.log(error)
-      Alert.alert(
-        'Ocorreu algum problema ao criar o username. Tente novamente mais tarde!'
+      console.log(
+        'Ocorreu algum problema ao criar o username. Tente novamente mais tarde!',
+        error
       )
     } finally {
       setLoading(false)

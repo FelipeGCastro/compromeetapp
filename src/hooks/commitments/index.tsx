@@ -51,8 +51,7 @@ function CommitmentProvider({ children }: ICommitmentProviderProps) {
       const result = await api.get('commitment_plans')
       setCommitmentPlans(result.data)
     } catch (error) {
-      console.log(error)
-      Alert.alert('Error ao buscar seus compromissos')
+      console.log('Error ao buscar seus compromissos', error)
     }
   }
 

@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
-import { Alert } from 'react-native'
-import { useMeet } from '../../hooks/meet'
 import { api } from '../../services/api'
 import { UserMini } from '../UserCard/UserMini'
 import { ImageCard } from './components/ImageCard'
@@ -88,27 +86,13 @@ export const CommitmentPlanCard = ({
       commitmentPlan.commitment.commitmentFavorite[0]?.id
   )
   const navigation = useNavigation()
-  const { setMeet } = useMeet()
   const { setInviteMeet } = useNotifications()
-  const { user } = useAuth()
-
-  async function deleteCommitmentPlan() {
-    try {
-      await api.delete(`commitment_plans/${commitmentPlan.id}`)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   function handleCardPress() {
-    if (user.id === commitmentPlan.user_id) {
-      setMeet(commitmentPlan)
-      navigation.navigate('CommitmentScreen' as never)
-    } else {
-      setInviteMeet({...commitmentPlan, inviteId: 0 })
-      navigation.navigate('CommitmentInvite' as never)
-    }
+    setInviteMeet({ ...commitmentPlan, inviteId: 0 })
+    navigation.navigate('CommitmentInvite' as never)
   }
+
   function handleImageButton(exp: boolean) {
     setExpanded(exp)
   }
@@ -128,7 +112,7 @@ export const CommitmentPlanCard = ({
       }
     } catch (error) {
       setIsFavorite(prev => !prev)
-      Alert.alert('Problema', 'Error ao atualizar favorite')
+      console.log('Problema', 'Error ao atualizar favorite')
     }
   }
 

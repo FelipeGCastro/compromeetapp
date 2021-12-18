@@ -56,8 +56,7 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
       )
       setNotifications([...mappedRequests, ...notifications])
     } catch (error) {
-      console.log(error)
-      Alert.alert('Erro ao buscar pedidos de amizade')
+      console.log('Erro ao buscar pedidos de amizade', error)
     }
   }
 
@@ -82,8 +81,7 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
         )
         setNotifications([...mappedRequests, ...notifications])
       } catch (error) {
-        console.log(error)
-        Alert.alert('Erro ao buscar convites')
+        console.log('Erro ao buscar convites', error)
       }
     }
     getInvitesRequests()
@@ -99,11 +97,11 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
     )
     setNotifications(filteredRequests)
   }
-  
-  const setInviteMeet = (meet:ICommitmentPlan) => {
+
+  const setInviteMeet = (meet: ICommitmentPlan) => {
     setCommitmentPlan(meet)
   }
-  
+
   const loadCommitmentPlan = async (notification: {
     commitmentPlanId: number
     inviteId: number
@@ -114,8 +112,7 @@ function NotificationsProvider({ children }: INotificationsProviderProps) {
       )
       setCommitmentPlan({ ...result.data, inviteId: notification.inviteId })
     } catch (error) {
-      console.log(error)
-      Alert.alert('Erro ao carregar Meet')
+      console.log('Erro ao carregar Meet', error)
     }
   }
 

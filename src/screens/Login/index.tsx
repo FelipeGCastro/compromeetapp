@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Alert } from 'react-native'
 import theme from '../../global/styles/theme'
 import { useAuth } from '../../hooks/auth'
-
+import * as Google from 'expo-auth-session/providers/google'
 import {
   Container,
   ContainerBackground,
@@ -20,10 +20,9 @@ export const Login: React.FC = () => {
   async function handleSignInWithGoogle() {
     try {
       setIsLoading(true)
-      await signInWithGoogle()
+      signInWithGoogle()
     } catch (error) {
-      console.log(error)
-      Alert.alert('Não foi possivel conectar a conta Google')
+      console.log('Não foi possivel conectar a conta Google', error)
       setIsLoading(false)
     }
   }

@@ -5,7 +5,8 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import * as AuthSession from 'expo-auth-session'
+
+import * as Google from 'expo-auth-session/providers/google'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { api, setTokenInterceptors } from '../services/api'
 
@@ -43,6 +44,47 @@ function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<User>({} as User)
   const [userStorageloading, setUserStorageLoading] = useState(true)
   const userStorageKey = '@compromeet:user'
+  const REDIRECT_URI = 'com.compromeetapp:/redirect'
+  const CLIENT_ID = process.env.CLIENT_ID
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: CLIENT_ID,
+    expoClientId: process.env.EXPO_CLIENT_ID,
+    scopes: ['email', 'profile'],
+    clientSecret: process.env.EXPO_CLIENT_SECRET,
+    shouldAutoExchangeCode: true
+  })
+
+  useEffect(() => {
+    const fetchUserFromApi = async () => {
+      const { authentication } = response as {
+        authentication: { accessToken: string }
+      }
+      if (authentication?.accessToken) {
+        try {
+          const result = await api.post('authenticate', {
+            token: authentication?.accessToken
+          })
+          const { user: userInfo, token } = result.data
+          const userLogged = {
+            id: userInfo.id,
+            email: userInfo.email,
+            name: userInfo.name,
+            username: userInfo.username,
+            avatar_url: userInfo.avatar_url,
+            friendships: userInfo.friendships,
+            token: token
+          }
+          setUser(userLogged)
+          await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    if (response?.type === 'success' && !user.email) {
+      fetchUserFromApi()
+    }
+  }, [response])
 
   useEffect(() => {
     let validator = true
@@ -66,34 +108,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
 
   async function signInWithGoogle() {
     try {
-      const CLIENT_ID = process.env.CLIENT_ID
-      const REDIRECT_URI = process.env.REDIRECT_URI
-      const RESPONSE_TYPE = 'token'
-      const SCOPE = encodeURI('profile email')
-
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
-
-      const { type, params } = (await AuthSession.startAsync({
-        authUrl
-      })) as IAuthorizationResponse
-
-      if (type === 'success') {
-        const result = await api.post('authenticate', {
-          token: params.access_token
-        })
-        const { user: userInfo, token } = result.data
-        const userLogged = {
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.name,
-          username: userInfo.username,
-          avatar_url: userInfo.avatar_url,
-          friendships: userInfo.friendships,
-          token: token
-        }
-        setUser(userLogged)
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
-      }
+      promptAsync()
     } catch (error) {
       console.log(JSON.stringify(error, null, 2))
       throw new Error(error as string)

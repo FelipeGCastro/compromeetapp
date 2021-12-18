@@ -53,6 +53,7 @@ interface ICommitmentPlans {
 export const Profile: React.FC = () => {
   const { user, signOut, getMe, setUser } = useAuth()
   const [photoModal, setPhotoModal] = useState(false)
+  const [imageKey, setImageKey] = useState(1)
 
   const [commitmentPlans, setCommitmentPlans] = useState<ICommitmentPlans[]>([])
   useEffect(() => {
@@ -64,20 +65,18 @@ export const Profile: React.FC = () => {
       const result = await api.get('commitment_plans')
       setCommitmentPlans(result.data)
     } catch (error) {
-      console.log(error)
-      Alert.alert('Error ao buscar seus compromissos')
+      console.log('Error ao buscar seus compromissos', error)
     }
   }
 
   const handlePressPhoto = async (imgUri: string) => {
-    console.log(imgUri)
     try {
       const formData = new FormData()
       formData.append('avatar', {
         uri: imgUri,
         type: 'image/jpg',
         name: user.username
-      })
+      } as unknown as Blob)
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
@@ -85,7 +84,8 @@ export const Profile: React.FC = () => {
       }
       const result = await api.post('avatar', formData, config)
       if (result.data?.avatar_url) {
-        setUser(result.data)
+        setUser({ ...result.data, friendships: user.friendships })
+        setImageKey(prev => prev + 1)
       }
     } catch (error) {
       console.log('UPDATE AVATAR', error)
@@ -98,7 +98,10 @@ export const Profile: React.FC = () => {
         <BackgroundGradient />
         <ProfileCard>
           <ImageContainer>
-            <UserImg source={{ uri: user.avatar_url }} />
+            <UserImg
+              key={imageKey.toString()}
+              source={{ uri: `${user.avatar_url}?random=${imageKey}` }}
+            />
             <ImageButton onPress={() => setPhotoModal(true)}>
               <ImageIcon name="camera-alt" size={22} />
             </ImageButton>

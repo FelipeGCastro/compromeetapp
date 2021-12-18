@@ -11,6 +11,10 @@ import {
   Container,
   CommitmentInput,
   CommitmentContainer,
+  Thumbnail,
+  PhotoThumbNail,
+  ImageContainer,
+  MeetPhoto,
   PrivacyAndPhoto,
   PhotoButton,
   PhotoIcon
@@ -21,7 +25,6 @@ import { HeaderScreens } from '../../components/HeaderScreens'
 import { CommentsCard } from '../../components/CommentsCard'
 
 import CommitmentFixed from './CommitmentFixed'
-import { CommitmentImage } from './CommitmentImage'
 
 import { useMeet } from '../../hooks/meet'
 import { useNavigation } from '@react-navigation/core'
@@ -32,6 +35,7 @@ export const CommitmentScreen = () => {
   const [openModal, setOpenModal] = useState(false)
   const inputRef = useRef<TextInput>(null)
   const navigation = useNavigation()
+  const ScrollComponent = useRef<ScrollView>(null)
 
   const {
     editing,
@@ -62,9 +66,6 @@ export const CommitmentScreen = () => {
 
   useEffect(() => {
     inputRef.current?.focus()
-    return () => {
-      reset()
-    }
   }, [])
 
   const handleOnChangePrivacy = (value: boolean) => {
@@ -82,8 +83,15 @@ export const CommitmentScreen = () => {
   const handleCreate = async () => {
     createCommitmentPlans(handleGoBack)
   }
+
   const handleSave = async () => {
     handleOnPressSave(handleGoBack)
+  }
+
+  const handlePressThumbnail = () => {
+    if (ScrollComponent.current) {
+      ScrollComponent.current.scrollToEnd()
+    }
   }
 
   return (
@@ -97,6 +105,7 @@ export const CommitmentScreen = () => {
           buttonLabel={editing ? 'Guardar' : 'Criar'}
         />
         <ScrollView
+          ref={ScrollComponent}
           keyboardDismissMode="interactive"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -135,6 +144,11 @@ export const CommitmentScreen = () => {
             <PhotoButton onPress={() => setOpenModal(true)}>
               <PhotoIcon />
             </PhotoButton>
+            {!!image && (
+              <Thumbnail onPress={handlePressThumbnail}>
+                <PhotoThumbNail source={{ uri: image }} resizeMode="cover" />
+              </Thumbnail>
+            )}
           </PrivacyAndPhoto>
           <OptionsButtons
             onChange={handleOnChangeToSchedule}
@@ -151,8 +165,13 @@ export const CommitmentScreen = () => {
               <Frequency onChange={handleOnChangeFrequency} item={frequency} />
             </>
           )}
-          {!!image && <CommitmentImage image={image} setImage={setImage} />}
           {editing && toEditMeet && <CommentsCard meetId={toEditMeet.id} />}
+
+          {!!image && (
+            <ImageContainer>
+              <MeetPhoto source={{ uri: image }} resizeMode="cover" />
+            </ImageContainer>
+          )}
         </ScrollView>
         <PhotoOptions
           visible={openModal}

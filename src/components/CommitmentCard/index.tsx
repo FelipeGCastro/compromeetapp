@@ -114,7 +114,7 @@ export const CommitmentCard = ({
       }
     } catch (error) {
       setIsFavorite(prev => !prev)
-      Alert.alert('Problema', 'Error ao atualizar favorite')
+      console.log('Problema', 'Error ao atualizar favorite')
     }
   }
 

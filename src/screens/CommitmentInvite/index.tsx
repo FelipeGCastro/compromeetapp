@@ -7,6 +7,7 @@ import BackgroundGradient from '../../components/BackgroundGradient'
 import { CommentsCard } from '../../components/CommentsCard'
 import { CommitmentCard } from '../../components/CommitmentCard'
 import { HeaderScreens } from '../../components/HeaderScreens'
+import { useAuth } from '../../hooks/auth'
 import { useMeet } from '../../hooks/meet'
 import { useNotifications } from '../../hooks/notifications'
 import { api } from '../../services/api'
@@ -20,11 +21,14 @@ export const CommitmentInvite = () => {
   const { commitmentPlan, handleRemoveInvite } = useNotifications()
   const { getPeople, people } = useMeet()
   const navigation = useNavigation()
+  const { user } = useAuth()
+  const { setMeet } = useMeet()
 
   useEffect(() => {
     const fetchPeople = async () => {
       await getPeople(commitmentPlan.id)
     }
+
     if (commitmentPlan.id) {
       fetchPeople()
     }
@@ -51,25 +55,38 @@ export const CommitmentInvite = () => {
       console.log(error)
     }
   }
+  const handleEditMeet = async () => {
+    setMeet({ ...commitmentPlan, index: 12 })
+    navigation.navigate('CommitmentScreen' as never)
+  }
+
   return commitmentPlan.id ? (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundGradient />
-        <HeaderScreens title="Meet" noButton />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <User user={commitmentPlan.user} />
-        <MeetInfo
-          timestamp={commitmentPlan.timestamp}
-          frequency={commitmentPlan.frequency}
-          people={people}
+        <HeaderScreens
+          title="Meet"
+          noButton={user.id !== commitmentPlan.user_id}
+          onPress={handleEditMeet}
+          buttonLabel="editar"
         />
-        {commitmentPlan.inviteId !== 0 && (
-          <Buttons onePressAccept={handleAccept} onPressReject={handleReject} />
-        )}
-        <Space />
-        <CommitmentCard commitment={commitmentPlan.commitment} />
-        <CommentsCard meetId={commitmentPlan.id} />
-      </ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <User user={commitmentPlan.user} />
+          <MeetInfo
+            timestamp={commitmentPlan.timestamp}
+            frequency={commitmentPlan.frequency}
+            people={people}
+          />
+          {commitmentPlan.inviteId !== 0 && (
+            <Buttons
+              onePressAccept={handleAccept}
+              onPressReject={handleReject}
+            />
+          )}
+          <Space />
+          <CommitmentCard commitment={commitmentPlan.commitment} />
+          <CommentsCard meetId={commitmentPlan.id} />
+        </ScrollView>
       </Container>
     </SafeAreaView>
   ) : (
