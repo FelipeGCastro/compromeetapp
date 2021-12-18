@@ -44,13 +44,12 @@ function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<User>({} as User)
   const [userStorageloading, setUserStorageLoading] = useState(true)
   const userStorageKey = '@compromeet:user'
-  const REDIRECT_URI = 'com.compromeetapp:/redirect'
   const CLIENT_ID = process.env.CLIENT_ID
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: CLIENT_ID,
-    expoClientId: process.env.EXPO_CLIENT_ID,
+    // expoClientId: process.env.EXPO_CLIENT_ID,
     scopes: ['email', 'profile'],
-    clientSecret: process.env.EXPO_CLIENT_SECRET,
+    // clientSecret: process.env.EXPO_CLIENT_SECRET,
     shouldAutoExchangeCode: true
   })
 

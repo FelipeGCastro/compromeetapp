@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios, { AxiosError } from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.86:3333'
-  // baseURL: 'https://compromeet-api.herokuapp.com/'
+  // baseURL: 'http://192.168.1.86:3333'
+  baseURL: 'https://compromeet-api.herokuapp.com/'
 })
 const getToken = async () => {
   const userStorageKey = '@compromeet:user'
